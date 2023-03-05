@@ -1,0 +1,35 @@
+qibullet -> use for simulation
+https://github.com/softbankrobotics-research/qibullet
+
+RL qi gym to test
+https://github.com/softbankrobotics-research/qi-gym
+
+nao-rl
+https://github.com/andriusbern/nao_rl
+
+
+drivers
+https://github.com/Ohara124c41/Nao-Robot
+
+
+master thesis on nao walking
+https://github.com/asherikov/oru_walk_module
+
+
+Dance package
+https://github.com/guyez/Just-Dance-NAO/blob/master/just_dance_nao.py
+
+
+Retrive Audio
+https://github.com/wezh/naoqiLibrary/blob/master/record_transfer.py
+
+
+If u want to run in python 3
+https://github.com/jandewit/robot-jumpstarter-python3
+
+Few examples
+https://github.com/cunyang-axmtec/naoqi_examples
+
+speech recognition
+https://github.com/VincentRoma/NaoqiRecognition/tree/6517f7709b924ba1044ba50de4a36abbac2bf9cb
+
