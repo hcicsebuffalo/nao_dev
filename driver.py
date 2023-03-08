@@ -1590,6 +1590,15 @@ def play_song():#playProxy.post.playFile("song.mp3")
     global playProxy
     
     playProxy.playFile("/home/nao/nao_dance_or.mp3")
+
+def led_eye():
+    
+    clr = [0,0,0]
+    clr[0] = np.random.randint(255)
+    clr[1] = np.random.randint(255)
+    clr[2] = np.random.randint(255)
+    EyeLED(clr)
+
     
     
 if __name__ == "__main__":

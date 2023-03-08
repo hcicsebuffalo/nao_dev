@@ -8,23 +8,28 @@ port = 9559
 
 nao.InitProxy(ip)
 
-#dance = threading.Thread( target= nao.dance )
-#play_song = threading.Thread( target=nao.play_song )
+dance = threading.Thread( target= nao.dance )
+play_song = threading.Thread( target=nao.play_song )
+#led = threading.Thread(target= nao.led_eye)
 
-nao.say(" Hello Nao ")
+nao.say(" Hello Everyone ")
 
-# dance.start()
-# play_song.start()
+dance.start()
+play_song.start()
+#led.start()
 
-# while True:
+while True:
 
-#     if play_song.is_alive() and not dance.is_alive():
-#         dance = threading.Thread( target= nao.dance )
-#         dance.start()
+    if play_song.is_alive() and not dance.is_alive():
+        dance = threading.Thread( target= nao.dance )
+        dance.start()
 
-#     if not play_song.is_alive() and not dance.is_alive():
-#         break
+    if not play_song.is_alive() and not dance.is_alive():
+        break
+    
+    time.sleep(1)
+    nao.led_eye()
 
-#     time.sleep(1)
+    #led.start()
     
 # nao.StopPlay()
