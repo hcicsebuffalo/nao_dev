@@ -10,13 +10,13 @@ nao.InitProxy(ip)
 
 dance = threading.Thread( target= nao.dance )
 play_song = threading.Thread( target=nao.play_song )
-#led = threading.Thread(target= nao.led_eye)
+led = threading.Thread(target= nao.led_eye)
 
-nao.say(" Hello Everyone ")
+nao.say(" Hello Manu ")
 
 dance.start()
 play_song.start()
-#led.start()
+led.start()
 
 while True:
 
