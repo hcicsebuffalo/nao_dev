@@ -75,7 +75,6 @@ completion=openai.Completion.create(engine="text-davinci-003",prompt=question,ma
 response=completion.choices[0]['text']
 
 
-
 #writing the output to a json file
 sorted_output=json.dumps(response)
 with open('/home/sougato97/Human_Robot_Interaction/nao_dev/chatgpt/json_file.json', "w") as outfile:

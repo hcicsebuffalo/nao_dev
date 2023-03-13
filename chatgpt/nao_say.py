@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python2
 # -*- encoding: UTF-8 -*-
 
 # Hash bang line added at top 

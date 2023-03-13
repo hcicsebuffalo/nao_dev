@@ -6,7 +6,7 @@
 import openai  
 import json
 
-openai.api_key="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"
+openai.api_key="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"
 
 
 #Take user input for the question
