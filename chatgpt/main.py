@@ -8,6 +8,8 @@ import pyaudio
 import wave
 import os
 from voice_auth import *
+import subprocess
+# import sys
 
 # store the keys 
 # Get the openai token from "https://platform.openai.com/account/api-keys"
@@ -82,17 +84,36 @@ def extract_text(openai_key):
     with open('/home/sougato97/Human_Robot_Interaction/nao_dev/chatgpt/json_file.json', "w") as outfile:
         outfile.write(sorted_output)   
 
-# Example usage: Record 7 seconds of audio and save it as "recording.mp3"
-print("What do you want to know?")
-record_audio(voice_clip_path, "recording.mp3", 7)
-print("Question recorded!!")
+def main():
+
+    while (1):
+
+        print("What do you want to know?")
+        # Example usage: Record 7 seconds of audio and save it as "recording.mp3"
+        record_audio(voice_clip_path, "recording.mp3", 7)
+        print("Question recorded!!")
+        flag = user_auth(voice_clip_path, "recording.mp3", pyannote_key)
+        # flag = user_auth(voice_clip_path, "recording_subhobrata_1.mp3", pyannote_key)
+        if (flag):
+            extract_text(openai_key)
+        else:
+            sorted_output=json.dumps("You are not an authorized user")
+            with open('/home/sougato97/Human_Robot_Interaction/nao_dev/chatgpt/json_file.json', "w") as outfile:
+                outfile.write(sorted_output)
+        
+        subprocess.run(['bash', 'chatgpt.sh'])
+        execute_flag = input("Do you want the code to exit? Yes, press:1 ; No, press:Any key ")
+        if (execute_flag == '1'):
+            return
+        else:
+            continue
+
+if __name__ == "__main__":
+    main()
 
 
-flag = user_auth(voice_clip_path, "recording.mp3", pyannote_key)
 
-if (flag):
-    extract_text(openai_key)
-else:
-    sorted_output=json.dumps("You are not an authorized user")
-    with open('/home/sougato97/Human_Robot_Interaction/nao_dev/chatgpt/json_file.json', "w") as outfile:
-        outfile.write(sorted_output)
+
+
+
+
