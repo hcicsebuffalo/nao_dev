@@ -1,4 +1,4 @@
-#! /home/sougato97/miniconda3/envs/nao_env/bin/python3
+#! /home/sougato97/miniconda3/envs/hri/bin/python
 # -*- encoding: UTF-8 -*-
 
 # shebang path added at top
@@ -6,7 +6,7 @@
 import openai  
 import json
 
-openai.api_key="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"
+openai.api_key="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"
 
 
 #Take user input for the question

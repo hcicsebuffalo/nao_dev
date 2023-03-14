@@ -1,4 +1,4 @@
-#! /home/sougato97/miniconda/envs/hri/bin/python3
+#! /home/sougato97/miniconda3/envs/hri/bin/python
 # -*- encoding: UTF-8 -*-
 
 import whisper
@@ -52,16 +52,16 @@ def record_audio(path, filename, duration):
     # Convert the WAV file to MP3
     # os.system(f"ffmpeg -i {filename} -acodec libmp3lame -aq 4 {filename[:-4]}.mp3")
     
-# Example usage: Record 5 seconds of audio and save it as "recording.mp3"
+# Example usage: Record 7 seconds of audio and save it as "recording.mp3"
 print("What do you want to know?")
-record_audio("/home/sougato97/Human_Robot_Interaction/recordings", "recording.mp3", 7)
+record_audio("/home/sougato97/Human_Robot_Interaction/nao_dev/recordings", "recording.mp3", 7)
 print("Question recorded!!")
 
 
 
 model = whisper.load_model("large")
 print("Processing the question.......")
-result = model.transcribe("/home/sougato97/Human_Robot_Interaction/recordings/recording.mp3")
+result = model.transcribe("/home/sougato97/Human_Robot_Interaction/nao_dev/recordings/recording.mp3")
 print("Question generated: "+result["text"])
 
 
@@ -69,7 +69,7 @@ print("Question generated: "+result["text"])
 question=result['text']
 
 #this is the api key
-openai.api_key=""
+openai.api_key="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"
 # question=input("Enter your question: ")
 completion=openai.Completion.create(engine="text-davinci-003",prompt=question,max_tokens=1000)
 response=completion.choices[0]['text']
