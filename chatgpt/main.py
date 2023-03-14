@@ -13,10 +13,10 @@ import subprocess
 
 # store the keys 
 # Get the openai token from "https://platform.openai.com/account/api-keys"
-openai_key = ""
+openai_key = "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"
 # Get the pyannote token from "https://huggingface.co/settings/tokens"
 # Also you have to agree to some T&C. Preferably run it 1st time on jupyter, you will get the link there itself.
-pyannote_key = ""
+pyannote_key = "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"
 
 voice_clip_path = "/home/sougato97/Human_Robot_Interaction/nao_dev/recordings/"
 
@@ -101,7 +101,10 @@ def main():
             with open('/home/sougato97/Human_Robot_Interaction/nao_dev/chatgpt/json_file.json', "w") as outfile:
                 outfile.write(sorted_output)
         
+        # Dont know why this code is not working
+        # subprocess.run(['python', 'nao_say.py']) 
         subprocess.run(['bash', 'chatgpt.sh'])
+        # exec(open("nao_say.py").read())
         execute_flag = input("Do you want the code to exit? Yes, press:1 ; No, press:Any key ")
         if (execute_flag == '1'):
             return
