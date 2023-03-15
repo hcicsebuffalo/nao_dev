@@ -3,7 +3,8 @@ import json
 import pyaudio
 import wave
 import os
-
+import subprocess
+import socket
 
 # Function to record audio
 def record_audio(path, filename, duration):
@@ -97,3 +98,4 @@ def gpt(question,model,openai_key,voice_clip_path):
             break
         else:
             print("Please enter valid options from the following:(Y/y/N/n)")
+
