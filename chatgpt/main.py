@@ -9,6 +9,7 @@ import wave
 import os
 from voice_auth import *
 import subprocess
+import socket
 # import sys
 
 # store the keys 
@@ -64,8 +65,8 @@ def record_audio(path, filename, duration):
     # Convert the WAV file to MP3
     # os.system(f"ffmpeg -i {filename} -acodec libmp3lame -aq 4 {filename[:-4]}.mp3")
 
-def extract_text(openai_key):
-    model = whisper.load_model("large")
+def transcribe(openai_key,model):
+    # model = whisper.load_model("large")
     print("Processing the question.......")
     result = model.transcribe("/home/sougato97/Human_Robot_Interaction/nao_dev/recordings/recording.mp3")
     print("Question generated: "+result["text"])
@@ -79,13 +80,42 @@ def extract_text(openai_key):
     response=completion.choices[0]['text']
 
 
+    # socket_connect(response)
     #writing the output to a json file
     sorted_output=json.dumps(response)
     with open('/home/sougato97/Human_Robot_Interaction/nao_dev/chatgpt/json_file.json', "w") as outfile:
         outfile.write(sorted_output)   
 
-def main():
+def socket_connect(response):
+    # create a socket object
+    serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
+    # get local machine name
+    host = socket.gethostname()
+
+    port = 9999
+
+    # bind the socket to a public host, and a well-known port
+    serversocket.bind((host, port))
+
+    # become a server socket
+    serversocket.listen(5)
+
+    while True:
+        # establish a connection
+        clientsocket, addr = serversocket.accept()
+
+        print("Got a connection from %s" % str(addr))
+
+        msg = response + "\r\n"
+        clientsocket.send(msg.encode('ascii'))
+        clientsocket.close()    
+
+
+def main():
+    
+    model = whisper.load_model("large")
+    print("Whisper model Import success")
     while (1):
 
         print("What do you want to know?")
@@ -93,14 +123,17 @@ def main():
         record_audio(voice_clip_path, "recording.mp3", 7)
         print("Question recorded!!")
         flag = user_auth(voice_clip_path, "recording.mp3", pyannote_key)
+        # flag = 1
+        print("the value of flag is:",flag)
         # flag = user_auth(voice_clip_path, "recording_subhobrata_1.mp3", pyannote_key)
         if (flag):
-            extract_text(openai_key)
+            transcribe(openai_key,model)
         else:
             sorted_output=json.dumps("You are not an authorized user")
             with open('/home/sougato97/Human_Robot_Interaction/nao_dev/chatgpt/json_file.json', "w") as outfile:
                 outfile.write(sorted_output)
-        
+            # socket_connect("You are not an authorized user")
+
         # Dont know why this code is not working
         # subprocess.run(['python', 'nao_say.py']) 
         subprocess.run(['bash', 'chatgpt.sh'])

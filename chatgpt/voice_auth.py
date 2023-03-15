@@ -16,7 +16,7 @@ def user_auth(voice_clip_path, name,pyannote_key):
   Device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
   inference = Inference(pyannote_model, window="whole", device = Device)
 
-  ref = inference(voice_clip_path + "recording_sougato_1.mp3")
+  ref = inference(voice_clip_path + "sougato_template.mp3")
   recording = inference(voice_clip_path + name)
 
   # Convert these 1d Numpy to 2d numpy array 
