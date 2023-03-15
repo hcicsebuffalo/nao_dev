@@ -7,6 +7,7 @@ import os
 from scipy.spatial.distance import cdist
 import numpy as np
 import torch
+from new_main import *
 
 def user_auth(voice_clip_path, name,pyannote_key):
   
@@ -30,3 +31,11 @@ def user_auth(voice_clip_path, name,pyannote_key):
     return True
   else:
     False 
+
+def register_user(pyannote_key,voice_clip_path):
+
+  writing_response_to_json_file("Please tell me your 1st name, but wait for the prompt")
+  subprocess.run(['bash', 'chatgpt.sh'])
+  record_audio(voice_clip_path, "temp.mp3", 7)
+  print("Name recorded!!")
+  
