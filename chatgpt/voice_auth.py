@@ -7,7 +7,13 @@ import os
 from scipy.spatial.distance import cdist
 import numpy as np
 import torch
-from new_main import *
+import subprocess
+
+# Writing the output to a json file
+def writing_response_to_json_file(answer):
+    sorted_output=json.dumps(answer)
+    with open('/home/sougato97/Human_Robot_Interaction/nao_dev/chatgpt/json_file.json', "w") as outfile:
+        outfile.write(sorted_output)
 
 def user_auth(voice_clip_path, name,pyannote_key):
   
@@ -38,4 +44,4 @@ def register_user(pyannote_key,voice_clip_path):
   subprocess.run(['bash', 'chatgpt.sh'])
   record_audio(voice_clip_path, "temp.mp3", 7)
   print("Name recorded!!")
-  
+
