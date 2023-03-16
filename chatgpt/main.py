@@ -13,11 +13,8 @@ import socket
 # import sys
 
 # store the keys 
-# Get the openai token from "https://platform.openai.com/account/api-keys"
-openai_key = ""
-# Get the pyannote token from "https://huggingface.co/settings/tokens"
-# Also you have to agree to some T&C. Preferably run it 1st time on jupyter, you will get the link there itself.
-pyannote_key = ""
+openai_key = os.environ["OPENAI_API_KEY"]
+pyannote_key = os.environ["PYANNOTE_API_KEY"]
 
 voice_clip_path = "/home/sougato97/Human_Robot_Interaction/nao_dev/recordings/"
 

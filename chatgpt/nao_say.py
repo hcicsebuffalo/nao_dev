@@ -36,18 +36,21 @@ import socket
 # if __name__ == "__main__":
 #     main()
 
+
 json_data = open('json_file.json')
 data = json.load(json_data)
 data_string = data.encode()
-NAO_IP = "10.0.107.217"
-NAO_PORT = 9559
-PEPPER_IP = "10.0.52.247"
-PEPPER_PORT = 9503
+# NAO_IP = "10.0.107.217"
+# NAO_PORT = 9559
+# PEPPER_IP = "10.0.52.247"
+# PEPPER_PORT = 9503
 
-tts = ALProxy("ALTextToSpeech", NAO_IP, NAO_PORT)
-tts.say(data_string)
+# tts = ALProxy("ALTextToSpeech", NAO_IP, NAO_PORT)
+# tts.say(data_string)
 
 
+
+print(data_string)
 
 # tts.say("Hello World")
 

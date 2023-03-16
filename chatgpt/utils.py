@@ -83,8 +83,8 @@ def gpt(question,model,openai_key,voice_clip_path):
         conversation.append({"role":"assistant","content":response['choices'][0]['message']['content']})
         answer=response['choices'][0]['message']['content']
         writing_response_to_json_file(answer)
-        # subprocess.run(['python','/home/sougato97/Human_Robot_Interaction/nao_dev/chatgpt/nao_say.py'])
-        subprocess.run(['bash', 'chatgpt.sh'])
+        subprocess.run(['python2','/home/sougato97/Human_Robot_Interaction/nao_dev/chatgpt/nao_say.py'])
+        # subprocess.run(['bash', 'chatgpt.sh'])
         confirmation=input("Do you wish to continue asking questions? Enter Y or y for yes || Enter N or n for no: ")
         if(confirmation=='y' or confirmation=='Y'):
             print("What do you want to know? ")

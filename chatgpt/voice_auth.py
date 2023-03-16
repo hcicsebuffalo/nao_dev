@@ -21,7 +21,7 @@ def user_auth(voice_clip_path, name,pyannote_key):
   # list all files in directory
   for filename in os.listdir(voice_clip_path):
     # check if the current file name contains the substring
-    if '_template.mp3' in filename:
+    if 'template' in filename:
       ref = inference(voice_clip_path + filename)
       recording = inference(voice_clip_path + name)
 
@@ -34,12 +34,15 @@ def user_auth(voice_clip_path, name,pyannote_key):
 
       if (distance1 < 0.50):
         flag = 1
+  return flag
 
 def register_user(pyannote_key,voice_clip_path,model):
 
   writing_response_to_json_file("Please tell me your 1st name, but wait for the prompt")
-  subprocess.run(['bash', 'chatgpt.sh'])
+  # subprocess.run(['bash', 'chatgpt.sh'])
+  subprocess.run(['python2','/home/sougato97/Human_Robot_Interaction/nao_dev/chatgpt/nao_say.py'])
   record_audio(voice_clip_path, "temp.mp3", 5)
   print("Name recorded!!")
   name = transcribe(voice_clip_path + "temp.mp3", model)
+  print("The name is ",name)
   os.rename(voice_clip_path + '/temp.mp3', voice_clip_path + '/' + name + '_template.mp3')
