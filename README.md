@@ -24,6 +24,10 @@ Install PyTorch GPU
 ```bash
 conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia
 ```
+Install record audio libraries
+```bash
+conda install -c anaconda pyaudio
+```
 Install Voice Authentication module
 ```bash
 pip install pyannote.audio
