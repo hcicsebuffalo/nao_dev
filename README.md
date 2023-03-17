@@ -32,6 +32,18 @@ pip install --upgrade --no-deps --force-reinstall git+https://github.com/openai/
 sudo apt update && sudo apt install ffmpeg
 
 ```
+This code needs API keys from OPENAI(for chatGPT) and huggingface.co(for pyannote)
+- I have added these keys to the .bashrc file 
+- OpenAI link - https://platform.openai.com/account/api-keys
+```bash
+export OPENAI_API_KEY="you-key-please"
+```
+- HuggingFace link - https://huggingface.co/settings/tokens
+- Also you have to agree to some T&C. Preferably run it 1st time on jupyter, you will get the link there itself.
+```bash
+export PYANNOTE_API_KEY="you-key-please"
+```
+
 
 You may need to create an ssh setup for GitHub
 - Follow the comands below, you may discard the prompts listed below
