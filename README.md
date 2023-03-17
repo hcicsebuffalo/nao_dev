@@ -13,4 +13,12 @@ To install this project, follow these steps:
 - Navigate to the directory where you want to install the project
 - Run the following command:
 ```sh
-git clone https://github.com/yourusername/project.git
+conda create --name hri
+conda activate hri
+conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia
+pip install pyannote.audio
+conda install -c conda-forge openai
+pip install -U openai-whisper
+pip install git+https://github.com/openai/whisper.git 
+pip install --upgrade --no-deps --force-reinstall git+https://github.com/openai/whisper.git
+sudo apt update && sudo apt install ffmpeg
