@@ -60,5 +60,6 @@ You may need to create an ssh setup for GitHub
 ssh-keygen -t rsa -b 4096 -C "email@domain.com"
 eval $(ssh-agent -s)
 ssh-add ~/.ssh/id_rsa
-
+git config --global user.email "email@domain.com"
+git config --global user.name "Jon Doe"
 ```
