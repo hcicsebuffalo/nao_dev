@@ -32,3 +32,13 @@ pip install --upgrade --no-deps --force-reinstall git+https://github.com/openai/
 sudo apt update && sudo apt install ffmpeg
 
 ```
+
+You may need to create an ssh setup for GitHub
+- Follow the comands below, you may discard the prompts listed below
+- copy and paste the id_rsa.pub contents to https://github.com/settings/keys
+```bash
+ssh-keygen -t rsa -b 4096 -C "email@domain.com"
+eval $(ssh-agent -s)
+ssh-add ~/.ssh/id_rsa
+
+```
