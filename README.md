@@ -19,19 +19,16 @@ To install this project, follow these steps:
 # Create Conda env
 conda create --name hri
 conda activate hri
-
+# Install PyTorch GPU
 conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia
-
+# Install Voice Authentication module
 pip install pyannote.audio
-
+# Install OpenAI for chatGPT integration 
 conda install -c conda-forge openai
-
+# Install Whisper voice trascription model 
 pip install -U openai-whisper
-
 pip install git+https://github.com/openai/whisper.git 
-
 pip install --upgrade --no-deps --force-reinstall git+https://github.com/openai/whisper.git
-
 sudo apt update && sudo apt install ffmpeg
 
 ```
