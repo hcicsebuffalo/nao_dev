@@ -46,7 +46,7 @@ export PYANNOTE_API_KEY="you-key-please"
 
 
 You may need to create an ssh setup for GitHub
-- Follow the comands below, you may discard the prompts listed below
+- Follow the comands below, you may discard the prompts 
 - copy and paste the id_rsa.pub contents to https://github.com/settings/keys
 ```bash
 ssh-keygen -t rsa -b 4096 -C "email@domain.com"
