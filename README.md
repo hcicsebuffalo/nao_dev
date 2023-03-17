@@ -15,17 +15,25 @@ To install this project, follow these steps:
   - add "export PYTHONPATH=~/naoqi/pynaoqi-python2.7-2.8.6.23-linux64-20191127_152327/lib/python2.7/site-packages:$PYTHONPATH" to your .bashrc
 - Run the following commands:
 
+Create Conda env
 ```bash
-# Create Conda env
 conda create --name hri
 conda activate hri
-# Install PyTorch GPU
+```
+Install PyTorch GPU
+```bash
 conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia
-# Install Voice Authentication module
+```
+Install Voice Authentication module
+```bash
 pip install pyannote.audio
-# Install OpenAI for chatGPT integration 
+```
+Install OpenAI for chatGPT integration 
+```bash
 conda install -c conda-forge openai
-# Install Whisper voice trascription model 
+```
+Install Whisper voice trascription model 
+```bash
 pip install -U openai-whisper
 pip install git+https://github.com/openai/whisper.git 
 pip install --upgrade --no-deps --force-reinstall git+https://github.com/openai/whisper.git
