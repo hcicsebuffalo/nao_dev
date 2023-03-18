@@ -1,9 +1,9 @@
 import naoqi
 import time
 
-class base:
+class base(object):
 
-    def __init__(self) -> None:
+    def __init__(self):
         self.connect_wait_time = 0.01
     
     def connect(self, proxy_name, ip, port):

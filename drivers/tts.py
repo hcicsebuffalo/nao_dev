@@ -4,6 +4,8 @@ tts class object for text to speech conversion. class has following functions
     sayText(text) ->    its takes string input and pass it to Naos speaker
     
     setVolume(volume)-> set volume from 0 to 100
+
+    initTTS -> to initialise proxy
     
     info() ->           provide info about nao
     
@@ -22,12 +24,17 @@ import csv
 
 class tts(base):
     
-    def __init__(self, ip, port) -> None:
+    def __init__(self, ip, port):
+        base.__init__(self)
         self.ip = ip
         self.port = port
         self.proxy_name = "ALTextToSpeech"
-        self.tts = base.connect(self.proxy_name , self.ip, self.port)
+        self.tts = None
+        
     
+    def initTTS(self):
+        self.tts = self.connect(self.proxy_name , self.ip, self.port)
+
     def sayText(self, text):
         self.tts.say(text)
     
@@ -83,6 +90,3 @@ class tts(base):
             self.tts.say(cur_line[1])
 
 
-
-    def __del__(self):
-        self.tts.stopAll()

@@ -1,10 +1,12 @@
-from tts import tts
+from tts import *
 
-class Nao(tts):
+class nao_driver(tts):
 
-    def __init__(self, ip, port) -> None:
+    def __init__(self, ip, port):
+        tts.__init__(self, ip, port)
         self.ip = ip
-        self.port = port
+        self.port = port        
 
-    def initProxy(self):
-        tts.connect(self.ip, self.port)
+    def initProxies(self):
+        self.initTTS()
+
