@@ -28,12 +28,12 @@ class tts(base):
         base.__init__(self)
         self.ip = ip
         self.port = port
-        self.proxy_name = "ALTextToSpeech"
+        self.proxy_name_tts = "ALTextToSpeech"
         self.tts = None
         
     
     def initTTS(self):
-        self.tts = self.connect(self.proxy_name , self.ip, self.port)
+        self.tts = self.connect(self.proxy_name_tts , self.ip, self.port)
 
     def sayText(self, text):
         self.tts.say(text)

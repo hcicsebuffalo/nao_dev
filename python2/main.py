@@ -11,6 +11,17 @@ nao = nao_driver(ip, port)
 
 nao.initProxies()
 nao.sayText("Hello")
+#nao.animation(4, 10)
+nao.headTouch()
+#nao.ledStartListening()
+#time.sleep(5)
+#nao.ledStopListening()
+
+
+#nao.headTouch(nao.ledStartListening , nao.ledStopListening)
+
+while 1:
+    pass
 
 #dance = threading.Thread( target= nao.dance )
 #play_song = threading.Thread( target=nao.play_song )
