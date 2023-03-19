@@ -1,6 +1,7 @@
 # HRI (NAO environment)
 
-All the projects related to NAO in the dev env, made by sougato is kept here. Feel free to peek into our code and refer. 
+All the projects related to NAO in the dev env, made by sougato & ninad are kept here. Feel free to peek into our code and refer. 
+Merge branch refers to the code merge between sougato-ninad branch.
 
 ## My setup 
 - I am using windows 11 (WSL - Ubuntu 18)
