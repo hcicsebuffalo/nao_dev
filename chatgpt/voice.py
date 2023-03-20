@@ -10,7 +10,7 @@ import torch
 import subprocess
 from utils import *
 
-def get_command(voice_clip_path, file_name, model, nao_say_path):
+def get_command(voice_clip_path, file_name, model, nao_say_path,json_file_path):
   
   text = transcribe(voice_clip_path + file_name, model)
   chatgpt_module = ["chat", "talk", "conversation"]
@@ -26,7 +26,7 @@ def get_command(voice_clip_path, file_name, model, nao_say_path):
 
   if flag == 0 : # invalid i/p
     text_data = '''I am not able to understand you. Please say something like do you want to have a conversation with me or would you like to watch me perform?'''
-    writing_response_to_json_file(text_data)
+    writing_response_to_json_file(text_data,json_file_path)
     subprocess.run(['python2',nao_say_path])
     flag = get_command(voice_clip_path, file_name, model)
 
