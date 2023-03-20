@@ -32,7 +32,7 @@ def main():
         print("What do you want to know?")
         record_audio(voice_clip_path, "recording.mp3")
         print("Question recorded!!")
-        question = transcribe(voice_clip_path + "recording.mp3",model)
+        question = transcribe(voice_clip_path + "recording.mp3",model,json_file_path)
         gpt(question,model,openai_key,voice_clip_path,nao_say_path) 
     elif command == 2:
         subprocess.run(['python2',dance_file_path])      

@@ -155,7 +155,7 @@ def transcribe(recording_path,model):
     return question
 
 # Function to generate chatgpt response
-def gpt(question,model,openai_key,voice_clip_path,nao_say_path):
+def gpt(question,model,openai_key,voice_clip_path,nao_say_path,json_file_path):
 
     conversation=[{"role":"system","content":"You are a helpful assistant"}]
     # using the openai api key
@@ -172,7 +172,7 @@ def gpt(question,model,openai_key,voice_clip_path,nao_say_path):
         )
         conversation.append({"role":"assistant","content":response['choices'][0]['message']['content']})
         answer=response['choices'][0]['message']['content']
-        writing_response_to_json_file(answer)
+        writing_response_to_json_file(answer,json_file_path)
         subprocess.run(['python2',nao_say_path])
         # subprocess.run(['bash', 'chatgpt.sh'])
         while(1):
