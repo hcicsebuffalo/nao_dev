@@ -1,3 +1,5 @@
+#! /usr/bin/python2
+# -*- encoding: UTF-8 -*-
 ## Nao functions version 2.0
 ## change log:
 ## 1.02: Added class "Region"

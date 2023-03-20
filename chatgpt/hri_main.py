@@ -7,30 +7,7 @@ from utils import *
 import os
 # import sys
 
-def socket_connect(response):
-    # create a socket object
-    serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-    # get local machine name
-    host = socket.gethostname()
-
-    port = 9999
-
-    # bind the socket to a public host, and a well-known port
-    serversocket.bind((host, port))
-
-    # become a server socket
-    serversocket.listen(5)
-
-    while True:
-        # establish a connection
-        clientsocket, addr = serversocket.accept()
-
-        print("Got a connection from %s" % str(addr))
-
-        msg = response + "\r\n"
-        clientsocket.send(msg.encode('ascii'))
-        clientsocket.close()    
 
 
 def main():
@@ -41,10 +18,11 @@ def main():
     # Importing the Whisper model
     model = whisper.load_model("medium.en")
     print("Whisper model import success")
+    
+    # ******* Prev Flow of command, using a while 1 *******
     while (1):
         flag = input("Please give the input according to the provided options : \nUser Registration - 1 \nUser evaluate - 2 \nBypass Auth & use as guest - 3\nExit -4")
         if (flag == '1'):
-            # code not implemented
             register_user(pyannote_key,voice_clip_path,model)
             continue
         elif (flag == '2'):
@@ -71,13 +49,24 @@ def main():
         else:
             continue
             # socket_connect("You are not an authorized user")
+    # **************************** End **************************** 
 
 if __name__ == "__main__":
     main()
 
 
 
-
+# **** Name Suggestions ****
+# Aiko - Japanese for “beloved child”
+# Amelia - Latin for “industrious”
+# Ava - Latin for “life”
+# Buddy - English for “friend”
+# Eva - Hebrew for “life”
+# Kai - Hawaiian for “sea”
+# Lila - Arabic for “night”
+# Luna - Latin for “moon”
+# Nova - Latin for “new”
+# Zara - Arabic for “princess”
 
 
 

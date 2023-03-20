@@ -1,3 +1,5 @@
+#! /usr/bin/python2
+# -*- encoding: UTF-8 -*-
 import threading
 import driver as nao
 import time
@@ -12,7 +14,7 @@ dance = threading.Thread( target= nao.dance )
 play_song = threading.Thread( target=nao.play_song )
 #led = threading.Thread(target= nao.led_eye)
 
-nao.say(" Hello Everyone ")
+nao.say("Hello Everyone, I am NAO and I can show you all that I am a skilled dancer.")
 
 dance.start()
 play_song.start()
