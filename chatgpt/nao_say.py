@@ -16,7 +16,7 @@ NAO_PORT = 9559
 PEPPER_IP = "10.0.52.247"
 PEPPER_PORT = 9503
 
-# tts = ALProxy("ALTextToSpeech", NAO_IP, NAO_PORT)
-# tts.say(data_string)
+tts = ALProxy("ALTextToSpeech", NAO_IP, NAO_PORT)
+tts.say(data_string)
 
-print(data_string)
+# print(data_string)

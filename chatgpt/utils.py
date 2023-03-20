@@ -187,8 +187,10 @@ def gpt(question,model,openai_key,voice_clip_path,nao_say_path,json_file_path):
                 question = transcribe(voice_clip_path + "recording.mp3", model)
                 print("Audio Transcribed and question generated")
                 print(question)
-            elif(confirmation=='n' or confirmation=='N'):
                 break
+            elif(confirmation=='n' or confirmation=='N'):
+                # break
+                return
             else:
                 print("Please enter valid options from the following:(Y/y/N/n)")
 

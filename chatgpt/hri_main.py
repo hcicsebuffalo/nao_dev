@@ -8,9 +8,9 @@ import os
 # import sys
 
 def nao_intro(json_file_path):
-    # text_data = '''Welcome to you all, my name is Aiko & I am a proud member of this lab. My friends are in the progress of making me intelligent day by day. 
-    #     I have limited capabilities but I can be you assistant by helping you with your queries. I can also present a dance if you like.'''
-    text_data = "Welcome to you all."
+    text_data = '''Welcome to you all, my name is Aiko & I am a proud member of this lab. My friends are in the progress of making me intelligent day by day. 
+        I have limited capabilities but I can be you assistant by helping you with your queries. I can also present a dance if you like.'''
+    # text_data = "Welcome to you all."
     writing_response_to_json_file(text_data,json_file_path)
     subprocess.run(['python2','/home/sougato97/Human_Robot_Interaction/nao_dev/chatgpt/nao_say.py'])
 
@@ -27,6 +27,8 @@ def main():
     model = whisper.load_model("medium.en") ## exception handling
     print("Whisper model import success")
     nao_intro(json_file_path)
+
+
     # record_audio(voice_clip_path, "extract_command.mp3")
     command = get_command(voice_clip_path, model, nao_say_path, json_file_path)
     if command == 1:
@@ -77,17 +79,6 @@ if __name__ == "__main__":
 
 
 
-# **** Name Suggestions ****
-# Aiko - Japanese for “beloved child”
-# Amelia - Latin for “industrious”
-# Ava - Latin for “life”
-# Buddy - English for “friend”
-# Eva - Hebrew for “life”
-# Kai - Hawaiian for “sea”
-# Lila - Arabic for “night”
-# Luna - Latin for “moon”
-# Nova - Latin for “new”
-# Zara - Arabic for “princess”
 
 
 
