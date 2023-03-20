@@ -39,6 +39,10 @@ Install OpenAI for chatGPT integration
 ```bash
 conda install -c conda-forge openai
 ```
+Install Pyglet
+```bash
+conda install -c conda-forge pyglet
+```
 Install Whisper voice trascription model 
 ```bash
 pip install -U openai-whisper

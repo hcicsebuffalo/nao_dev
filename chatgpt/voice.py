@@ -10,12 +10,35 @@ import torch
 import subprocess
 from utils import *
 
+def get_command(voice_clip_path, file_name, model, nao_say_path):
+  
+  text = transcribe(voice_clip_path + file_name, model)
+  chatgpt_module = ["chat", "talk", "conversation"]
+  dance_module = ["dance", "show me something", "perform something"]
+  flag = 0 # means null
+  for substring in chatgpt_module:
+    if substring.lower() in text.lower():
+      flag = 1 # means execute gpt 
+
+  for substring in dance_module:
+    if substring.lower() in text.lower():
+      flag = 2 # means execute gpt 
+
+  if flag == 0 : # invalid i/p
+    text_data = '''I am not able to understand you. Please say something like do you want to have a conversation with me or would you like to watch me perform?'''
+    writing_response_to_json_file(text_data)
+    subprocess.run(['python2',nao_say_path])
+    flag = get_command(voice_clip_path, file_name, model)
+
+  return flag
+
+
 def user_auth(voice_clip_path, name,pyannote_key):
   
-  pyannote_model = Model.from_pretrained("pyannote/embedding", use_auth_token = pyannote_key)
+  pyannote_model = Model.from_pretrained("pyannote/embedding", use_auth_token = pyannote_key) ## exception handling
   # Define device to be used (GPU or CPU)
   Device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-  inference = Inference(pyannote_model, window="whole", device = Device)
+  inference = Inference(pyannote_model, window="whole", device = Device) 
 
   flag = 0 
   # list all files in directory
@@ -36,12 +59,13 @@ def user_auth(voice_clip_path, name,pyannote_key):
         flag = 1
   return flag
 
-def register_user(pyannote_key,voice_clip_path,model):
+def register_user(pyannote_key,voice_clip_path,model, nao_say_path):
 
   writing_response_to_json_file("Please tell me your 1st name, but wait for the prompt")
   # subprocess.run(['bash', 'chatgpt.sh'])
-  subprocess.run(['python2','/home/sougato97/Human_Robot_Interaction/nao_dev/chatgpt/nao_say.py'])
-  record_audio(voice_clip_path, "temp.mp3", 5)
+  subprocess.run(['python2', nao_say_path])
+# # record_audio_with_fixed_duration(voice_clip_path, "temp.mp3", 5) ## exception handling
+  record_audio(voice_clip_path, "temp.mp3")
   print("Name recorded!!")
   name = transcribe(voice_clip_path + "temp.mp3", model)
   print("The name is ",name)
