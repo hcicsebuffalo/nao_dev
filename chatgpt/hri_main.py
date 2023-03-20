@@ -8,8 +8,9 @@ import os
 # import sys
 
 def nao_intro(json_file_path):
-    text_data = '''Welcome to you all, my name is Aiko & I am a proud member of this lab. My friends are in the progress of making me intelligent day by day. 
-        I have limited capabilities but I can be you assistant by helping you with your queries. I can also present a dance if you like.'''
+    # text_data = '''Welcome to you all, my name is Aiko & I am a proud member of this lab. My friends are in the progress of making me intelligent day by day. 
+    #     I have limited capabilities but I can be you assistant by helping you with your queries. I can also present a dance if you like.'''
+    text_data = "Welcome to you all."
     writing_response_to_json_file(text_data,json_file_path)
     subprocess.run(['python2','/home/sougato97/Human_Robot_Interaction/nao_dev/chatgpt/nao_say.py'])
 
@@ -27,13 +28,13 @@ def main():
     print("Whisper model import success")
     nao_intro(json_file_path)
     record_audio(voice_clip_path, "extract_command.mp3")
-    command = get_command(voice_clip_path, "extract_command.mp3", model,nao_say_path,json_file_path)
+    command = get_command(voice_clip_path, "extract_command.mp3", model, nao_say_path, json_file_path)
     if command == 1:
         print("What do you want to know?")
         record_audio(voice_clip_path, "recording.mp3")
         print("Question recorded!!")
-        question = transcribe(voice_clip_path + "recording.mp3",model,json_file_path)
-        gpt(question,model,openai_key,voice_clip_path,nao_say_path) 
+        question = transcribe(voice_clip_path + "recording.mp3",model)
+        gpt(question,model,openai_key,voice_clip_path,nao_say_path,json_file_path) 
     elif command == 2:
         subprocess.run(['python2',dance_file_path])      
 

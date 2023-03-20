@@ -24,7 +24,8 @@ def get_command(voice_clip_path, file_name, model, nao_say_path,json_file_path):
     if substring.lower() in text.lower():
       flag = 2 # means execute gpt 
 
-  if flag == 0 : # invalid i/p
+  # code failing here
+  if flag == 0 : # invalid i/p 
     text_data = '''I am not able to understand you. Please say something like do you want to have a conversation with me or would you like to watch me perform?'''
     writing_response_to_json_file(text_data,json_file_path)
     subprocess.run(['python2',nao_say_path])
