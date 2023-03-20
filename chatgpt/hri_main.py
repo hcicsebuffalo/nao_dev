@@ -27,8 +27,8 @@ def main():
     model = whisper.load_model("medium.en") ## exception handling
     print("Whisper model import success")
     nao_intro(json_file_path)
-    record_audio(voice_clip_path, "extract_command.mp3")
-    command = get_command(voice_clip_path, "extract_command.mp3", model, nao_say_path, json_file_path)
+    # record_audio(voice_clip_path, "extract_command.mp3")
+    command = get_command(voice_clip_path, model, nao_say_path, json_file_path)
     if command == 1:
         print("What do you want to know?")
         record_audio(voice_clip_path, "recording.mp3")

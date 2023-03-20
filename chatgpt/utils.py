@@ -151,8 +151,8 @@ def writing_response_to_json_file(answer,json_file_path):
 def transcribe(recording_path,model):
     print("Processing the question.......")
     result = model.transcribe(recording_path) ## exception handling
-    print("Question generated: "+result["text"])
-    question=result['text']
+    print("Question generated: "+ result["text"])
+    question = result['text']
     return question
 
 # Function to generate chatgpt response
@@ -180,10 +180,11 @@ def gpt(question,model,openai_key,voice_clip_path,nao_say_path,json_file_path):
             confirmation=input("Do you wish to continue asking questions? Enter Y or y for yes || Enter N or n for no: ")
             if(confirmation=='y' or confirmation=='Y'):
                 print("What do you want to know? ")
-                record_audio(voice_clip_path, "recording.mp3", 7)
+                # record_audio(voice_clip_path, "recording.mp3", 7)
+                record_audio(voice_clip_path, "recording.mp3")
                 print("Question recorded")
                 print("Transcribing audio")
-                question=transcribe(voice_clip_path + "recording.mp3",model)
+                question = transcribe(voice_clip_path + "recording.mp3", model)
                 print("Audio Transcribed and question generated")
                 print(question)
             elif(confirmation=='n' or confirmation=='N'):
