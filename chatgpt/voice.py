@@ -10,28 +10,44 @@ import torch
 import subprocess
 from utils import *
 
-def get_command(voice_clip_path, file_name, model, nao_say_path,json_file_path):
+def get_command(voice_clip_path, model, nao_say_path,json_file_path):
   
-  text = transcribe(voice_clip_path + file_name, model)
-  chatgpt_module = ["chat", "talk", "conversation"]
-  dance_module = ["dance", "show me something", "perform something"]
-  flag = 0 # means null
-  for substring in chatgpt_module:
-    if substring.lower() in text.lower():
-      flag = 1 # means execute gpt 
+  file_name = "extract_command.mp3"
+  while (1):
+    record_audio(voice_clip_path, file_name)
+    text = (voice_clip_path + file_name, model)
+    chatgpt_module = ["chat", "talk", "conversation"]
+    dance_module = ["dance", "show me something", "perform something"]
+    flag = 0 # means null
+    print()
+    print("Outside the for condition")
+    for substring in chatgpt_module:
+      if substring.lower() in text.lower():
+        flag = 1 # means execute gpt 
+        print ("ChatGPT ---- The value of flag is:", flag)
+        return flag
 
-  for substring in dance_module:
-    if substring.lower() in text.lower():
-      flag = 2 # means execute gpt 
-
-  # code failing here
-  if flag == 0 : # invalid i/p 
+    for substring2 in dance_module:
+      if substring2.lower() in text.lower():
+        flag = 2 # means execute gpt 
+        print ("Dance ---- The value of flag is:", flag)
+        return flag
+      
+    # else condition 
     text_data = '''I am not able to understand you. Please say something like do you want to have a conversation with me or would you like to watch me perform?'''
-    writing_response_to_json_file(text_data,json_file_path)
-    subprocess.run(['python2',nao_say_path])
-    flag = get_command(voice_clip_path, file_name, model)
+    # writing_response_to_json_file(text_data,json_file_path)
+    # subprocess.run(['python2',nao_say_path])   
+    print(text_data)
+    
 
-  return flag
+  # # code failing here
+  # if flag == 0 : # invalid i/p 
+  #   text_data = '''I am not able to understand you. Please say something like do you want to have a conversation with me or would you like to watch me perform?'''
+  #   writing_response_to_json_file(text_data,json_file_path)
+  #   subprocess.run(['python2',nao_say_path])
+  #   flag = get_command(voice_clip_path, file_name, model)
+
+  # return flag
 
 
 def user_auth(voice_clip_path, name,pyannote_key):
