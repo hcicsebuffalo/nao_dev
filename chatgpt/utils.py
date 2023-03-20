@@ -7,6 +7,7 @@ import subprocess
 import socket
 import pyglet
 import functools
+import threading
 
 # Function to record audio when spacebar is pressed
 def record_audio(path, filename):
