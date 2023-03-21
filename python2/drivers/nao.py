@@ -7,13 +7,13 @@ class nao_driver(tts, leds, touch):
     def __init__(self, ip, port):
         tts.__init__(self, ip, port)
         leds.__init__(self, ip, port)
-        touch.__init__(self, ip, port)
+        #touch.__init__(self, ip, port)
         self.ip = ip
         self.port = port        
 
     def initProxies(self):
         self.initTTS()
         self.initLEDS()
-        self.initTG()
+        #self.initTG()
         
 

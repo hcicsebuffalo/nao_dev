@@ -10,9 +10,9 @@ port = 9559
 nao = nao_driver(ip, port)
 
 nao.initProxies()
-nao.sayText("Hello")
-#nao.animation(4, 10)
-nao.headTouch()
+nao.sayText("Hello I am Nao")
+nao.animation(1, 10)
+#nao.headTouch()
 #nao.ledStartListening()
 #time.sleep(5)
 #nao.ledStopListening()
@@ -26,3 +26,5 @@ while 1:
 #dance = threading.Thread( target= nao.dance )
 #play_song = threading.Thread( target=nao.play_song )
 #led = threading.Thread(target= nao.led_eye)
+
+## Natu Natu 
