@@ -3,6 +3,10 @@
 All the projects related to NAO in the dev env, made by sougato & ninad are kept here. Feel free to peek into our code and refer. 
 Merge branch refers to the code merge between sougato-ninad branch.
 
+## How to execute the code 
+- Go to the folder chatgpt, execute the file hri_main.py. 
+- That should work otherwise, please activate the conda environment hri first and then execute this file. 
+
 ## My setup 
 - I am using windows 11 (WSL - Ubuntu 18)
 - For gpu setup please install, nvidia cuda toolkit on windows 
