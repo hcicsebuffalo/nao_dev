@@ -15,8 +15,8 @@ class chat_dance_class(object):
         self.touch = self.my_memory.subscriber("FrontTactilTouched")
         self.touch_id=self.touch.signal.connect(self.onTouch)
 
-        self.face_detect = self.my_memory.subscriber("PeoplePerception/PeopleDetected")
-        self.face_id=self.face_detect.signal.connect(self.onDetect)
+        #self.face_detect = self.my_memory.subscriber("PeoplePerception/PeopleDetected")
+        #self.face_id=self.face_detect.signal.connect(self.onDetect)
 
         self.just_arrived = self.my_memory.subscriber("PeoplePerception/JustArrived")
         self.just_arrived_id=self.just_arrived.signal.connect(self.onArrived)
