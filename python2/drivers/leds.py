@@ -19,14 +19,14 @@ class leds(base):
         self.leds = self.connect(self.proxy_name_led , self.ip, self.port)
 
 
-    # 1 -> rasta
+    # 1 -> rastanao.animation(1, 2)
     # 2 -> rotateEyes
     # 3 -> randomEyes
     def animation(self, type, duration):
         if type == 1:
             self.leds.rasta(duration)
         if type == 2:
-            self.leds.rotateEyes(0x00111111, 1, duration)
+            self.leds.rotateEyes(0x000000FF, 1, duration)
         if type == 3:
             self.leds.randomEyes(duration)
         if type == 4:

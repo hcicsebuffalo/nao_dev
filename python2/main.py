@@ -3,6 +3,7 @@ import time
 import sys
 sys.path.append("drivers")
 from drivers.nao import nao_driver
+from chat_dance_demo import chat_dance_class 
 
 ip = "10.0.107.217"
 port = 9559
@@ -10,18 +11,14 @@ port = 9559
 nao = nao_driver(ip, port)
 
 nao.initProxies()
-nao.sayText("Hello I am Nao")
-nao.animation(1, 10)
-#nao.headTouch()
-#nao.ledStartListening()
-#time.sleep(5)
-#nao.ledStopListening()
+nao.sayText("Setup complete")
+#nao.animation(1, 2)
 
 
-#nao.headTouch(nao.ledStartListening , nao.ledStopListening)
+chat_dance = threading.Thread(target= nao.initTG , args=(chat_dance_class, nao))
 
-while 1:
-    pass
+chat_dance.start()
+#face.start()
 
 #dance = threading.Thread( target= nao.dance )
 #play_song = threading.Thread( target=nao.play_song )
