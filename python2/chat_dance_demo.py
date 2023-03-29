@@ -4,9 +4,10 @@ import sys
 sys.path.append("drivers")
 from drivers.nao import nao_driver
 
+
 class chat_dance_class(object):
    
-    def __init__(self, app, nao):
+    def __init__(self, app, nao,  dance, play_song, led):
         super(chat_dance_class, self).__init__()
         my_session=app.session
         app.start()
@@ -25,18 +26,44 @@ class chat_dance_class(object):
         self.waving_id = self.waving.signal.connect(self.onWaving)
         
         self.nao = nao
+        
+        self.dance = dance
+        self.play_song = play_song
+        self.led = led
+
         print("Demo initialised")
                
     def onTouch(self,qwe):
         bool_okay=self.touch.signal.disconnect(self.touch_id)
         print("Touch Detected")
         self.nao.sayText("Hello")
-        self.nao.sayText("I am Nao")
+        self.nao.sayText("How can I help you")
+        self.nao.send_request()
         self.nao.ledStartListening()
-        self.nao.animation(2, 5)
-        time.sleep(5)
+        self.nao.animation(2, 7)
+        time.sleep(7)
         self.nao.ledStopListening()
-
+        res = str(self.nao.get_response())
+        print(res)
+        if res == "[u'Dance']":
+            print("I am Dancing")
+            self.nao.stop_all = False
+            self.dance.start()
+            #self.led.start()
+            self.play_song.start()
+            #timer1 = threading.Timer(10.0, self.dance.cancel)
+            #timer2 = threading.Timer(10.0, self.led.cancel)
+            #timer3 = threading.Timer(10.0, self.play_song.cancel)
+            #timer1.start()
+            #timer2.start()
+            #timer3.start()
+            time.sleep(10)
+            
+        else:
+            res = res[4:]
+            print("response is " , res)
+            self.nao.sayText(res)
+            
         try:
             self.touch_id=self.touch.signal.connect(self.onTouch)
         except RuntimeError:

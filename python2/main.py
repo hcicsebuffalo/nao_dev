@@ -11,17 +11,21 @@ port = 9559
 nao = nao_driver(ip, port)
 
 nao.initProxies()
-nao.sayText("Setup complete")
+
+nao.sayText("Hello, My Name is Nao. Nice to meet you")
+
 #nao.animation(1, 2)
 
+dance = threading.Thread( target= nao.dance )
+play_song = threading.Thread( target=nao.play_song )
+#led = threading.Thread(target= nao.led_eye)
+led = None
 
-chat_dance = threading.Thread(target= nao.initTG , args=(chat_dance_class, nao))
+chat_dance = threading.Thread(target= nao.initTG , args=(chat_dance_class, nao, dance, play_song, led))
 
 chat_dance.start()
+
 #face.start()
 
-#dance = threading.Thread( target= nao.dance )
-#play_song = threading.Thread( target=nao.play_song )
-#led = threading.Thread(target= nao.led_eye)
 
 ## Natu Natu 

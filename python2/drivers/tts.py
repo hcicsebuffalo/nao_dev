@@ -15,8 +15,6 @@ tts class object for text to speech conversion. class has following functions
 
 """
 
-
-
 from base import *
 import sys
 import os
