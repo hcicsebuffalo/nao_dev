@@ -1636,7 +1636,6 @@ def hello_movement():
     return names , times, keys
 
 
-
 def hello( ):
     global tts , motionProxy
     names, times, keys = hello_movement()

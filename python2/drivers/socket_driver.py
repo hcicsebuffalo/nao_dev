@@ -10,7 +10,7 @@ class chatGPT(object):
     
     def initSocket(self):
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.client_socket.connect(('127.0.0.1', 9928))
+        self.client_socket.connect(('127.0.0.1', 9981))
     
     def send_request(self):
         request = "chatGPT"
