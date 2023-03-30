@@ -24,11 +24,4 @@ class chatGPT(object):
         print('Result:', result)
         return result
 
-
-# Google api vs whisper comparison
-# Microphone 
-# look straight 
-# Sound 
-# Change Name
-#  person recognition with ourself
-# Latest ChatGPT
+ 

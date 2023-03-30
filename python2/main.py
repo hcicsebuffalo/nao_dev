@@ -29,3 +29,10 @@ chat_dance.start()
 
 
 ## Natu Natu 
+
+# Google api vs whisper comparison -> done
+# Microphone  - Nougata 
+# look straight - Ninad 
+# Sound - funtion write 
+# person recognition with ourself -> 
+# Latest ChatGPT -> Done 
