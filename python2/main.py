@@ -12,9 +12,9 @@ nao = nao_driver(ip, port)
 
 nao.initProxies()
 
-nao.sayText("Hello, My Name is Nao. Nice to meet you")
+nao.sayText("Hello, My Name is Aiko. Nice to meet you")
 
-#nao.animation(1, 2)
+nao.animation(1, 2)
 
 dance = threading.Thread( target= nao.dance )
 play_song = threading.Thread( target=nao.play_song )

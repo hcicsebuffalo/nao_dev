@@ -36,13 +36,12 @@ class chat_dance_class(object):
     def onTouch(self,qwe):
         bool_okay=self.touch.signal.disconnect(self.touch_id)
         print("Touch Detected")
+        self.nao.send_request()
         self.nao.sayText("Hello")
         self.nao.sayText("How can I help you")
-        self.nao.send_request()
         self.nao.ledStartListening()
         self.nao.animation(2, 7)
-        time.sleep(7)
-        self.nao.ledStopListening()
+        #time.sleep(7)
         res = str(self.nao.get_response())
         print(res)
         if res == "[u'Dance']":
@@ -63,6 +62,8 @@ class chat_dance_class(object):
             res = res[4:]
             print("response is " , res)
             self.nao.sayText(res)
+        
+        self.nao.ledStopListening()
             
         try:
             self.touch_id=self.touch.signal.connect(self.onTouch)
@@ -74,7 +75,7 @@ class chat_dance_class(object):
         bool_okay=self.face_detect.signal.disconnect(self.face_id)
         print("Face Detected")
         self.nao.sayText("Hello")
-        self.nao.sayText("Who are you")
+        self.nao.sayText("My Name is Aiko, Nice to meet you")
         self.nao.hello_movement()
         
         self.nao.ledStartListening()

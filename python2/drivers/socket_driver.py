@@ -10,7 +10,7 @@ class chatGPT(object):
     
     def initSocket(self):
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.client_socket.connect(('127.0.0.1', 9981))
+        self.client_socket.connect(('127.0.0.1', 9993))
     
     def send_request(self):
         request = "chatGPT"
@@ -23,3 +23,12 @@ class chatGPT(object):
         result = pickle.loads(t)
         print('Result:', result)
         return result
+
+
+# Google api vs whisper comparison
+# Microphone 
+# look straight 
+# Sound 
+# Change Name
+#  person recognition with ourself
+# Latest ChatGPT
