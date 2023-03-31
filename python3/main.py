@@ -4,6 +4,7 @@ import pyaudio
 import wave
 import os
 from google.cloud import speech
+import whisper
 import os
 import io
 import openai
@@ -63,7 +64,7 @@ def record_audio(path, filename, duration):
     wf.writeframes(b''.join(frames))
     wf.close()
 
-def transcribe():
+def transcribe_google_api():
     print(" Transcribing ")
     os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'google_secret_key.json'
 
@@ -91,6 +92,13 @@ def transcribe():
         out += str(result.alternatives[0].transcript + ' ')
         
     return out
+
+def transcribe_whisper(recording_path,model):
+    print(" Transcribing ")
+    result = model.transcribe(recording_path) ## exception handling
+    print(" Transcribed Text: "+ result["text"])
+    question = result['text']
+    return question
 
 # def gptReq(question):
 #     print(" requesting gpt model for response ")
@@ -128,7 +136,8 @@ def gptReq(question):
 
 def process_audio():
     record_audio(file_path, "recording.wav", 7)
-    out = transcribe()
+    # out = transcribe_google_api()
+    out = transcribe_whisper("recording.wav",model)
     if "dance" in out.lower():
         ans = "Dance"
     else:
@@ -147,7 +156,7 @@ PORT = 9993
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.bind((HOST, PORT))
 server_socket.listen()
-
+model = whisper.load_model("medium.en")
 print('Server is running...')
 
 conn, addr = server_socket.accept()
