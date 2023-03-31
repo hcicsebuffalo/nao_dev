@@ -31,8 +31,8 @@ chat_dance.start()
 ## Natu Natu 
 
 # Google api vs whisper comparison -> done
-# Microphone  - Nougata 
+# Microphone  - Sougato 
 # look straight - Ninad 
 # Sound - funtion write 
 # person recognition with ourself -> 
-# Latest ChatGPT -> Done 
+# Latest ChatGPT -> Done | need to flush out the conversation variable maybe after 15 responses (otherwise chatgpt may crash) 

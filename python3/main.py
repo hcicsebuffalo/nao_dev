@@ -12,14 +12,14 @@ import os
 
 openai_key = os.environ["OPENAI_API_KEY"]
 
-
-
 file_path = "/home/hri/dev/python3"
 
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'google_secret_key.json'
 
 client = speech.SpeechClient()
 
+#This GPT Conversation variable should be a global 
+conversation=[{"role":"system","content":"You are a helpful assistant"}]
 
 # Function to record audio
 def record_audio(path, filename, duration):
@@ -92,20 +92,41 @@ def transcribe():
         
     return out
 
-def gptReq(question):
-    print(" requesting gpt model for response ")
-    #this is the api key
-    openai.api_key=openai_key
-    # question=input("Enter your question: ")
-    completion=openai.Completion.create(engine="text-davinci-003",prompt=question,max_tokens=1000)
-    response=completion.choices[0]['text']
+# def gptReq(question):
+#     print(" requesting gpt model for response ")
+#     #this is the api key
+#     openai.api_key=openai_key
+#     # question=input("Enter your question: ")
+#     completion = openai.Completion.create(engine="text-davinci-003",prompt=question,max_tokens=1000)
+#     response=completion.choices[0]['text']
 
-    # socket_connect(response)
+#     # socket_connect(response)
+#     #writing the output to a json file
+#     sorted_output = json.dumps(response)
+#     return sorted_output
+
+# Function to generate chatgpt response
+def gptReq(question):
+
+    # using the openai api key
+    openai.api_key=openai_key
+
+    conversation.append({"role":"user","content": question})
+    response=openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=conversation,
+        temperature=0.2,
+        max_tokens=1000,
+        top_p=0.9
+    )
+    conversation.append({"role":"assistant","content":response['choices'][0]['message']['content']})
+    answer = response['choices'][0]['message']['content']
     #writing the output to a json file
-    sorted_output=json.dumps(response)
+    sorted_output = json.dumps(answer)
     return sorted_output
 
-def chatGPT():
+
+def process_audio():
     record_audio(file_path, "recording.wav", 7)
     out = transcribe()
     if "dance" in out.lower():
@@ -137,7 +158,7 @@ while True:
     
     if request:
         print('Request:', request)
-        out = chatGPT()
+        out = process_audio()
         print(out)
         conn.sendall(pickle.dumps([out] , protocol = 2))
     
