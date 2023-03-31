@@ -16,16 +16,19 @@ import os
 
 openai_key = os.environ["OPENAI_API_KEY"]
 
-file_path = "/home/hri/dev/python3"
+file_path = "/home/sougato97/Human_Robot_Interaction/nao_dev/python3"
+# file_path = "/home/hri/dev/python3"
 
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'google_secret_key.json'
+# os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'google_secret_key.json'
 
 # Load the Google API client
-client = speech.SpeechClient()
+# client = speech.SpeechClient()
 # This GPT Conversation variable should be a global 
 conversation=[{"role":"system","content":"You are a helpful assistant"}]
 # Load the whisper model 
 model = whisper.load_model("medium.en")
+# # Audio clip name 
+audio_clip_path = "/home/sougato97/Human_Robot_Interaction/nao_dev/python3/recording.wav"
 
 # Function to record audio
 def record_audio(path, filename, duration):
@@ -101,7 +104,7 @@ def transcribe_google_api():
 def transcribe_whisper(recording_path,model):
     print(" Transcribing ")
     result = model.transcribe(recording_path) ## exception handling
-    print(" Transcribed Text: "+ result["text"])
+    print(" Transcribed Text: " + result["text"])
     question = result['text']
     return question
 
@@ -135,14 +138,14 @@ def gptReq(question):
     conversation.append({"role":"assistant","content":response['choices'][0]['message']['content']})
     answer = response['choices'][0]['message']['content']
     #writing the output to a json file
-    sorted_output = json.dumps(answer)
-    return sorted_output
+    # sorted_output = json.dumps(answer)
+    return answer
 
 
 def process_audio():
-    record_audio(file_path, "recording.wav", 7)
+    record_audio(file_path, audio_clip_path, 7)
     # out = transcribe_google_api()
-    out = transcribe_whisper("recording.wav",model)
+    out = transcribe_whisper(audio_clip_path,model)
     if "dance" in out.lower():
         ans = "Dance"
     else:

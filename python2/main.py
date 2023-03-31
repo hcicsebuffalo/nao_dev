@@ -19,8 +19,8 @@ nao.sayText("Hello, My Name is Aiko. Nice to meet you")
 
 nao.animation(1, 2)
 
-dance = threading.Thread( target= nao.dance )
-play_song = threading.Thread( target=nao.play_song )
+dance = threading.Thread( target = nao.dance )
+play_song = threading.Thread( target = nao.play_song )
 #led = threading.Thread(target= nao.led_eye)
 led = None
 
