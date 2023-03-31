@@ -1,3 +1,6 @@
+#! /home/sougato97/miniconda3/envs/hri/bin/python
+# -*- encoding: UTF-8 -*-
+
 import socket
 import pickle
 import pyaudio
@@ -17,10 +20,12 @@ file_path = "/home/hri/dev/python3"
 
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'google_secret_key.json'
 
+# Load the Google API client
 client = speech.SpeechClient()
-
-#This GPT Conversation variable should be a global 
+# This GPT Conversation variable should be a global 
 conversation=[{"role":"system","content":"You are a helpful assistant"}]
+# Load the whisper model 
+model = whisper.load_model("medium.en")
 
 # Function to record audio
 def record_audio(path, filename, duration):
@@ -156,7 +161,6 @@ PORT = 9993
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.bind((HOST, PORT))
 server_socket.listen()
-model = whisper.load_model("medium.en")
 print('Server is running...')
 
 conn, addr = server_socket.accept()
