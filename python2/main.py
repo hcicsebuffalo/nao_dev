@@ -1,6 +1,3 @@
-#! /usr/bin/python2
-# -*- encoding: UTF-8 -*-
-
 import threading
 import time
 import sys
