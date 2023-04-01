@@ -28,7 +28,7 @@ chat_dance.start()
 #face.start()
 
 
-## Natu Natu - need to implement |||
+## Natu Natu - need to implement ||
 
 # Google api vs whisper comparison -> done | using whisper on the new thinkpad 
 # External Microphone  - Sougato, needs to check with the external mic
