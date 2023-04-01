@@ -13,9 +13,9 @@ import os
 
 openai_key = os.environ["OPENAI_API_KEY"]
 
-file_path = "/home/sougato97/Human_Robot_Interaction/nao_dev/python3"
+# file_path = "/home/sougato97/Human_Robot_Interaction/nao_dev/python3"
 # file_path = "/home/hri/dev/python3"
-
+file_path = "/home/hri/Human_Robot_Interaction/nao_dev/python3"
 # os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'google_secret_key.json'
 
 # Load the Google API client
@@ -25,7 +25,8 @@ conversation=[{"role":"system","content":"You are a helpful assistant"}]
 # Load the whisper model 
 model = whisper.load_model("medium.en")
 # # Audio clip name 
-audio_clip_path = "/home/sougato97/Human_Robot_Interaction/nao_dev/python3/recording.wav"
+# audio_clip_path = "/home/sougato97/Human_Robot_Interaction/nao_dev/python3/recording.wav"
+audio_clip_path = "/home/hri/Human_Robot_Interaction/nao_dev/python3/recording.wav"
 
 # Function to record audio
 def record_audio(path, filename, duration):

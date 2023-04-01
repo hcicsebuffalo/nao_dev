@@ -10,10 +10,11 @@ Merge branch refers to the code merge between sougato-ninad branch.
 ## My setup 
 - I am using windows 11 (WSL - Ubuntu 18)
 - For gpu setup please install, nvidia cuda toolkit on windows 
-- Your distro will be able to access the gpu drivers. 
+- Your distro will be able to access the gpu drivers
 - You need to install USBIPD on windows 
 - Follow the steps from this website :
   - https://learn.microsoft.com/en-us/windows/wsl/connect-usb
+- The audio drivers might not be present by default, need to install PulseAudio 
 
 ## Installation
 To install this project, follow these steps:
@@ -21,7 +22,13 @@ To install this project, follow these steps:
 - Go to https://www.aldebaran.com/en/support/nao-6/downloads-softwares
 - In your home dir create a folder "naoqi" and then download the python SDK there and extract.
   - add "export PYTHONPATH=~/naoqi/pynaoqi-python2.7-2.8.6.23-linux64-20191127_152327/lib/python2.7/site-packages:$PYTHONPATH" to your .bashrc
-  
+
+Install PulseAudio, pavucontrol is for GUI
+```bash
+sudo apt update
+sudo apt install pulseaudio -y
+sudo apt install pavucontrol -y
+```
 Create Conda env
 ```bash
 conda create --name hri
