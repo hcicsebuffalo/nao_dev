@@ -31,7 +31,7 @@ chat_dance.start()
 ## Natu Natu - need to implement 
 
 # Google api vs whisper comparison -> done | uaing whisper on the new thinkpad 
-# External Microphone  - Sougato 
+# External Microphone  - Sougato, needs to check with the extrenal mic
 # look straight - Ninad 
 # Sound - function write 
 # person recognition with ourself -> 
