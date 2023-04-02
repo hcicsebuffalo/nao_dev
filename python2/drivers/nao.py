@@ -8,7 +8,7 @@ from audio import *
 
 class nao_driver(tts, leds, touch, gesture, chatGPT, audio):
 
-    def __init__(self, ip, port):
+    def __init__(self, ip, port, PORT_SOCKET):
         tts.__init__(self, ip, port)
         leds.__init__(self, ip, port)
         touch.__init__(self, ip, port)
@@ -18,13 +18,14 @@ class nao_driver(tts, leds, touch, gesture, chatGPT, audio):
 
         self.ip = ip
         self.port = port 
-        self.stop_all = False       
+        self.stop_all = False
+        self.PORT = PORT_SOCKET    
 
     def initProxies(self):
         self.initTTS()
         self.initLEDS()
         self.initmotion()
         self.initAudio()
-        self.initSocket()
+        self.initSocket(self.PORT)
         
         

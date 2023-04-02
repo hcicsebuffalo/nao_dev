@@ -21,11 +21,11 @@ class chat_dance_class(object):
         #self.face_detect = self.my_memory.subscriber("PeoplePerception/PeopleDetected")
         #self.face_id=self.face_detect.signal.connect(self.onDetect)
 
-        self.just_arrived = self.my_memory.subscriber("PeoplePerception/JustArrived")
-        self.just_arrived_id=self.just_arrived.signal.connect(self.onArrived)
+        #self.just_arrived = self.my_memory.subscriber("PeoplePerception/JustArrived")
+        #self.just_arrived_id=self.just_arrived.signal.connect(self.onArrived)
 
         self.waving = self.my_memory.subscriber("WavingDetection/PersonWaving")
-        self.waving_id = self.waving.signal.connect(self.onWaving)
+        self.waving_id = self.waving.signal.connect(self.onDetect)
         
         self.nao = nao
         
@@ -35,6 +35,7 @@ class chat_dance_class(object):
 
         self.beh = ALProxy("ALBehaviorManager" , "10.0.107.217", 9559)
 
+        self.nao.sayText("You can ask me questions now")
         print("Demo initialised")
                
     def onTouch(self,qwe):
@@ -47,7 +48,6 @@ class chat_dance_class(object):
         self.nao.sayText("How can I help you")
         self.nao.ledStartListening()
         self.nao.animation(2, 7)
-        #time.sleep(7)
         res = str(self.nao.get_response())
         print(res)
         if res == "[u'Dance']":
@@ -65,13 +65,14 @@ class chat_dance_class(object):
             time.sleep(10)
             
         else:
-            res = res[4:]
+            #res = res[0:]
+            res = self.process_res(res)
             print("response is " , res)
             try:
-                _beh = "System/animations/LED/CircleEyes"
-                self.beh.startBehavior(_beh)
-                _beh = "System/animations/Stand/BodyTalk/Speaking/BodyTalk_2"
-                self.beh.startBehavior(_beh)
+                #_beh = "System/animations/LED/CircleEyes"
+                #self.beh.startBehavior(_beh)
+                #beh = "System/animations/Stand/BodyTalk/Speaking/BodyTalk_2"
+                #self.beh.startBehavior(_beh)
                 self.nao.sayText(res)
             except:
                 self.nao.sayText("Sorry I am not able to process your request for a moment")
@@ -83,6 +84,16 @@ class chat_dance_class(object):
         except RuntimeError:
             print("Error in touch api" )
    
+    def process_res(self, res):
+        out = ''
+        res = res[2:-2]
+        for elem in res:
+            if elem.isalnum() or elem == ' ':
+                out += elem 
+
+        return out
+
+
     
     def onDetect(self,qwe):
         bool_okay=self.face_detect.signal.disconnect(self.face_id)

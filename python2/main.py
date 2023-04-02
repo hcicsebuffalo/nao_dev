@@ -7,8 +7,8 @@ from chat_dance_demo import chat_dance_class
 
 ip = "10.0.107.217"
 port = 9559
-
-nao = nao_driver(ip, port)
+PORT_SOCKET = 9995
+nao = nao_driver(ip, port, PORT_SOCKET)
 
 nao.initProxies()
 
