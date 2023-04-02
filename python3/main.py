@@ -4,7 +4,7 @@ import pyaudio
 import wave
 import os
 from google.cloud import speech
-import whisper
+# import whisper
 import os
 import io
 import openai
@@ -14,19 +14,20 @@ import os
 openai_key = os.environ["OPENAI_API_KEY"]
 
 # file_path = "/home/sougato97/Human_Robot_Interaction/nao_dev/python3"
-# file_path = "/home/hri/dev/python3"
-file_path = "/home/hri/Human_Robot_Interaction/nao_dev/python3"
-# os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'google_secret_key.json'
+file_path = "/home/hri/dev/python3"
+# file_path = "/home/hri/Human_Robot_Interaction/nao_dev/python3"
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'google_secret_key.json'
 
 # Load the Google API client
 # client = speech.SpeechClient()
 # This GPT Conversation variable should be a global 
 conversation=[{"role":"system","content":"You are a helpful assistant"}]
 # Load the whisper model 
-model = whisper.load_model("medium.en")
+# model = whisper.load_model("medium.en")
 # # Audio clip name 
 # audio_clip_path = "/home/sougato97/Human_Robot_Interaction/nao_dev/python3/recording.wav"
-audio_clip_path = "/home/hri/Human_Robot_Interaction/nao_dev/python3/recording.wav"
+# audio_clip_path = "/home/hri/Human_Robot_Interaction/nao_dev/python3/recording.wav"
+audio_clip_path = "/home/hri/dev/python3/recording.wav"
 
 # Function to record audio
 def record_audio(path, filename, duration):
@@ -142,8 +143,10 @@ def gptReq(question):
 
 def process_audio():
     record_audio(file_path, audio_clip_path, 7)
-    # out = transcribe_google_api()
-    out = transcribe_whisper(audio_clip_path,model)
+    out = transcribe_google_api()
+    # out = transcribe_whisper(audio_clip_path,model)
+    prompt = "Give answer in two sentences. Respond like you are Humanoid robot name Aiko. Just give responses and nothing else. Decription about yourself. You are working in Davis Hall in University at Buffalo, under professor Nalini Ratha.  "
+    out = prompt  + out
     if "dance" in out.lower():
         ans = "Dance"
     else:
@@ -151,14 +154,8 @@ def process_audio():
     return ans
 
 
-def handle_request(request):
-    if request == 'chatGPT':
-        return chatGPT
-    else:
-        return None
-
 HOST = '127.0.0.1'
-PORT = 9993
+PORT = 9999
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.bind((HOST, PORT))
 server_socket.listen()

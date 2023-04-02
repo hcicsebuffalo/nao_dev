@@ -4,6 +4,8 @@ import sys
 sys.path.append("drivers")
 from drivers.nao import nao_driver
 
+from naoqi import ALProxy
+
 
 class chat_dance_class(object):
    
@@ -31,13 +33,17 @@ class chat_dance_class(object):
         self.play_song = play_song
         self.led = led
 
+        self.beh = ALProxy("ALBehaviorManager" , "10.0.107.217", 9559)
+
         print("Demo initialised")
                
     def onTouch(self,qwe):
         bool_okay=self.touch.signal.disconnect(self.touch_id)
         print("Touch Detected")
         self.nao.send_request()
+        _beh = "System/animations/Stand/Gestures/JointHands_1"
         self.nao.sayText("Hello")
+        self.beh.startBehavior(_beh)
         self.nao.sayText("How can I help you")
         self.nao.ledStartListening()
         self.nao.animation(2, 7)
@@ -61,7 +67,14 @@ class chat_dance_class(object):
         else:
             res = res[4:]
             print("response is " , res)
-            self.nao.sayText(res)
+            try:
+                _beh = "System/animations/LED/CircleEyes"
+                self.beh.startBehavior(_beh)
+                _beh = "System/animations/Stand/BodyTalk/Speaking/BodyTalk_2"
+                self.beh.startBehavior(_beh)
+                self.nao.sayText(res)
+            except:
+                self.nao.sayText("Sorry I am not able to process your request for a moment")
         
         self.nao.ledStopListening()
             

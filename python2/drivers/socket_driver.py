@@ -10,7 +10,7 @@ class chatGPT(object):
     
     def initSocket(self):
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.client_socket.connect(('127.0.0.1', 9993))
+        self.client_socket.connect(('127.0.0.1', 9999))
     
     def send_request(self):
         request = "chatGPT"
@@ -20,8 +20,11 @@ class chatGPT(object):
     def get_response(self):
         t  = self.client_socket.recv(1024)
         #print(t)
-        result = pickle.loads(t)
-        print('Result:', result)
-        return result
-
+        try:
+            result = pickle.loads(t)
+            print('Result:', result)
+            return result
+        except:
+            print("Error in getting response")
+            return None
  
