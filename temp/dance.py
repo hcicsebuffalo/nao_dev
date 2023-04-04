@@ -17,7 +17,7 @@ tts = ALProxy("ALBehaviorManager" , ip, port)
 
 
 
-tts.startBehavior("boot-config/animations/hello")  
+tts.startBehavior("animations/Stand/Waiting/HappyBirthday_1")  
 
 #------------------
 
