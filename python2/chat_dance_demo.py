@@ -88,7 +88,7 @@ class chat_dance_class(object):
         out = ''
         res = res[2:-2]
         for elem in res:
-            if elem.isalnum() or elem == ' ':
+            if elem.isalnum() or elem == ' ' or elem == ".":
                 out += elem 
 
         return out

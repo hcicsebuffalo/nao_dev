@@ -8,17 +8,18 @@ port = 9559
 
 tts = ALProxy("ALBehaviorManager" , ip, port)
 
-path = "/home/nao/behavior.xar"
+# path = "/home/nao/behavior.xar"
 
-x = tts.getInstalledBehaviors()
+# x = tts.getInstalledBehaviors()
 
-#print(x)
-#tts.preloadBehavior("System/animations/Stand/Waiting/AirGuitar_1")
+# #print(x)
+# #tts.preloadBehavior("System/animations/Stand/Waiting/AirGuitar_1")
 
 
 
-tts.startBehavior(anims[633])  
+tts.startBehavior(anims[897])  
 
+#------------------
 
 # with open("animations.txt", "w") as f:
 
@@ -58,8 +59,13 @@ tts.startBehavior(anims[633])
 
 # # Simple command for the HeadYaw joint at 10% max speed
 # names            = "HeadYaw"
+# angles           = 1
+# fractionMaxSpeed = 1
+# motion_service.setAngles(names,angles,fractionMaxSpeed)
+
+# names            = "HeadPitch"
 # angles           = 0
-# fractionMaxSpeed = 0.1
+# fractionMaxSpeed = 1
 # motion_service.setAngles(names,angles,fractionMaxSpeed)
 
 # time.sleep(3.0)

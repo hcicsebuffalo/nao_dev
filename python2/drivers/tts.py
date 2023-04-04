@@ -28,13 +28,17 @@ class tts(base):
         self.port = port
         self.proxy_name_tts = "ALTextToSpeech"
         self.tts = None
+        self.proxy_name_atts = "ALAnimatedSpeech"
+        self.tts = None
+        self.atts = None
         
     
     def initTTS(self):
         self.tts = self.connect(self.proxy_name_tts , self.ip, self.port)
+        self.atts = self.connect(self.proxy_name_atts , self.ip, self.port)
 
     def sayText(self, text):
-        self.tts.say(text)
+        self.atts.say(text)
     
     def setVolume(self, volume = 70):
         self.tts.setParameter("volume", volume)
