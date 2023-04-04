@@ -1,7 +1,7 @@
 from naoqi import ALProxy
 import time
 
-from animations import *
+#from python2.animations import *
 
 ip = "10.0.107.217"
 port = 9559
@@ -17,7 +17,7 @@ tts = ALProxy("ALBehaviorManager" , ip, port)
 
 
 
-tts.startBehavior(anims[897])  
+tts.startBehavior("boot-config/animations/hello")  
 
 #------------------
 

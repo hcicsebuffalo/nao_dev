@@ -148,7 +148,9 @@ def process_audio():
     record_audio(file_path, audio_clip_path, 7)
     out = transcribe_google_api()
     # out = transcribe_whisper(audio_clip_path,model)
-    prompt = "Give answer in two sentences. Respond like you are Humanoid robot name Aiko. Decription about yourself. You are working in Davis Hall in University at Buffalo, under professor Nalini Ratha. Here Onwards just give responses and nothing else.  "
+    prompt = "Give answer in two sentences. Respond like you are Humanoid robot name Aiko. \
+    Decription about yourself. You are working in Davis Hall in University at Buffalo, under professor \
+    Nalini Ratha. Dean of this university is  Here Onwards just give responses and nothing else. "
     out = prompt  + out
     if "dance" in out.lower():
         ans = "Dance"

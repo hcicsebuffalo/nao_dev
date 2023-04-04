@@ -5,7 +5,7 @@ sys.path.append("drivers")
 from drivers.nao import nao_driver
 
 from naoqi import ALProxy
-
+from animations import anims
 
 class chat_dance_class(object):
    
@@ -15,8 +15,8 @@ class chat_dance_class(object):
         app.start()
         self.my_memory = my_session.service("ALMemory")
         
-        self.touch = self.my_memory.subscriber("FrontTactilTouched")
-        self.touch_id=self.touch.signal.connect(self.onTouch)
+        self.touch = self.my_memory.subscriber("MiddleTactilTouched")
+        self.touch_id=self.touch.signal.connect(self.onMiddleTouch)
 
         #self.face_detect = self.my_memory.subscriber("PeoplePerception/PeopleDetected")
         #self.face_id=self.face_detect.signal.connect(self.onDetect)
@@ -26,7 +26,37 @@ class chat_dance_class(object):
 
         self.waving = self.my_memory.subscriber("WavingDetection/PersonWaving")
         self.waving_id = self.waving.signal.connect(self.onDetect)
-        
+
+        # -----------------------------------------------------------
+
+        self.Fronttouch = self.my_memory.subscriber("FrontTactilTouched")
+        self.Fronttouch_id=self.Fronttouch.signal.connect(self.onFrontTouch)
+
+        self.Reartouch = self.my_memory.subscriber("RearTactilTouched")
+        self.Reartouch_id=self.Reartouch.signal.connect(self.onRearTouch)
+
+
+        #self.HandRBtouch = self.my_memory.subscriber("HandRightBackTouched")
+        #self.HandRBtouch_id=self.HandRBtouch.signal.connect(self.onHandRightBackTouch)
+
+        self.HandRLtouch = self.my_memory.subscriber("HandRightLeftTouched")
+        self.HandRLtouch_id=self.HandRLtouch.signal.connect(self.onHandRightLeftTouch)
+
+        self.HandRRtouch = self.my_memory.subscriber("HandRightRightTouched")
+        self.HandRRtouch_id=self.HandRRtouch.signal.connect(self.onHandRightRightTouch)
+
+
+        #self.HandLBtouch = self.my_memory.subscriber("HandLeftBackTouched")
+        #self.HandLBtouch_id=self.HandLBtouch.signal.connect(self.onHandLeftBackTouch)
+
+        self.HandLLtouch = self.my_memory.subscriber("HandLeftLeftTouched")
+        self.HandLLtouch_id=self.HandLLtouch.signal.connect(self.onHandLeftLeftTouch)
+
+        self.HandLRtouch = self.my_memory.subscriber("HandLeftRightTouched")
+        self.HandLRtouch_id=self.HandLRtouch.signal.connect(self.onHandLeftRightTouch)
+
+
+
         self.nao = nao
         
         self.dance = dance
@@ -38,7 +68,7 @@ class chat_dance_class(object):
         self.nao.sayText("You can ask me questions now")
         print("Demo initialised")
                
-    def onTouch(self,qwe):
+    def onMiddleTouch(self,qwe):
         bool_okay=self.touch.signal.disconnect(self.touch_id)
         print("Touch Detected")
         self.nao.send_request()
@@ -80,7 +110,7 @@ class chat_dance_class(object):
         self.nao.ledStopListening()
             
         try:
-            self.touch_id=self.touch.signal.connect(self.onTouch)
+            self.touch_id=self.touch.signal.connect(self.onMiddleTouch)
         except RuntimeError:
             print("Error in touch api" )
    
@@ -92,8 +122,6 @@ class chat_dance_class(object):
                 out += elem 
 
         return out
-
-
     
     def onDetect(self,qwe):
         bool_okay=self.face_detect.signal.disconnect(self.face_id)
@@ -151,3 +179,84 @@ class chat_dance_class(object):
         #print("Test pt 1 ")
         #os._exit(1)
         pass
+
+    def onFrontTouch(self,qwe):
+        try:
+            bool_okay=self.Fronttouch.signal.disconnect(self.Fronttouch_id)
+            _behavior = "boot-config/animations/hello"
+            self.beh.startBehavior(_behavior)
+            print(" Front Touch detected")    
+            self.Fronttouch_id=self.Fronttouch.signal.connect(self.onFrontTouch)
+        except:
+            pass
+
+    def onRearTouch(self,qwe):
+        try:
+            bool_okay=self.Reartouch.signal.disconnect(self.Reartouch_id)
+            _behavior =  "animations/Stand/Waiting/MysticalPower_1"
+            self.beh.startBehavior(_behavior)
+            print(" Rear Touch detected")
+
+            self.Reartouch_id=self.Reartouch.signal.connect(self.onRearTouch)
+        except:
+            pass 
+    
+    def onHandRightBackTouch(self,qwe):
+        try:
+            bool_okay=self.HandRBtouch.signal.disconnect(self.HandRBtouch_id)
+            _behavior = "animations/Stand/Waiting/AirGuitar_1"
+            self.beh.startBehavior(_behavior)
+            print(" Hand Right Back Touch detected")
+            self.HandRBtouch_id=self.HandRBtouch.signal.connect(self.onHandRightBackTouch)
+        except:
+            pass
+
+    def onHandRightLeftTouch(self,qwe):
+        try:
+            bool_okay=self.HandRLtouch.signal.disconnect(self.HandRLtouch_id)
+            _behavior = "animations/Stand/Waiting/AirJuggle_1"
+            self.beh.startBehavior(_behavior)
+            print(" Hand Right Left Touch detected")
+            self.HandRLtouch_id=self.HandRLtouch.signal.connect(self.onHandRightLeftTouch)
+        except:
+            pass
+
+    def onHandRightRightTouch(self,qwe):
+        try:
+            bool_okay=self.HandRRtouch.signal.disconnect(self.HandRRtouch_id)
+            _behavior = "animations/Stand/Waiting/FunnyDancer_1"
+            self.beh.startBehavior(_behavior)
+            print(" Hand Right Right Touch detected")
+            self.HandRRtouch_id=self.HandRRtouch.signal.connect(self.onHandRightRightTouch)
+        except:
+            pass
+    
+    def onHandLeftBackTouch(self,qwe):
+        try:
+            bool_okay=self.HandLBtouch.signal.disconnect(self.HandLBtouch_id)
+            _behavior = "animations/Stand/Waiting/ShowMuscles_2"
+            self.beh.startBehavior(_behavior)
+            print(" Hand Left Back Touch detected")
+            self.HandLBtouch_id=self.HandLBtouch.signal.connect(self.onHandLeftBackTouch)
+        except:
+            pass
+    
+    def onHandLeftLeftTouch(self,qwe):
+        try:
+            bool_okay=self.HandLLtouch.signal.disconnect(self.HandLLtouch_id)
+            _behavior = "animations/Stand/Waiting/AirGuitar_1"
+            print(" Hand Left Left Touch detected")
+            self.beh.startBehavior(_behavior)
+            self.HandLLtouch_id=self.HandLLtouch.signal.connect(self.onHandLeftLeftTouch)
+        except:
+            pass
+
+    def onHandLeftRightTouch(self,qwe):
+        try:
+            bool_okay=self.HandLRtouch.signal.disconnect(self.HandLRtouch_id)
+            _behavior = "animations/Stand/Waiting/KungFu_1"
+            print(" Hand Left Right Touch detected")
+            self.beh.startBehavior(_behavior)
+            self.HandLRtouch_id=self.HandLRtouch.signal.connect(self.onHandLeftRightTouch)
+        except:
+            pass

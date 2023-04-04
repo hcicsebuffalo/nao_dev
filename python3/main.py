@@ -15,7 +15,7 @@ from utils import *
 
 openai_key = os.environ["OPENAI_API_KEY"]
 HOST = '127.0.0.1'
-PORT = 9995
+PORT = 9996
 
 # file_path = "/home/sougato97/Human_Robot_Interaction/nao_dev/python3"
 file_path = "/home/hri/dev/python3"
