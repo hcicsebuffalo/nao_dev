@@ -15,8 +15,20 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, re_path
+from django.urls import path, re_path, include
 from .views import detect, feed
+# urlpatterns = [
+#     path('http://127.0.0.1:8000/feed/192.168.43.226/', feed)
+# ]
+
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+router.register(r'feed', feed)
+
+# Wire up our API using automatic URL routing.
+# Additionally, we include login URLs for the browsable API.
 urlpatterns = [
-    path('http://127.0.0.1:8000/feed/192.168.43.226/', feed)
+    path('', include(router.urls)),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
