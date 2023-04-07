@@ -4,6 +4,7 @@ from apis.feed import responser
 import cv2
 
 def video_feed():
+    print("*****************")
     cap = cv2.VideoCapture(0)
     while True:
         ret, frame = cap.read()
