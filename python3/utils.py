@@ -29,7 +29,7 @@ conversation=[{"role":"system","content":"You are a helpful assistant"}]
 # # Audio clip name 
 # audio_clip_path = "/home/sougato97/Human_Robot_Interaction/nao_dev/python3/recording.wav"
 # audio_clip_path = "/home/hri/Human_Robot_Interaction/nao_dev/python3/recording.wav"
-audio_clip_path = "/recording.wav"
+audio_clip_path = os.getcwd() + "/recording.wav"
 
 
 
@@ -146,10 +146,10 @@ def gptReq(question):
     return answer
 
 
-def process_audio():
+def process_audio(model):
     record_audio(file_path, audio_clip_path, 7)
-    out = transcribe_google_api()
-    # out = transcribe_whisper(audio_clip_path,model)
+    # out = transcribe_google_api()
+    out = transcribe_whisper(audio_clip_path,model)
     prompt = "Give answer in two sentences. Respond like you are Humanoid robot name Aiko. \
     Decription about yourself. You are working in Davis Hall in University at Buffalo, under professor \
     Nalini Ratha. President of this university is Satish K tripathi. Dean of school of engineering in univerity at \
