@@ -16,7 +16,7 @@ def handle_request(request):
         return None
 
 HOST = '127.0.0.1'
-PORT = 5093
+PORT = 5094
 
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.bind((HOST, PORT))

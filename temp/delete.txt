@@ -1,0 +1,4 @@
+bool_okay=self.HandRightBacktouch.signal.disconnect(self.HandRightBacktouch_id)
+        _behavior = ""
+        self.beh.startBehavior(_behavior)
+        self.HandRightBacktouch_id=self.HandRightBacktouch.signal.connect(self.onHandRightBackTouch)

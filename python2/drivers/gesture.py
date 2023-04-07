@@ -1,5 +1,5 @@
 
-
+from naoqi import ALProxy
 from base import *
 import sys
 import os
@@ -15,7 +15,8 @@ class gesture(base):
         
     def initmotion(self):
         self.motion = self.connect(self.proxy_name_motion , self.ip, self.port)
-
+        speak_motion = ALProxy("ALSpeakingMovement" , self.ip, self.port)
+        speak_motion.setEnabled(True)
 
     def hello_movement(self):            
         names = list()
