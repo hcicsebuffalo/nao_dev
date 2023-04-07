@@ -13,10 +13,6 @@ import os
 
 openai_key = os.environ["OPENAI_API_KEY"]
 
-
-# file_path = "/home/sougato97/Human_Robot_Interaction/nao_dev/python3"
-# file_path = "/home/hri/dev/python3"
-# file_path = "/home/hri/Human_Robot_Interaction/nao_dev/python3"
 file_path = os.getcwd()
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'google_secret_key.json'
 
@@ -27,8 +23,6 @@ conversation=[{"role":"system","content":"You are a helpful assistant"}]
 # Load the whisper model 
 # model = whisper.load_model("medium.en")
 # # Audio clip name 
-# audio_clip_path = "/home/sougato97/Human_Robot_Interaction/nao_dev/python3/recording.wav"
-# audio_clip_path = "/home/hri/Human_Robot_Interaction/nao_dev/python3/recording.wav"
 audio_clip_path = os.getcwd() + "/recording.wav"
 
 
@@ -141,8 +135,6 @@ def gptReq(question):
     )
     conversation.append({"role":"assistant","content":response['choices'][0]['message']['content']})
     answer = response['choices'][0]['message']['content']
-    #writing the output to a json file
-    # sorted_output = json.dumps(answer)
     return answer
 
 
