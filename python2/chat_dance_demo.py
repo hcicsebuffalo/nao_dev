@@ -24,8 +24,8 @@ class chat_dance_class(object):
         #self.just_arrived = self.my_memory.subscriber("PeoplePerception/JustArrived")
         #self.just_arrived_id=self.just_arrived.signal.connect(self.onArrived)
 
-        self.waving = self.my_memory.subscriber("WavingDetection/PersonWaving")
-        self.waving_id = self.waving.signal.connect(self.onDetect)
+        #self.waving = self.my_memory.subscriber("WavingDetection/PersonWaving")
+        #self.waving_id = self.waving.signal.connect(self.onDetect)
 
         # -----------------------------------------------------------
 
