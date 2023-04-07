@@ -9,10 +9,10 @@ import socket
 # Function to record audio
 def record_audio(path, filename, duration):
     # Set the parameters for the audio stream
-    chunk = 1024
+    chunk = 1024 # A frame is a single sample of audio data for all channels.
     sample_format = pyaudio.paInt16
-    channels = 1
-    fs = 44100
+    channels = 1 # 1 - mono, 2 - stereo
+    fs = 44100 # rate
     
     # Initialize the PyAudio object
     p = pyaudio.PyAudio()
@@ -21,7 +21,7 @@ def record_audio(path, filename, duration):
     stream = p.open(format=sample_format,
                     channels=channels,
                     rate=fs,
-                    frames_per_buffer=chunk,
+                    frames_per_buffer=chunk, # each buffer will contain chunk no. of frames of audio data.
                     input=True)
     
     frames = []
