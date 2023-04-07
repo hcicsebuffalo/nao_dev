@@ -15,8 +15,9 @@ openai_key = os.environ["OPENAI_API_KEY"]
 
 
 # file_path = "/home/sougato97/Human_Robot_Interaction/nao_dev/python3"
-file_path = "/home/hri/dev/python3"
+# file_path = "/home/hri/dev/python3"
 # file_path = "/home/hri/Human_Robot_Interaction/nao_dev/python3"
+file_path = os.getcwd()
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'google_secret_key.json'
 
 # Load the Google API client
@@ -28,7 +29,7 @@ conversation=[{"role":"system","content":"You are a helpful assistant"}]
 # # Audio clip name 
 # audio_clip_path = "/home/sougato97/Human_Robot_Interaction/nao_dev/python3/recording.wav"
 # audio_clip_path = "/home/hri/Human_Robot_Interaction/nao_dev/python3/recording.wav"
-audio_clip_path = "/home/hri/dev/python3/recording.wav"
+audio_clip_path = "/recording.wav"
 
 
 
@@ -67,6 +68,7 @@ def record_audio(path, filename, duration):
     
     # Save the recorded audio as a WAV file
     file_path = os.path.join(path, filename)
+    print("------------------------" , file_path)
     wf = wave.open(file_path, 'wb')
     wf.setnchannels(channels)
     wf.setsampwidth(p.get_sample_size(sample_format))
