@@ -1,4 +1,4 @@
-#!/home/hri/dev/gui/backend/env/bin/python
+#!/home/hri/nao_dev/gui/backend/env/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
