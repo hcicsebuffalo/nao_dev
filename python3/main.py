@@ -13,7 +13,6 @@ import os
 
 from utils import *
 
-openai_key = os.environ["OPENAI_API_KEY"]
 HOST = '127.0.0.1'
 PORT = 9791
 
@@ -25,10 +24,8 @@ os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'google_secret_key.json'
 # This GPT Conversation variable should be a global 
 conversation=[{"role":"system","content":"You are a helpful assistant"}]
 # Load the whisper model 
-model = whisper.load_model("medium.en") #yamlrint("Whisper model import success")
-# # Audio clip name 
-audio_clip_path = os.getcwd() + "/recording.wav"
-
+model = whisper.load_model("medium.en")
+print("Whisper model import success")
 
 
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
