@@ -16,17 +16,11 @@ from utils import *
 HOST = '127.0.0.1'
 PORT = 9791
 
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'google_secret_key.json'
-
-# Load the Google API client
-# client = speech.SpeechClient()
 # This GPT Conversation variable should be a global 
 conversation=[{"role":"system","content":"You are a helpful assistant"}]
 # Load the whisper model 
 model = whisper.load_model("medium.en")
 print("Whisper model import success")
-
-
 
 
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
