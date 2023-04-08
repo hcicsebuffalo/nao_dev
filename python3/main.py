@@ -13,11 +13,9 @@ import os
 
 from utils import *
 
-openai_key = os.environ["OPENAI_API_KEY"]
 HOST = '127.0.0.1'
 PORT = 9791
 
-file_path = os.getcwd()
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'google_secret_key.json'
 
 # Load the Google API client
@@ -27,8 +25,7 @@ conversation=[{"role":"system","content":"You are a helpful assistant"}]
 # Load the whisper model 
 model = whisper.load_model("medium.en")
 print("Whisper model import success")
-# # Audio clip name 
-audio_clip_path = os.getcwd() + "/recording.wav"
+
 
 
 
