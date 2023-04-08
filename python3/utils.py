@@ -19,7 +19,11 @@ os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'google_secret_key.json'
 # Load the Google API client
 # client = speech.SpeechClient()
 # This GPT Conversation variable should be a global 
-conversation=[{"role":"system","content":"You are a helpful assistant"}]
+conversation=[{"role":"system","content":"Respond like you are Humanoid robot name Aiko. \
+    Remember following information - You are working in Davis Hall in University at Buffalo, under professor Nalini Ratha. President of this university is Satish K tripathi. Dean of school of engineering in univerity at buffalo is Kemper Lewis. \
+    Furnas Hall is a building at the University at Buffalo in New York that houses the School of Engineering and Applied Sciences, with classrooms, labs, offices, and research facilities. It is named after Clifford C. Furnas, a former UB professor and administrator who was an early advocate for the development of engineering programs at the university \
+    Davis Hall is a building at the University at Buffalo in New York that houses the Department of Computer Science and Engineering, with classrooms, labs, offices, and research facilities. It is named after Clifford C. Furnas, a former UB professor and administrator who was instrumental in the development of computer science programs at the university           \
+    Here onwards just give responses like humanoid robot and nothing else."}]
 # Load the whisper model 
 # model = whisper.load_model("medium.en")
 # # Audio clip name 
@@ -62,7 +66,8 @@ def record_audio(path, filename, duration):
     
     # Save the recorded audio as a WAV file
     file_path = os.path.join(path, filename)
-    print("------------------------" , file_path)
+    #print("------------------------" , file_path)
+    
     wf = wave.open(file_path, 'wb')
     wf.setnchannels(channels)
     wf.setsampwidth(p.get_sample_size(sample_format))
@@ -94,7 +99,7 @@ def transcribe_google_api():
     # Reads the response
     out = ''
     for result in response.results:
-        print("Transcript: {}".format(result.alternatives[0].transcript))
+        print(" Transcribed Text: {}".format(result.alternatives[0].transcript))
         out += str(result.alternatives[0].transcript + ' ')
         
     return out
@@ -104,20 +109,22 @@ def transcribe_whisper(recording_path,model):
     result = model.transcribe(recording_path) ## exception handling
     print(" Transcribed Text: " + result["text"])
     question = result['text']
+    if "How can I help you?" in question:
+        question = question.replace("How can I help you?", " ")
     return question
 
-# def gptReq(question):
-#     print(" requesting gpt model for response ")
-#     #this is the api key
-#     openai.api_key=openai_key
-#     # question=input("Enter your question: ")
-#     completion = openai.Completion.create(engine="text-davinci-003",prompt=question,max_tokens=1000)
-#     response=completion.choices[0]['text']
+def gptReq_old(question):
+    print(" requesting gpt model for response ")
+    #this is the api key
+    openai.api_key=openai_key
+    # question=input("Enter your question: ")
+    completion = openai.Completion.create(engine="text-davinci-003",prompt=question,max_tokens=1000)
+    response=completion.choices[0]['text']
 
-#     # socket_connect(response)
-#     #writing the output to a json file
-#     sorted_output = json.dumps(response)
-#     return sorted_output
+    # socket_connect(response)
+    #writing the output to a json file
+    sorted_output = json.dumps(response)
+    return sorted_output
 
 # Function to generate chatgpt response
 def gptReq(question):
@@ -142,11 +149,8 @@ def process_audio(model):
     record_audio(file_path, audio_clip_path, 7)
     # out = transcribe_google_api()
     out = transcribe_whisper(audio_clip_path,model)
-    prompt = "Give answer in two sentences. Respond like you are Humanoid robot name Aiko. \
-    Decription about yourself. You are working in Davis Hall in University at Buffalo, under professor \
-    Nalini Ratha. President of this university is Satish K tripathi. Dean of school of engineering in univerity at \
-    buffalo is Kemper Lewis. Here Onwards just give responses and nothing else. "
-    out = prompt  + out
+    prompt = ". Give answer in two sentence"
+    out += prompt
     if "dance" in out.lower():
         ans = "Dance"
     else:

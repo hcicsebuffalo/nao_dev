@@ -25,25 +25,21 @@ print("Whisper model import success")
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.bind((HOST, PORT))
 server_socket.listen()
-print('Server is running...')
+print('Server Started ......')
+print('Waiting for Connection ......')
 
 conn, addr = server_socket.accept()
-print('Connected by', addr)
+print('Connection Established ......')
     
 while True:
     request = conn.recv(1024).decode()
     
     if request:
-        print('Request:', request)
+        print('Request : \n')
+        print( request)
+        print('\n')
         out = process_audio(model)
+        print("Response : \n")
         print(out)
+        print('\n')
         conn.sendall(pickle.dumps([out] , protocol = 2))
-    
-    #function = handle_request(request)
-    #if function:
-    #    result = int(function())
-    #    print(result)
-    #else:
-        #conn.sendall(b'Invalid request')
-    #   pass 
-    #conn.close()
