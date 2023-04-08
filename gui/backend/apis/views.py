@@ -1,6 +1,8 @@
 from django.shortcuts import render
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
 from django.http import HttpResponse, StreamingHttpResponse
-from apis.feed import responser
+# from apis.feed import responser
 import cv2
 
 def video_feed():
@@ -11,11 +13,16 @@ def video_feed():
         if not ret:
             break
         
-        frame_bytes = cv2.imencode('.jpg', frame)[1].tobytes()
-        print(frame_bytes)
-
+        ret, jpeg = cv2.imencode('.jpg', frame)
+        
         yield(b'--frame\r\n'
-              b'Content-Type: image/jpeg\r\n\r\n'+frame_bytes+b'\r\n')
+              b'Content-Type: image/jpeg\r\n\r\n'+jpeg.tobytes()+b'\r\n')
+        
+        # return jpeg.tobytes()
+        # print(frame_bytes)
+
+        
+        # return frame_bytes
 
 # Create your views here.
 def getfeed(request):

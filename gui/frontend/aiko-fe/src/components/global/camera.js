@@ -1,20 +1,16 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import logo from '../../logo.svg';
 import '../../App.css';
 
-export default function Camera() {
-
-
-  
-
+const Camera = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        Front-End for Aiko
-        <img src="http://192.168.43.226:8080/video" />
-      </header>
+    <div>
+      <img
+        src="http://127.0.0.1:8000/api/getfeed"
+        alt="Video"
+      />
     </div>
   );
-}
+};
+export default Camera;
