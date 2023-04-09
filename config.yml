@@ -1,0 +1,2 @@
+model: GoogleTTS #  GoogleTTS or Whisper
+py_port: 9979

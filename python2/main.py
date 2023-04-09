@@ -4,10 +4,19 @@ import sys
 sys.path.append("drivers")
 from drivers.nao import nao_driver
 from chat_dance_demo import chat_dance_class 
+import yaml
+import os
+
+# Load config parameters
+current_path = os.getcwd()
+yml_path = current_path[:-7] + "/config.yml"
+
+with open(yml_path, 'r') as ymlfile:
+    param = yaml.load(ymlfile)
 
 ip = "10.0.107.217"
 port = 9559
-PORT_SOCKET = 9792
+PORT_SOCKET = param["py_port"]
 
 # Init Drivers
 nao = nao_driver(ip, port, PORT_SOCKET)
