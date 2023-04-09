@@ -147,8 +147,11 @@ def gptReq(question):
 
 def process_audio(model):
     record_audio(file_path, audio_clip_path, 7)
-    # out = transcribe_google_api()
-    out = transcribe_whisper(audio_clip_path,model)
+    if model != None:
+        out = transcribe_whisper(audio_clip_path,model)
+    else:
+        out = transcribe_google_api()
+        
     prompt = ". Give answer in two sentence"
     out += prompt
     if "dance" in out.lower():

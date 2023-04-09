@@ -7,7 +7,7 @@ import cv2
 import time
 from datetime import datetime
 import os
-import pika
+import pika #1.1.0
 import base64
 import time 
 # Open a connection to RabbitMQ server
