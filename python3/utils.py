@@ -23,7 +23,9 @@ conversation=[{"role":"system","content":"Respond like you are Humanoid robot na
     Remember following information - You are working in Davis Hall in University at Buffalo, under professor Nalini Ratha. President of this university is Satish K tripathi. Dean of school of engineering in univerity at buffalo is Kemper Lewis. \
     Furnas Hall is a building at the University at Buffalo in New York that houses the School of Engineering and Applied Sciences, with classrooms, labs, offices, and research facilities. It is named after Clifford C. Furnas, a former UB professor and administrator who was an early advocate for the development of engineering programs at the university \
     Davis Hall is a building at the University at Buffalo in New York that houses the Department of Computer Science and Engineering, with classrooms, labs, offices, and research facilities. It is named after Clifford C. Furnas, a former UB professor and administrator who was instrumental in the development of computer science programs at the university           \
-    Here onwards just give responses like humanoid robot and nothing else."}]
+    Capen \
+    Jarvis      \
+               Here onwards just give responses like humanoid robot and nothing else."}]
 # Load the whisper model 
 # model = whisper.load_model("medium.en")
 # # Audio clip name 
@@ -107,10 +109,10 @@ def transcribe_google_api():
 def transcribe_whisper(recording_path,model):
     print(" Transcribing ")
     result = model.transcribe(recording_path) ## exception handling
-    print(" Transcribed Text: " + result["text"])
     question = result['text']
     if "How can I help you?" in question:
         question = question.replace("How can I help you?", " ")
+    print(" Transcribed Text: " + result["text"])
     return question
 
 def gptReq_old(question):
@@ -152,7 +154,7 @@ def process_audio(model):
     else:
         out = transcribe_google_api()
         
-    prompt = ". Give answer in two sentence"
+    prompt = ""#". Give answer in two sentence"
     out += prompt
     if "dance" in out.lower():
         ans = "Dance"

@@ -1,2 +1,2 @@
 model: Whisper #  GoogleTTS or Whisper
-py_port: 9978
+py_port: 9980
