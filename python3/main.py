@@ -17,27 +17,28 @@ import yaml
 # Load config parameters
 current_path = os.getcwd()
 yml_path = current_path[:-7] + "config.yml"
-print(yml_path)
+#print(yml_path)
+
 with open(yml_path, 'r') as ymlfile:
     #param = yaml.load(ymlfile)
     try:
         param = yaml.safe_load(ymlfile)
-        print(param)
+        print(param , "-----------")
     except yaml.YAMLError as e:
-        print(e)
+        print(e, "-------")
     
 HOST = '127.0.0.1'
 PORT = param["py_port"]
 
-if param["model"] == "GoogleTTS":
+if param["model"] == "Whisper":
     # Load the whisper model 
     model = whisper.load_model("large")
     print("Whisper model import success")
 else:
     model = None
-    print("Google APIs in use")
+    print("Google APIs in use .. ")
 
-model = whisper.load_model("large")
+#model = whisper.load_model("large")
 
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.bind((HOST, PORT))
@@ -52,7 +53,7 @@ while True:
     request = conn.recv(1024).decode()
     
     if request:
-        print('Request : \n')
+        print('Request : ------------------------- \n')
         print( request)
         print('\n')
         out = process_audio(model)

@@ -22,9 +22,13 @@ class chatGPT(object):
         #print(t)
         try:
             result = pickle.loads(t)
-            print('Result:', result)
+            #print('Result:', result)
             return result
         except:
             print("Error in getting response")
             return None
+        
+    def socket_loop(self):
+        while True:
+            request = self.client_socket.recv(1024)
  

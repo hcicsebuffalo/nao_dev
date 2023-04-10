@@ -63,23 +63,45 @@ class chat_dance_class(object):
         self.dance = dance
         self.play_song = play_song
         self.led = led
-        
+        self.res_thread = threading.Thread(target= self.get_response_thread)
+        self.response = None
         # Initialisation complete
         self.nao.sayText("You can ask me questions now")
         print("Demo initialised")
+    
+    def get_response_thread(self):
+        self.response = str(self.nao.get_response())
+    
+    def reset_thread(self):
+        self.res_thread = threading.Thread(target= self.get_response_thread)
                
     def onMiddleTouch(self,qwe):
         bool_okay=self.touch.signal.disconnect(self.touch_id)
         print("Touch Detected")
-        
+        start_time = time.time()
         self.nao.send_request()
+        self.res_thread.start()
         self.nao.sayText("Hello")
         self.beh.startBehavior("System/animations/Stand/Gestures/JointHands_1")
         self.nao.sayText("How can I help you")
+        
         self.nao.ledStartListening()
-        self.nao.animation(2, 7)
-        res = str(self.nao.get_response())
-        print(res)
+        self.nao.animation(2, 12)
+        
+        first_wait = True
+        wait = 3
+        while self.res_thread.is_alive():
+            if (time.time() - start_time) > wait:
+                start_time = time.time()
+                if first_wait:
+                    self.nao.sayText("Working on it")
+                    first_wait = False
+                    wait = 5
+                else:
+                    self.nao.sayText("Still Working on it")
+        self.reset_thread()
+        res = self.response
+        #print(res)
         
         if res == "[u'Dance']":
             print("I am Dancing")
@@ -88,7 +110,9 @@ class chat_dance_class(object):
             self.play_song.start()
         else:
             res = self.process_res(res)
-            print("Response is " , res)
+            print('Response : ------------------------- \n')
+            print('\n')
+            print(res)
             try:
                 self.nao.sayText(res)
             except:
