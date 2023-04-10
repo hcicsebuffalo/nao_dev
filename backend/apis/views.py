@@ -79,11 +79,12 @@ def video_feed():
     while True: 
         frame = cv2.imencode('.jpg', img_recv)
         if frame != None:
-            print(len(img_recv), len(img_recv[0]))
+            #print(len(img_recv), len(img_recv[0]))
             yield(b'--frame\r\n'
                     b'Content-Type: image/jpeg\r\n\r\n'+ img_buff +b'\r\n')
         else:
-            print(" None img")
+            pass
+            #print(" None img")
         # return jpeg.tobytes()
         # print(frame_bytes)
 

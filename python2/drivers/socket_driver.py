@@ -34,8 +34,8 @@ class chatGPT(object):
             print("Error in getting response")
             return None
         
-    def socket_loop(self, nao):
-        while True:
+    def socket_loop(self, nao, gui):
+        while gui:
             t = self.gui_socket.recv(1024)
             try:
                 result = pickle.loads(t)
@@ -43,13 +43,13 @@ class chatGPT(object):
                 print('Gui Out ------- :', result)
                 #return result
                 if "dance" in result.lower():
-                    pass
+                    nao.behave.startBehavior("animations/Stand/Waiting/FunnyDancer_1")
                 elif "take" in result.lower():
-                    pass
+                    nao.behave.startBehavior("animations/Stand/Waiting/TakePicture_1")
                 elif "laugh" in result.lower():
-                    pass
+                    nao.behave.startBehavior("animations/Stand/Emotions/Positive/Laugh_1")
                 elif "sing" in result.lower():
-                    pass
+                    nao.behave.startBehavior("animations/Stand/Waiting/HappyBirthday_1")
             except:
                 print("Error in getting response")
                 #return None
