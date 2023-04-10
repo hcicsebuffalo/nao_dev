@@ -1,7 +1,2 @@
-<<<<<<< HEAD
-model: "Whisper" #  GoogleTTS or Whisper
-py_port: 9978
-=======
-model: Whisper #  GoogleTTS or Whisper
-py_port: 9980
->>>>>>> 24f6bc2204a1fc6a4ce70d632a9ee9a16bdfa3e8
+model: GoogleTTS #  GoogleTTS or Whisper
+py_port: 9881

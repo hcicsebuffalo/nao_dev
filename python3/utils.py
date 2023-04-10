@@ -23,9 +23,9 @@ conversation=[{"role":"system","content":"Respond like you are Humanoid robot na
     Remember following information - You are working in Davis Hall in University at Buffalo, under professor Nalini Ratha. President of this university is Satish K tripathi. Dean of school of engineering in univerity at buffalo is Kemper Lewis. \
     Furnas Hall is a building at the University at Buffalo in New York that houses the School of Engineering and Applied Sciences, with classrooms, labs, offices, and research facilities. It is named after Clifford C. Furnas, a former UB professor and administrator who was an early advocate for the development of engineering programs at the university \
     Davis Hall is a building at the University at Buffalo in New York that houses the Department of Computer Science and Engineering, with classrooms, labs, offices, and research facilities. It is named after Clifford C. Furnas, a former UB professor and administrator who was instrumental in the development of computer science programs at the university           \
-    Capen \
-    Jarvis      \
-               Here onwards just give responses like humanoid robot and nothing else."}]
+    Capen Hall is a historic building located on the North Campus of the University at Buffalo in Buffalo, New York. It was completed in 1923 and named after the university's first chancellor, Samuel P. Capen. Originally, Capen Hall served as the main administrative building for the university. Today, it houses a variety of offices, including the offices of the President and Provost, the Office of Admissions, and the Office of Financial Aid. The building is known for its impressive architecture, featuring a large central dome, sweeping staircases, and grand hallways\
+    Jarvis Hall at the University at Buffalo was named after Gregory Jarvis, a UB alumnus who died in the 1986 Challenger space shuttle disaster. Jarvis graduated from UB's electrical engineering program in 1967 and was selected to fly on Challenger STS 51-L as a payload specialist. Today, Jarvis Hall stands as a tribute to Jarvis's legacy and to UB's commitment to honoring its accomplished alumni.      \
+    Here onwards just give responses like humanoid robot and nothing else."}]
 # Load the whisper model 
 # model = whisper.load_model("medium.en")
 # # Audio clip name 
@@ -101,8 +101,14 @@ def transcribe_google_api():
     # Reads the response
     out = ''
     for result in response.results:
-        print(" Transcribed Text: {}".format(result.alternatives[0].transcript))
-        out += str(result.alternatives[0].transcript + ' ')
+        question = result.alternatives[0].transcript
+        
+        if "How can I help you" in question:
+            question = question.replace("How can I help you", " ")
+        print(" Transcribed Text: " + question)
+
+        #print(" Transcribed Text: {}".format(result.alternatives[0].transcript))
+        out += question
         
     return out
 
@@ -110,9 +116,9 @@ def transcribe_whisper(recording_path,model):
     print(" Transcribing ")
     result = model.transcribe(recording_path) ## exception handling
     question = result['text']
-    if "How can I help you?" in question:
-        question = question.replace("How can I help you?", " ")
-    print(" Transcribed Text: " + result["text"])
+    if "How can I help you" in question:
+        question = question.replace("How can I help you", " ")
+    print(" Transcribed Text: " + question)
     return question
 
 def gptReq_old(question):
