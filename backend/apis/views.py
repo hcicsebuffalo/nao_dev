@@ -119,9 +119,9 @@ def action(request):
         received_string = request.body
         decoded_data = json.loads(received_string.decode('utf-8'))
         body = decoded_data['body']
-        print("ACTION -> ", body)
         conn.sendall(pickle.dumps([body] , protocol = 2))
-    
+        print("ACTION -> ", body)
+        
     response_data = {'message': body+' completed successfully.'}
     return JsonResponse(response_data)  
 

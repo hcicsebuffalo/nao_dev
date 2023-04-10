@@ -42,7 +42,7 @@ play_song = threading.Thread( target = nao.play_song )
 #led = threading.Thread(target= nao.led_eye)
 led = None
 
-gui_thread = threading.Thread(target= nao.socket_loop)
+gui_thread = threading.Thread(target= nao.socket_loop, args=(nao))
 chat_dance = threading.Thread(target= nao.initTG , args=(chat_dance_class, nao, dance, play_song, led))
 
 chat_dance.start()

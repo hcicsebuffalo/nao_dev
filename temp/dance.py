@@ -17,12 +17,14 @@ tts = ALProxy("ALBehaviorManager" , ip, port)
 
 
 
-tts.startBehavior("animations/Stand/Emotions/Positive/Laugh_1")  
+tts.startBehavior("animations/Stand/Waiting/TakePicture_1")  
 
 #------------------
-
+# animations/Stand/Waiting/FunnyDancer_1 :
+# animations/Stand/Waiting/TakePicture_1 :
+# animations/Stand/Emotions/Positive/Laugh_1 :
 # animations/Sit/Waiting/DriveCar_1
-# animations/Stand/Waiting/HappyBirthday_1
+# animations/Stand/Waiting/HappyBirthday_1 :
 
 # with open("animations.txt", "w") as f:
 

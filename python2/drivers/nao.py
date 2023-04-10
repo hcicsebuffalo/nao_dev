@@ -22,6 +22,12 @@ class nao_driver(tts, leds, touch, gesture, chatGPT, audio):
         self.PORT = PORT_SOCKET  
         self.GUI_PORT = PORT_GUI  
 
+        #my_session=app.session
+        #app.start()
+        #self.my_memory = my_session.service("ALMemory")
+        #self.beh = ALProxy("ALBehaviorManager" , "10.0.107.217", 9559)
+
+
     def initProxies(self):
         self.initTTS()
         self.initLEDS()
