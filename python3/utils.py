@@ -78,7 +78,7 @@ def record_audio(path, filename, duration):
     wf.close()
 
 def transcribe_google_api():
-    print(" Transcribing ")
+    print(" Google API Transcribing ")
     os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'google_secret_key.json'
 
     client = speech.SpeechClient()
@@ -105,6 +105,10 @@ def transcribe_google_api():
         
         if "How can I help you" in question:
             question = question.replace("How can I help you", " ")
+        if "Can I help you" in question:
+            question = question.replace("Can I help you", " ")
+        if "Hello" in question:
+            question = question.replace("Hello", " ")
         print(" Transcribed Text: " + question)
 
         #print(" Transcribed Text: {}".format(result.alternatives[0].transcript))
@@ -113,11 +117,15 @@ def transcribe_google_api():
     return out
 
 def transcribe_whisper(recording_path,model):
-    print(" Transcribing ")
+    print(" Whisper Transcribing ")
     result = model.transcribe(recording_path) ## exception handling
     question = result['text']
     if "How can I help you" in question:
         question = question.replace("How can I help you", " ")
+    if "Can I help you" in question:
+        question = question.replace("Can I help you", " ")
+    if "Hello" in question:
+        question = question.replace("Hello", " ")
     print(" Transcribed Text: " + question)
     return question
 
@@ -159,13 +167,15 @@ def process_audio(model):
         out = transcribe_whisper(audio_clip_path,model)
     else:
         out = transcribe_google_api()
-        
-    prompt = ""#". Give answer in two sentence"
+    
+    prompt = ". Give answer in two sentence"
     out += prompt
     if "dance" in out.lower():
         ans = "Dance"
     else:
+        print("Getting Response from GPT")
         ans = gptReq(out)
+        print("Done")
     return ans
 
 
