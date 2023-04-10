@@ -22,9 +22,10 @@ with open(yml_path, 'r') as ymlfile:
 ip = "10.0.107.217"
 port = 9559
 PORT_SOCKET = param["py_port"]
+PORT_GUI = param["gui_port"]
 
 # Init Drivers
-nao = nao_driver(ip, port, PORT_SOCKET)
+nao = nao_driver(ip, port, PORT_SOCKET, PORT_GUI)
 
 # Init all Proxies
 nao.initProxies()

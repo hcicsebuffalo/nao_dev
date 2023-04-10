@@ -11,7 +11,8 @@ server_socket.listen()
 print('Server is running...')
 
 def handle_request(request):
-    
+    pass
+
 
 
 while True:

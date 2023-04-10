@@ -11,6 +11,22 @@ import pika
 import base64
 import numpy as np
 import threading
+import socket
+import pickle
+import os
+import yaml
+
+# Load config parameters
+current_path = os.getcwd()
+yml_path = current_path[:-7] + "config.yml"
+
+with open(yml_path, 'r') as ymlfile:
+    #param = yaml.load(ymlfile)
+    try:
+        param = yaml.safe_load(ymlfile)
+        print(param)
+    except yaml.YAMLError as e:
+        print(e)
 
 def callback(ch, method, properties, body):
     global img_recv, img_buff
@@ -83,15 +99,29 @@ def getfeed(request):
     resp = HttpResponse("hi")
     return response
     # return StreamingHttpResponse(responser(0, url),  )
+conn = None
+def establish_connection():
+    global conn
+    PORT = param["gui_port"]
+    gui_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    gui_socket.bind(("127.0.0.1", PORT))
+    gui_socket.listen()
+    print(" Establishing connection with python2")
+    conn, addr = gui_socket.accept()
+    print('Connection Established ......')
+
+establish_connection()
 
 @csrf_exempt
 def action(request):
+    global conn
     if request.method == 'POST':
         received_string = request.body
         decoded_data = json.loads(received_string.decode('utf-8'))
         body = decoded_data['body']
         print("ACTION -> ", body)
-        
+        conn.sendall(pickle.dumps([body] , protocol = 2))
+    
     response_data = {'message': body+' completed successfully.'}
     return JsonResponse(response_data)  
 

@@ -36,6 +36,14 @@ class chatGPT(object):
         
     def socket_loop(self):
         while True:
-            request = self.gui_socket.recv(1024)
+            t = self.gui_socket.recv(1024)
+            try:
+                result = pickle.loads(t)
+                print('Gui Out ------- :', result)
+                return result
+            except:
+                print("Error in getting response")
+                return None
+
             
  
