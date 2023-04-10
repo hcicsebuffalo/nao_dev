@@ -31,7 +31,7 @@ if param["model"] == "GoogleTTS":
 else:
     model = None
     print("Google APIs in use")
-
+    
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.bind((HOST, PORT))
 server_socket.listen()
@@ -48,9 +48,7 @@ while True:
         print('Request : \n')
         print( request)
         print('\n')
-        out = proc# Load the whisper model 
-model = whisper.load_model("medium.en")
-ess_audio(model)
+        out = process_audio(model)
         print("Response : \n")
         print(out)
         print('\n')
