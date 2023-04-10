@@ -7,10 +7,16 @@ class chatGPT(object):
         self.host = host
         self.port = port
         self.client_socket = None
+        self.gui_socket = None
+
     
     def initSocket(self, PORT):
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.client_socket.connect(('127.0.0.1', PORT))
+    
+    def initGui(self, PORT):
+        self.gui_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.gui_socket.connect(('127.0.0.1', PORT))
     
     def send_request(self):
         request = "chatGPT"
@@ -30,5 +36,6 @@ class chatGPT(object):
         
     def socket_loop(self):
         while True:
-            request = self.client_socket.recv(1024)
+            request = self.gui_socket.recv(1024)
+            
  
