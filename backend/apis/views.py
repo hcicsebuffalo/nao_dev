@@ -3,6 +3,9 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.http import HttpResponse, StreamingHttpResponse
 # from apis.feed import responser
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+import json
 import cv2
 import pika
 import base64
@@ -80,6 +83,17 @@ def getfeed(request):
     resp = HttpResponse("hi")
     return response
     # return StreamingHttpResponse(responser(0, url),  )
+
+@csrf_exempt
+def action(request):
+    if request.method == 'POST':
+        received_string = request.body
+        decoded_data = json.loads(received_string.decode('utf-8'))
+        body = decoded_data['body']
+        print("ACTION -> ", body)
+        
+    response_data = {'message': body+' completed successfully.'}
+    return JsonResponse(response_data)  
 
 def getimg(request):
     pass

@@ -6,4 +6,5 @@ urlpatterns = [
     path("log", views.getlog, name="getlog"),
     path("chat", views.getchat, name="getchat"),
     path("img", views.getimg, name="getimg"),
+    path("action", views.action, name="action"),
 ]
