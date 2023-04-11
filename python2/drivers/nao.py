@@ -21,6 +21,7 @@ class nao_driver(tts, leds, touch, gesture, chatGPT, audio):
         self.stop_all = False
         self.PORT = PORT_SOCKET  
         self.GUI_PORT = PORT_GUI  
+        self.gpt_request = False
 
         self.behave = None
         #my_session=app.session

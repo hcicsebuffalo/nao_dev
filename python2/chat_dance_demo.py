@@ -69,8 +69,10 @@ class chat_dance_class(object):
         print("Demo initialised")
     
     def get_response_thread(self):
+        #print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
         self.response = str(self.nao.get_response())
-    
+        return 
+        #print("====================================")
     def reset_thread(self):
         self.res_thread = threading.Thread(target= self.get_response_thread)
                
@@ -78,6 +80,7 @@ class chat_dance_class(object):
         bool_okay=self.touch.signal.disconnect(self.touch_id)
         print("Touch Detected")
         start_time = time.time()
+        self.nao.gpt_request = True
         self.nao.send_request()
         self.res_thread.start()
         self.nao.sayText("Hello")
@@ -93,11 +96,13 @@ class chat_dance_class(object):
             if (time.time() - start_time) > wait:
                 start_time = time.time()
                 if first_wait:
-                    self.nao.sayText("Working on it")
+                    #self.nao.sayText("Working on it")
                     first_wait = False
                     wait = 5
                 else:
-                    self.nao.sayText("Still Working on it")
+                    #self.nao.sayText("Still Working on it")
+                    break
+
         self.reset_thread()
         res = self.response
         #print(res)
@@ -107,6 +112,9 @@ class chat_dance_class(object):
             self.nao.stop_all = False
             self.dance.start()
             self.play_song.start()
+            # while self.play_song.is_alive():
+            #     if not self.dance.is_alive():
+            #         self.dance.start()
         else:
             res = self.process_res(res)
             print('Response : ------------------------- \n')
@@ -117,7 +125,7 @@ class chat_dance_class(object):
             except:
                 self.nao.sayText("Sorry I am not able to process your request for a moment")
         self.nao.ledStopListening()
-            
+        self.nao.gpt_request = False
         try:
             self.touch_id=self.touch.signal.connect(self.onMiddleTouch)
         except RuntimeError:
@@ -125,10 +133,13 @@ class chat_dance_class(object):
    
     def process_res(self, res):
         out = ''
-        res = res[2:-2]
-        for elem in res:
-            if elem.isalnum() or elem == ' ' or elem == ".":
-                out += elem 
+        try:
+            res = res[2:-2]
+            for elem in res:
+                if elem.isalnum() or elem == ' ' or elem == ".":
+                    out += elem 
+        except:
+            pass
         return out
     
     def onDetect(self,qwe):

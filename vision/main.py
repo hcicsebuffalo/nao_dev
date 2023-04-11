@@ -53,7 +53,7 @@ while True:
   img = np.array(img)
 
   img = cv2.cvtColor(img,cv2.COLOR_RGB2BGR) 
-  #print( (nao_image[1], nao_image[0], nao_image[2]))
+  print( (nao_image[1], nao_image[0], nao_image[2]) , time.time())
   
   #cv2.imshow("Input", img)
 

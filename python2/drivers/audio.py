@@ -16,4 +16,4 @@ class audio(base):
         self.audio = self.connect(self.proxy_name_audio , self.ip, self.port)
 
     def play_song(self):#playProxy.post.playFile("song.mp3")
-        self.audio.playFile("/home/nao/nao_dance_or.mp3")
+        self.audio.playFile("/home/nao/dance_30sec.mp3")

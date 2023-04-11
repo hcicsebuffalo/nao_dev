@@ -29,6 +29,8 @@ class chatGPT(object):
         try:
             result = pickle.loads(t)
             #print('Result:', result)
+            #if result[0:4] == "gpt":
+            print("Response sent")
             return result
         except:
             print("Error in getting response")
@@ -51,8 +53,28 @@ class chatGPT(object):
                 elif "sing" in result.lower():
                     nao.behave.startBehavior("animations/Stand/Waiting/HappyBirthday_1")
             except:
-                print("Error in getting response")
+                #print("Error in getting response")
+                pass
                 #return None
-
-            
+    def process_res_(self, res):
+        out = ''
+        res = res[2:-2]
+        for elem in res:
+            if elem.isalnum() or elem == ' ' or elem == ".":
+                out += elem 
+        return out
+    
+    def wake_wrd_loop(self, nao, wake):
+        while wake and not nao.gpt_request:
+            t  = self.client_socket.recv(1024)
+            try:
+                result = self.process_res_( str(pickle.loads(t)) )
+                print('Result:', result)
+                #print("Wake word Response : \n " , result)
+                nao.sayText( str(result) )
+                print(" Said")
+            except:
+                #print("Error in getting response")
+                #return None
+                pass
  

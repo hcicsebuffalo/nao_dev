@@ -83,10 +83,12 @@ def gpt_socket():
             out = process_audio(model)
             print("Response : \n")
             print(out)
+            ret = out
             print('\n')
-            conn.sendall(pickle.dumps([out] , protocol = 2))
+            conn.sendall(pickle.dumps([ret] , protocol = 2))
 
 def wake_word():
+    global conn
     print("Listening for wake word...")
     while True:
         # Read a frame of audio
@@ -99,6 +101,18 @@ def wake_word():
         # If the wake word is detected, break the loop
         if keyword_index >= 0:
             print("Wake word detected!")
+            ret = "Hello"
+            conn.sendall(pickle.dumps([ret] , protocol = 2))
+            print('Request : ------------------------- \n')
+            #print( request)
+            #print('\n')
+            out = process_audio(model)
+            print("Response : \n")
+            print(out)
+            ret = out
+            print('\n')
+            conn.sendall(pickle.dumps([ret] , protocol = 2))
+
             # break
 
 gpt_thread = threading.Thread(target= gpt_socket )
