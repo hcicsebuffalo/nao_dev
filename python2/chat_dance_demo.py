@@ -112,8 +112,9 @@ class chat_dance_class(object):
             self.nao.stop_all = False
             self.dance.start()
             self.play_song.start()
-            # while self.play_song.is_alive():
+            ## Changes added for continous dance
             #     if not self.dance.is_alive():
+            #         self.dance = threading.Thread( target= self.nao.dance )
             #         self.dance.start()
             while self.play_song.is_alive():
                 #if not self.dance.is_alive():
@@ -121,6 +122,11 @@ class chat_dance_class(object):
                 pass
             self.dance = threading.Thread(target= self.nao.dance)
             self.play_song = threading.Thread(target= self.nao.play_song)
+            
+            self.dance = threading.Thread( target= self.nao.dance )
+            self.play_song = threading.Thread( target= self.nao.play_song )
+            
+            ## changes complete
         else:
             res = self.process_res(res)
             print('Response : ------------------------- \n')
