@@ -115,6 +115,12 @@ class chat_dance_class(object):
             # while self.play_song.is_alive():
             #     if not self.dance.is_alive():
             #         self.dance.start()
+            while self.play_song.is_alive():
+                #if not self.dance.is_alive():
+                #    self.dance = 
+                pass
+            self.dance = threading.Thread(target= self.nao.dance)
+            self.play_song = threading.Thread(target= self.nao.play_song)
         else:
             res = self.process_res(res)
             print('Response : ------------------------- \n')

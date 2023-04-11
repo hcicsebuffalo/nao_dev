@@ -15,6 +15,7 @@ import pvporcupine
 import struct
 import sys
 import threading
+import time
 
 
 # Load config parameters
@@ -87,8 +88,15 @@ def gpt_socket():
             print('\n')
             conn.sendall(pickle.dumps([ret] , protocol = 2))
 
+out = None
+def get_response_gpt():
+    global out 
+    out = process_audio(model)
+
+get_res_thread = threading.Thread(target= get_response_gpt)
+
 def wake_word():
-    global conn
+    global conn , out
     print("Listening for wake word...")
     while True:
         # Read a frame of audio
@@ -102,11 +110,32 @@ def wake_word():
         if keyword_index >= 0:
             print("Wake word detected!")
             ret = "Hello"
+            start_time = time.time()
             conn.sendall(pickle.dumps([ret] , protocol = 2))
             print('Request : ------------------------- \n')
             #print( request)
             #print('\n')
-            out = process_audio(model)
+
+            #out = process_audio(model)
+            get_res_thread.start()
+            first = True
+            wait = 8
+            while get_res_thread.is_alive():
+                delay = time.time() - start_time
+                if delay > wait:
+                    if first:
+                        first = False
+                        start_time = time.time()
+                        ret = "Working on it"
+                        wait = 6
+                        conn.sendall(pickle.dumps([ret] , protocol = 2))
+                    else:
+                        start_time = time.time()
+                        ret = "Still Working on it"
+                        conn.sendall(pickle.dumps([ret] , protocol = 2))
+
+
+            
             print("Response : \n")
             print(out)
             ret = out
