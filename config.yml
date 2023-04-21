@@ -1,4 +1,4 @@
 model: Whisper #  GoogleTTS or Whisper
-py_port: 9326
+py_port: 9329
 use_wake_flag: 1
-gui_port: 9467
+gui_port: 9991

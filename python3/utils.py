@@ -12,7 +12,7 @@ import json
 import os
 
 openai_key = os.environ["OPENAI_API_KEY"]
-
+proc_audio_bool = False
 file_path = os.getcwd()
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'google_secret_key.json'
 
@@ -119,6 +119,7 @@ def transcribe_google_api():
 def transcribe_whisper(recording_path,model):
     print(" Whisper Transcribing ")
     result = model.transcribe(recording_path) ## exception handling
+    print("Transcription Done")
     question = result['text']
     if "How can I help you" in question:
         question = question.replace("How can I help you", " ")
@@ -162,6 +163,7 @@ def gptReq(question):
 
 
 def process_audio(model):
+    global proc_audio_bool
     record_audio(file_path, audio_clip_path, 7)
     if model != None:
         out = transcribe_whisper(audio_clip_path,model)
@@ -176,6 +178,8 @@ def process_audio(model):
         print("Getting Response from GPT")
         ans = gptReq(out)
         print("Done")
+    
+    proc_audio_bool = True
     return ans
 
 

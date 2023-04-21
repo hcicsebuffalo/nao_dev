@@ -12,12 +12,13 @@ current_path = os.getcwd()
 yml_path = current_path[:-7] + "config.yml"
 
 with open(yml_path, 'r') as ymlfile:
-    #param = yaml.load(ymlfile)
     try:
         param = yaml.safe_load(ymlfile)
         print(param)
     except yaml.YAMLError as e:
         print(e)
+
+# IPs and Ports
 
 ip = "10.0.255.22"
 port = 9559

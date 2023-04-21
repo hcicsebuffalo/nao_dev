@@ -39,7 +39,7 @@ PORT = param["py_port"]
 
 if param["model"] == "Whisper":
     # Load the whisper model 
-    model = whisper.load_model("large")
+    model = whisper.load_model("medium.en")
     print("Whisper model import success")
 else:
     model = None
@@ -90,13 +90,14 @@ def gpt_socket():
 
 out = None
 def get_response_gpt():
-    global out 
+    global out, model
     out = process_audio(model)
+    return
 
 get_res_thread = threading.Thread(target= get_response_gpt)
 
 def wake_word():
-    global conn , out
+    global conn , out, get_res_thread
     print("Listening for wake word...")
     while True:
         # Read a frame of audio
@@ -127,7 +128,7 @@ def wake_word():
                         first = False
                         start_time = time.time()
                         ret = "Working on it"
-                        wait = 6
+                        wait = 15
                         conn.sendall(pickle.dumps([ret] , protocol = 2))
                     else:
                         start_time = time.time()
@@ -135,7 +136,7 @@ def wake_word():
                         conn.sendall(pickle.dumps([ret] , protocol = 2))
 
 
-            
+            get_res_thread = threading.Thread(target= get_response_gpt)
             print("Response : \n")
             print(out)
             ret = out
