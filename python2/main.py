@@ -19,7 +19,7 @@ with open(yml_path, 'r') as ymlfile:
     except yaml.YAMLError as e:
         print(e)
 
-ip = "10.0.107.217"
+ip = "10.0.255.22"
 port = 9559
 PORT_SOCKET = param["py_port"]
 PORT_GUI = param["gui_port"]

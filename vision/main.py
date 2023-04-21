@@ -15,7 +15,7 @@ connection = pika.BlockingConnection(pika.ConnectionParameters(host='127.0.0.1')
 rabbit_channel = connection.channel()
 rabbit_channel.queue_declare(queue='image_queue')
 
-NAO_IP = "10.0.107.217"
+NAO_IP = "10.0.255.22"
 NAO_PORT = 9559
 PEPPER_IP = "10.0.52.247"
 PEPPER_PORT = 9503
