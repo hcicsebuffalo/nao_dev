@@ -7,7 +7,8 @@ from chat_dance_demo import chat_dance_class
 import yaml
 import os
 
-# Load config parameters
+# -------------------------------------------------------------------
+# #Load config parameters 
 current_path = os.getcwd()
 yml_path = current_path[:-7] + "config.yml"
 
@@ -18,6 +19,8 @@ with open(yml_path, 'r') as ymlfile:
         print(param)
     except yaml.YAMLError as e:
         print(e)
+
+# -------------------------------------------------------------------
 
 ip = "10.0.107.217"
 port = 9559
