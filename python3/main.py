@@ -39,7 +39,7 @@ PORT = param["py_port"]
 
 if param["model"] == "Whisper":
     # Load the whisper model 
-    model = whisper.load_model("large")
+    model = whisper.load_model("small.en")
     print("Whisper model import success")
 else:
     model = None

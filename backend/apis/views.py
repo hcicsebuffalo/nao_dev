@@ -15,6 +15,12 @@ import socket
 import pickle
 import os
 import yaml
+from . import emotion
+
+# Emotion code
+
+emotion.emotion_init()
+
 
 # Load config parameters
 current_path = os.getcwd()
@@ -36,11 +42,13 @@ def callback(ch, method, properties, body):
     # ...
     #print(len(body))
     img_buff = body
+    
     buffer = np.frombuffer(body, dtype=np.uint8)
     #buffer = base64.b64decode(body)
     img_recv = np.reshape(cv2.imdecode(buffer, cv2.IMREAD_COLOR), (960, 1280, 3) )  
     #print("------callback--------")
     #print(len(image_np))
+
 
 
 # Open a connection to RabbitMQ server
@@ -78,6 +86,13 @@ def video_feed():
     #     ret, img_recv = cv2.imencode('.jpg', frame)
     while True: 
         frame = cv2.imencode('.jpg', img_recv)
+        out = emotion.faceDetection(frame)
+
+        retval, out_buffer = cv2.imencode('.jpg', out)
+        #image_str = base64.b64encode(buffer)#.decode('utf-8')
+        img_buf_out = out_buffer.tobytes()
+        
+        cv2.imshow(out)
         if frame != None:
             #print(len(img_recv), len(img_recv[0]))
             yield(b'--frame\r\n'

@@ -1,0 +1,4 @@
+[ZoneTransfer]
+ZoneId=3
+ReferrerUrl=https://github.com/hcicsebuffalo/nao_dev/blob/bharat/models/enet_b2_8_best.pt
+HostUrl=https://raw.githubusercontent.com/hcicsebuffalo/nao_dev/bharat/models/enet_b2_8_best.pt

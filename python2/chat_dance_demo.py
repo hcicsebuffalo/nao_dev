@@ -16,7 +16,7 @@ class chat_dance_class(object):
         app.start()
 
         self.my_memory = my_session.service("ALMemory")
-        self.beh = ALProxy("ALBehaviorManager" , "10.0.107.217", 9559)
+        self.beh = ALProxy("ALBehaviorManager" , "10.0.255.22", 9559)
         nao.behave = self.beh
         # Face Interrupts
 
