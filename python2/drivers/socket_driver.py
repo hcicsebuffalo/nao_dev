@@ -5,7 +5,7 @@ class chatGPT(object):
 
     def __init__(self, host, port):
         self.host = host
-        self.port = port
+        self.port = None # port is passed thorugh individual init functions
         self.client_socket = None
         self.gui_socket = None
 

@@ -3,7 +3,7 @@ import time
 
 #from python2.animations import *
 
-ip = "10.0.107.217"
+ip = "10.0.255.22"
 port = 9559
 
 tts = ALProxy("ALBehaviorManager" , ip, port)

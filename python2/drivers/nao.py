@@ -14,7 +14,7 @@ class nao_driver(tts, leds, touch, gesture, chatGPT, audio):
         touch.__init__(self, ip, port)
         gesture.__init__(self, ip, port)
         audio.__init__(self, ip, port)
-        chatGPT.__init__(self, '127.0.0.1', 5091)
+        chatGPT.__init__(self, '127.0.0.1', 0000)
 
         self.ip = ip
         self.port = port 

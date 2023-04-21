@@ -38,7 +38,7 @@ class MyClass(object):
 if __name__ == "__main__":
    
     try:
-        app = qi.Application(["MyClass", "--qi-url=" + "tcp://10.0.107.217:9559"])
+        app = qi.Application(["MyClass", "--qi-url=" + "tcp://10.0.255.22:9559"])
     except RuntimeError:
         print ("Verbindungsfehler")
         sys.exit(1)
