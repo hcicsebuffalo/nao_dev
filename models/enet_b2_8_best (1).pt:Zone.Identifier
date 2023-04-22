@@ -1,0 +1,4 @@
+[ZoneTransfer]
+ZoneId=3
+ReferrerUrl=https://github.com/hcicsebuffalo/nao_dev/blob/demo_testing/models/enet_b2_8_best.pt
+HostUrl=https://raw.githubusercontent.com/hcicsebuffalo/nao_dev/demo_testing/models/enet_b2_8_best.pt
