@@ -117,26 +117,26 @@ def wake_word():
             #print( request)
             #print('\n')
 
-            #out = process_audio(model)
-            get_res_thread.start()
-            first = True
-            wait = 8
-            while get_res_thread.is_alive():
-                delay = time.time() - start_time
-                if delay > wait:
-                    if first:
-                        first = False
-                        start_time = time.time()
-                        ret = "Working on it"
-                        wait = 15
-                        conn.sendall(pickle.dumps([ret] , protocol = 2))
-                    else:
-                        start_time = time.time()
-                        ret = "Still Working on it"
-                        conn.sendall(pickle.dumps([ret] , protocol = 2))
+            out = process_audio(model)
+            # get_res_thread.start()
+            # first = True
+            # wait = 8
+            # while get_res_thread.is_alive():
+            #     delay = time.time() - start_time
+            #     if delay > wait:
+            #         if first:
+            #             first = False
+            #             start_time = time.time()
+            #             ret = "Working on it"
+            #             wait = 15
+            #             conn.sendall(pickle.dumps([ret] , protocol = 2))
+            #         else:
+            #             start_time = time.time()
+            #             ret = "Still Working on it"
+            #             conn.sendall(pickle.dumps([ret] , protocol = 2))
 
 
-            get_res_thread = threading.Thread(target= get_response_gpt)
+            # get_res_thread = threading.Thread(target= get_response_gpt)
             print("Response : \n")
             print(out)
             ret = out
