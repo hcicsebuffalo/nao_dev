@@ -121,12 +121,13 @@ def transcribe_whisper(recording_path,model):
     result = model.transcribe(recording_path) ## exception handling
     print("Transcription Done")
     question = result['text']
-    if "How can I help you" in question:
-        question = question.replace("How can I help you", " ")
-    if "Can I help you" in question:
-        question = question.replace("Can I help you", " ")
-    if "Hello" in question:
-        question = question.replace("Hello", " ")
+    question = str(question).lower()
+    if "How can I help you".lower() in question:
+        question = question.replace("How can I help you".lower(), " ")
+    if "Can I help you".lower() in question:
+        question = question.replace("Can I help you".lower(), " ")
+    if "Hello".lower() in question:
+        question = question.replace("Hello".lower(), " ")
     print(" Transcribed Text: " + question)
     return question
 
