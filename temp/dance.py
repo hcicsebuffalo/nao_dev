@@ -17,7 +17,7 @@ tts = ALProxy("ALBehaviorManager" , ip, port)
 
 
 
-tts.startBehavior("animations/Stand/Waiting/TakePicture_1")  
+tts.startBehavior("animations/Stand/Gestures/Kisses_1")  
 
 #------------------
 # animations/Stand/Waiting/FunnyDancer_1 :

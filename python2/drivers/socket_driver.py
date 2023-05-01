@@ -1,5 +1,6 @@
 import socket 
 import pickle
+import threading
 
 class chatGPT(object):
 
@@ -8,6 +9,16 @@ class chatGPT(object):
         self.port = port
         self.client_socket = None
         self.gui_socket = None
+
+        self.dance_sckt = None
+        self.play_song_sckt = None
+
+    def load_function(self, nao, dance, play_song):
+        #self.dance = dance
+        #self.play_song = play_song
+
+        self.dance_sckt = threading.Thread( target= nao.dance )
+        self.play_song_sckt = threading.Thread( target= nao.play_song)
 
     
     def initSocket(self, PORT):
@@ -64,15 +75,41 @@ class chatGPT(object):
                 out += elem 
         return out
     
+    
     def wake_wrd_loop(self, nao, wake):
         while wake and not nao.gpt_request:
             t  = self.client_socket.recv(1024)
             try:
                 result = self.process_res_( str(pickle.loads(t)) )
-                print('Result:', result)
+                print('Result: -- ', result)
                 #print("Wake word Response : \n " , result)
-                nao.sayText( str(result) )
-                print(" Said")
+                if result == "Dance":
+                    print("I am Dancing")
+                    self.dance_sckt.start()
+                    self.play_song_sckt.start()
+                    ## Changes added for continous dance
+                    #     if not self.dance.is_alive():
+                    #         self.dance = threading.Thread( target= self.nao.dance )
+                    #         self.dance.start()
+                    while self.play_song_sckt.is_alive():
+                        #if not self.dance.is_alive():
+                        #    self.dance = 
+                        pass
+                    
+                    self.dance_sckt = threading.Thread( target= nao.dance )
+                    self.play_song_sckt = threading.Thread( target= nao.play_song )
+
+                else:
+                    print("....")
+                    try:
+                        nao.sayText( str(result) )
+                        
+                    except:
+                        nao.sayText( "Sorry I am not able to process your request for a moment" )
+                        #nao_.sayText("Sorry I am not able to process your request for a moment")
+                    print(" Said")
+
+
             except:
                 #print("Error in getting response")
                 #return None
