@@ -59,9 +59,31 @@ def recogniseEmotion(frame,faces):
 ##Face Detection and Emotion.
 #Emotion modified to have only 3 classes
 def faceDetection(frame):
-  faces, confidences = cv.detect_face(frame)
+  # faces, confidences = cv.detect_face(frame)
 
-  return recogniseEmotion(frame,faces)
+  # return recogniseEmotion(frame,faces)
+
+  objs = DeepFace.analyze(img_path = frame, actions = ['emotion'],detector_backend = 'dlib')
+  x1=objs[0]['region']['x']
+  y1=objs[0]['region']['y']
+  x2=x1+objs[0]['region']['w']
+  y2=y1+objs[0]['region']['h']
+  label=objs[0]['dominant_emotion']
+  label=label.capitalize()
+
+  
+  if(label=="Anger"):
+   label="Sad"
+  elif(label=="Disgust"):
+   label="Neutral"
+  elif(label=="Fear"):
+   label="Sad"
+  elif(label=="Suprise"):
+   label="Neutral"
+  cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), thickness=10)
+  cv2.putText(frame, label, (x1, y1 - 5), cv2.FONT_HERSHEY_SIMPLEX, 3, (0, 255, 0), 5)
+  #cv2.imwrite("Output.jpg",frame)
+  return frame
 
   objs = DeepFace.analyze(img_path = frame, actions = ['emotion'],detector_backend = 'dlib')
   x1=objs[0]['region']['x']
