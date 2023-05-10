@@ -33,7 +33,7 @@ def recogniseEmotion(frame,faces):
     (x2,y2) = face[2],face[3]   
     face_img=frame[y1:y2,x1:x2,:]
     #print(x1,y1,x2,y2,"X")
-    idx_to_class={0: 'Anger', 1: 'Contempt', 2: 'Disgust', 3: 'Fear', 4: 'Happiness', 5: 'Neutral', 6: 'Sadness', 7: 'Surprise'}
+    idx_to_class={0: 'Sad', 1: 'Neutral', 2: 'Neutral', 3: 'Sad', 4: 'Happy', 5: 'Neutral', 6: 'Sad', 7: 'Neutral'}
     IMG_SIZE=224
     test_transforms = transforms.Compose(
     [
@@ -59,9 +59,9 @@ def recogniseEmotion(frame,faces):
 ##Face Detection and Emotion.
 #Emotion modified to have only 3 classes
 def faceDetection(frame):
-  # faces, confidences = cv.detect_face(frame)
+  faces, confidences = cv.detect_face(frame)
 
-  # return recogniseEmotion(frame,faces)
+  return recogniseEmotion(frame,faces)
 
   objs = DeepFace.analyze(img_path = frame, actions = ['emotion'],detector_backend = 'dlib')
   x1=objs[0]['region']['x']
@@ -70,6 +70,7 @@ def faceDetection(frame):
   y2=y1+objs[0]['region']['h']
   label=objs[0]['dominant_emotion']
   label=label.capitalize()
+
 
   
   if(label=="Anger"):
