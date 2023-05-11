@@ -16,6 +16,15 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+# Firebase configuration
+import firebase_admin
+from firebase_admin import credentials, firestore
+
+cred = credentials.Certificate('/home/hri/dev/backend/backend/nao-api-48eec-firebase-adminsdk-pp2zk-7617cfb09a.json')
+firebase_admin.initialize_app(cred)
+
+db = firestore.client()
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 

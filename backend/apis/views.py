@@ -16,11 +16,19 @@ import pickle
 import os
 import yaml
 from . import emotion
-
+from django.http import JsonResponse
+from firebase_admin import firestore
 # Emotion code
 
 emotion.emotion_init()
 
+def get_users(request):
+    users = []
+    docs = firestore.client().collection('users').get()
+    for doc in docs:
+        users.append(doc.to_dict())
+
+    return JsonResponse({'users': users})
 
 # Load config parameters
 current_path = os.getcwd()
@@ -154,3 +162,11 @@ def getlog(request):
 
 def getchat(request):
     pass
+
+def getuser(request):
+    users = []
+    docs = firestore.client().collection('users').get()
+    for doc in docs:
+        users.append(doc.to_dict())
+
+    return JsonResponse({'users': users})

@@ -109,7 +109,7 @@ def faceDetection(frame):
   return frame
 
 def emotion_init():
-  PATH='/home/hri/nao_dev/models/enet_b2_8_best.pt'
+  PATH='../models/enet_b2_8_best.pt'
   global model
   model = torch.load(PATH,map_location=torch.device('cpu'))
   model=model.to(device)
