@@ -20,7 +20,7 @@ with open(yml_path, 'r') as ymlfile:
 
 # IPs and Ports
 
-ip = "10.0.255.22"
+ip = "10.0.255.8"
 port = 9559
 PORT_SOCKET = param["py_port"]
 PORT_GUI = param["gui_port"]
@@ -32,7 +32,7 @@ nao = nao_driver(ip, port, PORT_SOCKET, PORT_GUI)
 nao.initProxies()
 
 # Initialisation method
-nao.sayText("Hello, My Name is Aiko. Nice to meet you")
+nao.sayText("Hello, My Name is Kai. Nice to meet you")
 
 # Eye Animations
 #nao.animation(2, 2)
