@@ -19,6 +19,10 @@ from base import *
 import sys
 import os
 import csv
+from PIL import Image, ImageDraw, ImageFont
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 class tts(base):
     
@@ -31,14 +35,78 @@ class tts(base):
         self.proxy_name_atts = "ALAnimatedSpeech"
         self.tts = None
         self.atts = None
+        self.proxy_name_tablet = "ALTabletService"
         
     
     def initTTS(self):
         self.tts = self.connect(self.proxy_name_tts , self.ip, self.port)
         self.atts = self.connect(self.proxy_name_atts , self.ip, self.port)
+        self.tablet = self.connect(self.proxy_name_tablet , self.ip, self.port)
+    
+    def give_url(self, text):
+        # Set image properties
+        image_width = 1280
+        image_height = 800
+        background_color = (255, 255, 255)  # White
+        text_color = (0, 0, 0)  # Black
+        font_size = 60
+
+        # Create a blank image
+        image = Image.new("RGB", (image_width, image_height), background_color)
+        draw = ImageDraw.Draw(image)
+
+        # Load a font
+        font = ImageFont.truetype("FreeSans.ttf", font_size)
+        
+        max_text_width = image_width - 20  # Adjust padding as needed
+        max_text_height = image_height - 20  # Adjust padding as needed
+
+        # Wrap the text into multiple lines
+        lines = []
+        current_line = ""
+        words = text.split()
+        for word in words:
+            if draw.textsize(current_line + " " + word, font=font)[0] <= max_text_width:
+                current_line += " " + word
+            else:
+                lines.append(current_line.strip())
+                current_line = word
+        lines.append(current_line.strip())
+
+        # Adjust font size if needed to fit the lines
+        while any(draw.textsize(line, font=font)[0] > max_text_width for line in lines):
+            font_size -= 1
+            font = ImageFont.truetype("arial.ttf", font_size)
+
+        # Calculate the text position
+        total_text_height = sum(draw.textsize(line, font=font)[1] for line in lines)
+        text_y = (image_height - total_text_height) // 2
+
+        # Draw the text on the image
+        for line in lines:
+            text_width, text_height = draw.textsize(line, font=font)
+            text_x = (image_width - text_width) // 2
+            draw.text((text_x, text_y), line, font=font, fill=text_color)
+            text_y += text_height
+
+        # Save the image to a file
+        image.save("text_image.png")
+
+        cloudinary.config(
+        cloud_name = 'dqflv49oz', 
+        api_key = '958546157725331', 
+        api_secret = 'ML519Ik_1kbfPo9tpkSvSifrUoc' 
+        )
+
+        response = cloudinary.uploader.upload("text_image.png")
+        image_url = response['secure_url']
+
+        return image_url
 
     def sayText(self, text):
+        url = self.give_url( text)
         self.atts.say(text)
+        self.tablet.showWebview( str(url))
     
     def setVolume(self, volume = 70):
         self.tts.setParameter("volume", volume)
