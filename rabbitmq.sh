@@ -1,2 +1,2 @@
-rabbitmq-server
+sudo rabbitmq-server
 

@@ -111,7 +111,7 @@ def wake_word():
         # If the wake word is detected, break the loop
         if keyword_index >= 0:
             print("Wake word detected!")
-            ret = "Hello"
+            ret = {"func" : "chat" , "arg" : "Hello"}
             start_time = time.time()
             conn.sendall(pickle.dumps([ret] , protocol = 2))
             print('Request : ------------------------- \n')
