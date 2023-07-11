@@ -23,6 +23,8 @@ from PIL import Image, ImageDraw, ImageFont
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
+import threading
+import time
 
 class tts(base):
     
@@ -36,6 +38,10 @@ class tts(base):
         self.tts = None
         self.atts = None
         self.proxy_name_tablet = "ALTabletService"
+        self.display_thread_1 = threading.Thread(target= self.displayURL )
+        self.display_thread_2 = threading.Thread(target= self.displayURL )
+        self.last_used_thread = 1
+        self.url = None
         
     
     def initTTS(self):
@@ -50,17 +56,17 @@ class tts(base):
         background_color = (255, 255, 255)  # White
         text_color = (0, 0, 0)  # Black
         font_size = 60
-
-        # Create a blank image
-        image = Image.new("RGB", (image_width, image_height), background_color)
-        draw = ImageDraw.Draw(image)
-
         # Load a font
         font = ImageFont.truetype("FreeSans.ttf", font_size)
         
         max_text_width = image_width - 20  # Adjust padding as needed
         max_text_height = image_height - 20  # Adjust padding as needed
 
+        # Create a blank image
+        image = Image.new("RGB", (image_width, image_height), background_color)
+        draw = ImageDraw.Draw(image)
+
+        
         # Wrap the text into multiple lines
         lines = []
         current_line = ""
@@ -103,11 +109,32 @@ class tts(base):
 
         return image_url
 
+    def displayURL(self ):
+        self.tablet.showWebview( str(self.url))
+        time.sleep(25)
+        self.tablet.hideWebview()
+
+    def show_web(self):
+        if self.last_used_thread == 1:
+            self.display_thread_2.start()
+            self.display_thread_1 = threading.Thread(target= self.displayURL )
+            self.last_used_thread = 2
+        else:
+            self.display_thread_1.start()
+            self.display_thread_2 = threading.Thread(target= self.displayURL )
+            self.last_used_thread = 1
+
     def sayText(self, text):
         url = self.give_url( text)
+        self.url = str(url)
+        self.show_web()
+        time.sleep(4)
         self.atts.say(text)
-        self.tablet.showWebview( str(url))
-    
+
+    def sayText_no_url(self, text):
+        url = self.give_url( text)
+        self.atts.say(text)
+        
     def setVolume(self, volume = 70):
         self.tts.setParameter("volume", volume)
         self.tts.setVolume(volume//100)

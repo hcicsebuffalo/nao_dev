@@ -10,27 +10,30 @@ import io
 import openai
 import json
 import os
+from docx import Document
+import re
+import googlemaps
 
 openai_key = os.environ["OPENAI_API_KEY"]
 proc_audio_bool = False
 file_path = os.getcwd()
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'google_secret_key.json'
+API_KEY = 'AIzaSyCkPcrm28UTgbei5RZ0hXREM1dKKtVOci0'
 
-# Load the Google API client
-# client = speech.SpeechClient()
-# This GPT Conversation variable should be a global 
-conversation=[{"role":"system","content":"Respond like you are Humanoid robot name Kai. \
-    Remember following information - You are working in Davis Hall in University at Buffalo, under professor Nalini Ratha. President of this university is Satish K tripathi. Dean of school of engineering in univerity at buffalo is Kemper Lewis. \
-    Furnas Hall is a building at the University at Buffalo in New York that houses the School of Engineering and Applied Sciences, with classrooms, labs, offices, and research facilities. It is named after Clifford C. Furnas, a former UB professor and administrator who was an early advocate for the development of engineering programs at the university \
-    Davis Hall is a building at the University at Buffalo in New York that houses the Department of Computer Science and Engineering, with classrooms, labs, offices, and research facilities. It is named after Clifford C. Furnas, a former UB professor and administrator who was instrumental in the development of computer science programs at the university           \
-    Capen Hall is a historic building located on the North Campus of the University at Buffalo in Buffalo, New York. It was completed in 1923 and named after the university's first chancellor, Samuel P. Capen. Originally, Capen Hall served as the main administrative building for the university. Today, it houses a variety of offices, including the offices of the President and Provost, the Office of Admissions, and the Office of Financial Aid. The building is known for its impressive architecture, featuring a large central dome, sweeping staircases, and grand hallways\
-    Jarvis Hall at the University at Buffalo was named after Gregory Jarvis, a UB alumnus who died in the 1986 Challenger space shuttle disaster. Jarvis graduated from UB's electrical engineering program in 1967 and was selected to fly on Challenger STS 51-L as a payload specialist. Today, Jarvis Hall stands as a tribute to Jarvis's legacy and to UB's commitment to honoring its accomplished alumni.      \
-    Here onwards just give responses like humanoid robot and nothing else."}]
+path = "../content.txt"
+def read_text_file(file_path):
+    with open(file_path, 'r') as file:
+        text = file.read()
+    return text
+
+prompt = read_text_file(path)
+
+conversation=[{"role":"system","content":prompt}]
+
 # Load the whisper model 
 # model = whisper.load_model("medium.en")
 # # Audio clip name 
 audio_clip_path = os.getcwd() + "/recording.wav"
-
 
 
 # Function to record audio
@@ -156,11 +159,136 @@ def gptReq(question):
         messages=conversation,
         temperature=0.2,
         max_tokens=1000,
-        top_p=0.9
+        top_p=0.2
     )
     conversation.append({"role":"assistant","content":response['choices'][0]['message']['content']})
     answer = response['choices'][0]['message']['content']
     return answer
+
+
+
+functions = [
+        {
+            "name": "get_directions",
+            "description": "Give direction to some location. ",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "end_location": {
+                        "type": "string",
+                        "description": "Location person wants to go to. This is end location",
+                    },
+                    "start_location": {
+                        "type": "string",
+                        "description": "This is start location person to start journey from. Return None if start location is not specified ",
+                    },
+                },
+                "required": ["end_location"],
+            },
+        }
+    ]
+
+def get_directions(start_location, end_location):
+    api_key = API_KEY
+    gmaps = googlemaps.Client(key=api_key)
+
+    # Geocode the start and end locations to get their latitude and longitude
+    start_geocode = gmaps.geocode(start_location)
+    end_geocode = gmaps.geocode(end_location)
+
+    if not start_geocode or not end_geocode:
+        return "Error: Invalid start or end location."
+
+    start_latlng = start_geocode[0]['geometry']['location']
+    end_latlng = end_geocode[0]['geometry']['location']
+
+    # Get directions between the start and end locations
+    directions = gmaps.directions(start_location, end_location, mode="walking")
+
+    # if not directions:
+    #     return "Error: No directions found."
+
+    # # Extract and format the steps of the directions
+    # steps = directions[0]['legs'][0]['steps']
+    # directions_text = "Directions:\n"
+
+    # total_distance = 0  # Track the total walking distance
+
+    # for step in steps:
+    #     # Remove HTML tags using regular expressions
+    #     html_tags_removed = re.sub('<.*?>', '', step['html_instructions'])
+    #     directions_text += html_tags_removed + "\n"
+
+    #     # Get the distance of the step and convert it from meters to kilometers
+    #     distance = step['distance']['value']
+    #     distance_km = distance / 1000.0
+
+    #     # Append the distance of the step to the directions text
+    #     directions_text += f"Distance: {distance_km:.2f} km\n\n"
+
+    #     # Add the distance of the step to the total distance
+    #     total_distance += distance
+
+    # # Convert the total distance from meters to kilometers
+    # total_distance_km = total_distance / 1000.0
+
+    # # Append the total walking distance to the directions text
+    # directions_text += f"Total walking distance: {total_distance_km:.2f} km\n"
+
+    # Generate a static map image with the start and end markers and the route
+    
+    map_image_url = f"https://maps.googleapis.com/maps/api/staticmap?" \
+                    f"size=1400x800&" \
+                    f"markers=color:red|label:S|{start_latlng['lat']},{start_latlng['lng']}&" \
+                    f"markers=color:green|label:E|{end_latlng['lat']},{end_latlng['lng']}&" \
+                    f"path=color:blue|enc:{directions[0]['overview_polyline']['points']}&" \
+                    f"key={api_key}"
+
+    return map_image_url
+
+
+def gptReq_withfunctions(question):
+    # using the openai api key
+    openai.api_key=openai_key
+
+    conversation.append({"role":"user","content": question})
+    response=openai.ChatCompletion.create(
+        model="gpt-3.5-turbo-16k",
+        messages=conversation,
+        temperature=0.2,
+        max_tokens=1000,
+        top_p=0.2,
+        functions=functions,
+        function_call="auto",
+    )
+    response_message = response["choices"][0]["message"]
+    if response_message.get("function_call"):
+        
+        available_functions = { "get_directions": get_directions }  
+        function_name = response_message["function_call"]["name"]
+
+        if function_name == "get_directions":
+            fuction_to_call = available_functions[function_name]
+            function_args = json.loads(response_message["function_call"]["arguments"])
+
+            
+            if function_args.get("start_location") == None:
+                s_location = "Davis Hall, University at Buffalo, New York"
+            
+            e_location = function_args.get("end_location")
+
+            function_response = fuction_to_call(
+            start_location=s_location,
+            end_location= e_location,
+            )
+            print(s_location , e_location)
+            return "map", function_response
+
+    else:
+
+        conversation.append({"role":"assistant","content":response['choices'][0]['message']['content']})
+        answer = response['choices'][0]['message']['content']
+        return "chat" , answer
 
 
 def process_audio(model):
@@ -174,13 +302,19 @@ def process_audio(model):
     prompt = ". Give answer in two sentence"
     out += prompt
     if "dance" in out.lower():
-        ans = "Dance"
+        func = "Dance"
+        arg = None
+        
     else:
         print("Getting Response from GPT")
-        ans = gptReq(out)
+        try:
+            func, arg = gptReq_withfunctions(out)
+        except:
+            func = None
+            arg = None
         print("Done")
     
     proc_audio_bool = True
-    return ans
+    return func, arg
 
 

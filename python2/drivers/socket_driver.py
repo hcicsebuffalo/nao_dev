@@ -1,6 +1,7 @@
 import socket 
 import pickle
 import threading
+import ast
 
 class chatGPT(object):
 
@@ -76,15 +77,26 @@ class chatGPT(object):
         return out
     
     
+    def parse_input(self, input_str):
+        # Remove the leading and trailing square brackets
+        input_str = input_str.strip('[]')
+        # Remove the leading 'u' character if present
+        input_str = input_str.replace("u'", "'")
+        # Use ast.literal_eval to parse the input string into a dictionary
+        data_dict = ast.literal_eval(input_str)
+
+        return data_dict
+
     def wake_wrd_loop(self, nao, wake):
         while wake and not nao.gpt_request:
             t  = self.client_socket.recv(1024)
             try:
-                result = self.process_res_( str(pickle.loads(t)) )
-                print('Result: -- ', result)
+                result = self.parse_input(str(pickle.loads(t))) #self.process_res_( str(pickle.loads(t)) )
                 #print("Wake word Response : \n " , result)
-                if result == "Dance":
-                    print("I am Dancing")
+                if result["func"] == "Dance":
+                    print("------\n")
+                    print("Dance actions will be executed")
+                    nao.sayText_no_url( "I will start dancing now" )
                     self.dance_sckt.start()
                     self.play_song_sckt.start()
                     ## Changes added for continous dance
@@ -99,16 +111,28 @@ class chatGPT(object):
                     self.dance_sckt = threading.Thread( target= nao.dance )
                     self.play_song_sckt = threading.Thread( target= nao.play_song )
 
-                else:
-                    print("....")
+                elif result["func"] == "chat":
+                    print("------\n")
+                    print("Kai will respond to question asked ")
+                    print(str(result["arg"]))
                     try:
-                        nao.sayText( str(result) )
+                        nao.sayText( str(result["arg"]) )
                         
                     except:
                         nao.sayText( "Sorry I am not able to process your request for a moment" )
                         #nao_.sayText("Sorry I am not able to process your request for a moment")
-                    print(" Said")
+                elif result["func"] == "map":
+                    print("------\n")
+                    print("Map will be displayed")
+                    print("------\n")
+                    print(result["arg"])
+                    nao.displayURL(result["arg"])
+                    nao.sayText_no_url( "Please find map shown on my display. " )
 
+                else:
+                    nao.sayText( " I encountered some error, Please try again " )
+                    print("------\n")
+                    print("Error encountered ")
 
             except:
                 #print("Error in getting response")

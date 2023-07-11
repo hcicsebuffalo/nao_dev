@@ -81,20 +81,21 @@ def gpt_socket():
             print('Request : ------------------------- \n')
             #print( request)
             #print('\n')
-            out = process_audio(model)
+            func, arg = process_audio(model)
             print("Response : \n")
             print(out)
-            ret = out
+            #ret = out
+            ret = {"func" : func , "arg" : arg}
             print('\n')
             conn.sendall(pickle.dumps([ret] , protocol = 2))
 
 out = None
-def get_response_gpt():
-    global out, model
-    out = process_audio(model)
-    return
+# def get_response_gpt():
+#     global out, model
+#     out = process_audio(model)
+#     return
 
-get_res_thread = threading.Thread(target= get_response_gpt)
+#get_res_thread = threading.Thread(target= get_response_gpt)
 
 def wake_word():
     global conn , out, get_res_thread
@@ -117,7 +118,7 @@ def wake_word():
             #print( request)
             #print('\n')
 
-            out = process_audio(model)
+            func, arg = process_audio(model)
             # get_res_thread.start()
             # first = True
             # wait = 8
@@ -139,10 +140,10 @@ def wake_word():
             # get_res_thread = threading.Thread(target= get_response_gpt)
             print("Response : \n")
             print(out)
-            ret = out
+            ret = {"func" : func , "arg" : arg}
+            #ret = out
             print('\n')
             conn.sendall(pickle.dumps([ret] , protocol = 2))
-
             # break
 
 gpt_thread = threading.Thread(target= gpt_socket )

@@ -65,7 +65,7 @@ class chat_dance_class(object):
         self.res_thread = threading.Thread(target= self.get_response_thread)
         self.response = None
         # Initialisation complete
-        self.nao.sayText("You can ask me questions now")
+        #self.nao.sayText("You can ask me questions now")
         print("Demo initialised")
     
     def get_response_thread(self):
