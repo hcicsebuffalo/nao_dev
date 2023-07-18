@@ -90,78 +90,78 @@ class chatGPT(object):
     def wake_wrd_loop(self, nao, wake):
         while wake and not nao.gpt_request:
             t  = self.client_socket.recv(2048)
-            # try:
-            result = self.parse_input(str(pickle.loads(t))) #self.process_res_( str(pickle.loads(t)) )
-            #print("Wake word Response : \n " , result)
-            if result["func"] == "Dance":
-                print("------\n")
-                print("Dance actions will be executed")
-                nao.sayText_no_url( "I will start dancing now" )
-                self.dance_sckt.start()
-                self.play_song_sckt.start()
-                ## Changes added for continous dance
-                #     if not self.dance.is_alive():
-                #         self.dance = threading.Thread( target= self.nao.dance )
-                #         self.dance.start()
-                while self.play_song_sckt.is_alive():
-                    #if not self.dance.is_alive():
-                    #    self.dance = 
-                    pass
-                
-                self.dance_sckt = threading.Thread( target= nao.dance )
-                self.play_song_sckt = threading.Thread( target= nao.play_song )
-
-                nao.posture.goToPosture("Stand" , 0.4)
-                nao.ledStopListening()
-
-            elif result["func"] == "chat":
-                print("------\n")
-                print("Kai will respond to question asked ")
-                print(str(result["arg"]))
-                try:
-                    nao.sayText( str(result["arg"]) )
+            try:
+                result = self.parse_input(str(pickle.loads(t))) #self.process_res_( str(pickle.loads(t)) )
+                #print("Wake word Response : \n " , result)
+                if result["func"] == "Dance":
+                    print("------\n")
+                    print("Dance actions will be executed")
+                    nao.sayText_no_url( "I will start dancing now" )
+                    self.dance_sckt.start()
+                    self.play_song_sckt.start()
+                    ## Changes added for continous dance
+                    #     if not self.dance.is_alive():
+                    #         self.dance = threading.Thread( target= self.nao.dance )
+                    #         self.dance.start()
+                    while self.play_song_sckt.is_alive():
+                        #if not self.dance.is_alive():
+                        #    self.dance = 
+                        pass
                     
-                except:
-                    nao.sayText( "Sorry I am not able to process your request for a moment" )
-                    #nao_.sayText("Sorry I am not able to process your request for a moment")
-                
-                nao.posture.goToPosture("Stand" , 0.4)
-                nao.ledStopListening()
+                    self.dance_sckt = threading.Thread( target= nao.dance )
+                    self.play_song_sckt = threading.Thread( target= nao.play_song )
 
-            elif result["func"] == "map":
-                print("------\n")
-                print("Map will be displayed")
-                print("------\n")
-                print(result["arg"])
-                nao.sayText_no_url( "Please find map shown on my display. " )
-                nao.display_givenURL(result["arg"])
-                
-                nao.posture.goToPosture("Stand" , 0.4)
-                nao.ledStopListening()
-            
-            elif result["func"] == "chat_no_url":
-                nao.sayText_no_url( str(result["arg"])  )
-                nao.ledStartListening()
-                nao.posture.goToPosture("Stand" , 0.4)
-            
-            elif result["func"] == "Reset":
-                nao.tab_reset()
-                nao.sayText_no_url( "My Tablet has been reset " )
-                nao.posture.goToPosture("StandInit" , 0.4)
-                nao.ledStopListening()
+                    nao.posture.goToPosture("Stand" , 0.4)
+                    nao.ledStopListening()
 
-            else:
-                nao.sayText( " Unknown command recived, Please try again  " )
+                elif result["func"] == "chat":
+                    print("------\n")
+                    print("Kai will respond to question asked ")
+                    print(str(result["arg"]))
+                    try:
+                        nao.sayText( str(result["arg"]) )
+                        
+                    except:
+                        nao.sayText( "Sorry I am not able to process your request for a moment" )
+                        #nao_.sayText("Sorry I am not able to process your request for a moment")
+                    
+                    nao.posture.goToPosture("Stand" , 0.4)
+                    nao.ledStopListening()
+
+                elif result["func"] == "map":
+                    print("------\n")
+                    print("Map will be displayed")
+                    print("------\n")
+                    print(result["arg"])
+                    nao.sayText_no_url( "Please find map shown on my display. " )
+                    nao.display_givenURL(result["arg"])
+                    
+                    nao.posture.goToPosture("Stand" , 0.4)
+                    nao.ledStopListening()
+                
+                elif result["func"] == "chat_no_url":
+                    nao.sayText_no_url( str(result["arg"])  )
+                    nao.ledStartListening()
+                    nao.posture.goToPosture("Stand" , 0.4)
+                
+                elif result["func"] == "Reset":
+                    nao.tab_reset()
+                    nao.sayText_no_url( "My Tablet has been reset " )
+                    nao.posture.goToPosture("StandInit" , 0.4)
+                    nao.ledStopListening()
+
+                else:
+                    nao.sayText( " Unknown command recived, Please try again  " )
+                    print("------\n")
+                    print("Error encountered ")
+                    nao.posture.goToPosture("Stand" , 0.4)
+                    nao.ledStopListening()
+
+            except:
+                #print("Error in getting response")
+                #return None
+                nao.sayText( " I encountered some error, Please try again " )
                 print("------\n")
                 print("Error encountered ")
                 nao.posture.goToPosture("Stand" , 0.4)
-                nao.ledStopListening()
-
-            # except:
-            #     #print("Error in getting response")
-            #     #return None
-            #     nao.sayText( " I encountered some error, Please try again " )
-            #     print("------\n")
-            #     print("Error encountered ")
-            #     nao.posture.goToPosture("Stand" , 0.4)
  

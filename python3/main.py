@@ -21,8 +21,9 @@ import time
 # Load config parameters
 current_path = os.getcwd()
 yml_path = current_path[:-7] + "config.yml"
-porc_model_path_ppn = current_path[:-7] + "models/hey_aiko_ja_linux_v2_1_0.ppn"
-porc_model_path_pv = current_path[:-7] + "models/porcupine_params_ja.pv"
+#porc_model_path_ppn = current_path[:-7] + "models/hey_aiko_ja_linux_v2_1_0.ppn"
+porc_model_path_ppn = current_path[:-7] + "models/hello-kai_en_linux_v2_2_0.ppn"
+#porc_model_path_pv = current_path[:-7] + "models/porcupine_params_ja.pv"
 
 #print(yml_path)
 
@@ -50,7 +51,9 @@ else:
 # Listening -----
 if param["use_wake_flag"] == 1:
     pico_key = os.environ["PICOVOICE_API_KEY"]
-    porcupine = pvporcupine.create(access_key=pico_key, keyword_paths=[porc_model_path_ppn], model_path= porc_model_path_pv)
+    #porcupine = pvporcupine.create(access_key=pico_key, keyword_paths=[porc_model_path_ppn], model_path= porc_model_path_pv)
+    porcupine = pvporcupine.create(access_key=pico_key, keyword_paths=[porc_model_path_ppn])
+    
     # Initialize PyAudio and open a stream
     pa = pyaudio.PyAudio()
     audio_stream = pa.open(

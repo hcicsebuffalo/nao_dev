@@ -176,7 +176,7 @@ functions = [
                 "properties": {
                     "end_location": {
                         "type": "string",
-                        "description": "Location person wants to go to. This is end location",
+                        "description": "Location person wants to go to. This is end location. This location can be in University at buffalo",
                     },
                     "start_location": {
                         "type": "string",
@@ -189,6 +189,32 @@ functions = [
     ]
 
 def get_directions(start_location, end_location):
+    api_key = API_KEY
+    gmaps = googlemaps.Client(key=api_key)
+
+    # Geocode the start and end locations to get their latitude and longitude
+    start_geocode = gmaps.geocode(start_location)
+    end_geocode = gmaps.geocode(end_location)
+
+    if not start_geocode or not end_geocode:
+        return "Error: Invalid start or end location."
+
+    start_latlng = start_geocode[0]['geometry']['location']
+    end_latlng = end_geocode[0]['geometry']['location']
+
+    # Get directions between the start and end locations
+    directions = gmaps.directions(start_location, end_location, mode="walking")
+
+    map_image_url = f"https://maps.googleapis.com/maps/api/staticmap?" \
+                    f"size=1200x1800&" \
+                    f"markers=color:red|label:S|{start_latlng['lat']},{start_latlng['lng']}&" \
+                    f"markers=color:green|label:E|{end_latlng['lat']},{end_latlng['lng']}&" \
+                    f"path=color:blue|enc:{directions[0]['overview_polyline']['points']}&" \
+                    f"key={api_key}"
+
+    return  map_image_url
+
+def get_directions_old(start_location, end_location):
     api_key = API_KEY
     gmaps = googlemaps.Client(key=api_key)
 
@@ -273,7 +299,7 @@ def gptReq_withfunctions(question):
 
             
             if function_args.get("start_location") == None:
-                s_location = "Davis Hall, University at Buffalo, New York"
+                s_location = "Davis Hall, University at Buffalo"
             
             e_location = function_args.get("end_location")
 
@@ -281,7 +307,10 @@ def gptReq_withfunctions(question):
             start_location=s_location,
             end_location= e_location,
             )
-            print(s_location , e_location)
+            print(f'Start location is {s_location}')
+            print(f"---")
+            print(f'Destination is {e_location}')
+        
             return "map", function_response
 
     else:
@@ -308,7 +337,7 @@ def process_audio(model):
     elif "reset" in out.lower():
         func = "Reset"
         arg = None
-        
+
     else:
         print("Getting Response from GPT")
         try:
