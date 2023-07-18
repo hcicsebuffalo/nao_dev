@@ -109,10 +109,32 @@ class tts(base):
 
         return image_url
 
+
+    def give_logo_url(self):
+        
+        cloudinary.config(
+        cloud_name = 'dqflv49oz', 
+        api_key = '958546157725331', 
+        api_secret = 'ML519Ik_1kbfPo9tpkSvSifrUoc' 
+        )
+
+        response = cloudinary.uploader.upload("logo.jpg")
+        image_url = response['secure_url']
+
+        return image_url
+
+    
+
     def displayURL(self ):
         self.tablet.showWebview( str(self.url))
         time.sleep(25)
         self.tablet.hideWebview()
+    
+    def displayURL_nothread(self):
+        self.tablet.showWebview( str(self.url))
+
+    def display_givenURL(self, url):
+        self.tablet.showWebview( str(url))
 
     def show_web(self):
         if self.last_used_thread == 1:
@@ -124,11 +146,16 @@ class tts(base):
             self.display_thread_2 = threading.Thread(target= self.displayURL )
             self.last_used_thread = 1
 
+    def tab_reset(self):
+        img_url = self.give_logo_url()
+        self.tablet.showWebview( str(img_url))
+
     def sayText(self, text):
         url = self.give_url( text)
         self.url = str(url)
-        self.show_web()
-        time.sleep(4)
+        #self.show_web()
+        self.displayURL_nothread()
+        #time.sleep(4)
         self.atts.say(text)
 
     def sayText_no_url(self, text):

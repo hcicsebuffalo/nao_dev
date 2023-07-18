@@ -30,12 +30,14 @@ nao = nao_driver(ip, port, PORT_SOCKET, PORT_GUI)
 
 # Init all Proxies
 nao.initProxies()
-
+nao.posture.goToPosture("Stand" , 0.4)
 # Initialisation method
-nao.sayText("Hello, My Name is Kai. Nice to meet you")
-
+nao.tab_reset()
+nao.sayText_no_url("Hello, My Name is Kai. Nice to meet you")
+nao.posture.goToPosture("Stand" , 0.4)
 # Eye Animations
 #nao.animation(2, 2)
+nao.ledStopListening()
 
 
 dance = threading.Thread( target = nao.dance )

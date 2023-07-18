@@ -12,9 +12,11 @@ class gesture(base):
         self.ip = ip
         self.port = port
         self.proxy_name_motion = "ALMotion"
+        self.proxy_name_robot_posture = "ALRobotPosture"
         
     def initmotion(self):
         self.motion = self.connect(self.proxy_name_motion , self.ip, self.port)
+        self.posture = self.connect(self.proxy_name_robot_posture , self.ip, self.port)
         speak_motion = ALProxy("ALSpeakingMovement" , self.ip, self.port)
         speak_motion.setEnabled(True)
 

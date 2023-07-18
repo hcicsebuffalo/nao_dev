@@ -304,6 +304,10 @@ def process_audio(model):
     if "dance" in out.lower():
         func = "Dance"
         arg = None
+
+    elif "reset" in out.lower():
+        func = "Reset"
+        arg = None
         
     else:
         print("Getting Response from GPT")
