@@ -40,8 +40,9 @@ PORT = param["py_port"]
 
 if param["model"] == "Whisper":
     # Load the whisper model 
-    model = whisper.load_model("medium.en")
-    print("Whisper model import success")
+    #model = whisper.load_model("medium.en")
+    model = "whisper"
+    print("Whisper model will be used")
 else:
     model = None
     print("Google APIs in use .. ")
