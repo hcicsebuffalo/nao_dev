@@ -121,10 +121,15 @@ def transcribe_google_api():
     return out
 
 def transcribe_whisper(recording_path):
-    print(" Whisper Transcribing ")
     #result = model.transcribe(recording_path) ## exception handling
     API_URL = 'http://128.205.43.182:5000/transcribe'
-    question = requests.post(API_URL, files={'audio': open(recording_path, 'rb')}).json()['results'][0]
+    print(" Whisper Transcribing ")
+    response = requests.post(API_URL, files={'audio': open(audio_file, 'rb')})
+    if response.status_code == 200:
+        print("The whisper server API is accessible")
+    else:
+        print('Issue with Whisper Server API.Please try to restart it.Error:', response.status_code)
+    question = response.json()['results'][0]
     print("Transcription Done")
     #question = result['text']
     question = str(question).lower()
