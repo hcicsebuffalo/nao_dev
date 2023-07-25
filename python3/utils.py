@@ -13,6 +13,7 @@ import os
 from docx import Document
 import re
 import googlemaps
+import requests
 
 openai_key = os.environ["OPENAI_API_KEY"]
 proc_audio_bool = False
@@ -119,11 +120,13 @@ def transcribe_google_api():
         
     return out
 
-def transcribe_whisper(recording_path,model):
+def transcribe_whisper(recording_path):
     print(" Whisper Transcribing ")
-    result = model.transcribe(recording_path) ## exception handling
+    #result = model.transcribe(recording_path) ## exception handling
+    API_URL = 'http://128.205.43.182:5000/transcribe'
+    question = requests.post(API_URL, files={'audio': open(recording_path, 'rb')}).json()['results'][0]
     print("Transcription Done")
-    question = result['text']
+    #question = result['text']
     question = str(question).lower()
     if "How can I help you".lower() in question:
         question = question.replace("How can I help you".lower(), " ")
@@ -323,8 +326,8 @@ def gptReq_withfunctions(question):
 def process_audio(model):
     global proc_audio_bool
     record_audio(file_path, audio_clip_path, 7)
-    if model != None:
-        out = transcribe_whisper(audio_clip_path,model)
+    if model == "whisper":
+        out = transcribe_whisper(audio_clip_path)
     else:
         out = transcribe_google_api()
     
