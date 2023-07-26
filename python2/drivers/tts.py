@@ -110,6 +110,76 @@ class tts(base):
         return image_url
 
 
+    def give_url_with_image(self, input_image_path, text):
+        # Set image properties
+        image_width = 1280
+        image_height = 800
+        background_color = (255, 255, 255)  # White
+        text_color = (0, 0, 0)  # Black
+        font_size = 60
+
+        # Load a font
+        font =ImageFont.truetype("FreeSans.ttf", font_size)
+
+        max_text_width = image_width // 2 - 40  # Adjust padding as needed for left side
+        max_text_height = image_height - 20  # Adjust padding as needed
+
+        # Create a blank image
+        image = Image.new("RGB", (image_width, image_height), background_color)
+        draw = ImageDraw.Draw(image)
+
+        # Load the input image
+        input_img = Image.open(input_image_path)
+
+        # Resize the input image to fit on the left side
+        input_img = input_img.resize((image_width // 2, image_height))
+
+        # Paste the input image on the left side of the output image
+        image.paste(input_img, (0, 0))
+
+        # Wrap the text into multiple lines
+        lines = []
+        current_line = ""
+        words = text.split()
+        for word in words:
+            if draw.textsize(current_line + " " + word, font=font)[0] <= max_text_width:
+                current_line += " " + word
+            else:
+                lines.append(current_line.strip())
+                current_line = word
+        lines.append(current_line.strip())
+
+        # Adjust font size if needed to fit the lines
+        while any(draw.textsize(line, font=font)[0] > max_text_width for line in lines):
+            font_size -= 1
+            font = ImageFont.truetype("arial.ttf", font_size)
+
+        # Calculate the text position
+        total_text_height = sum(draw.textsize(line, font=font)[1] for line in lines)
+        text_y = (image_height - total_text_height) // 2
+
+        # Draw the text on the right side of the image
+        text_x = image_width // 2 + 20  # Place the text on the right side with padding
+        for line in lines:
+            text_width, text_height = draw.textsize(line, font=font)
+            draw.text((text_x, text_y), line, font=font, fill=text_color)
+            text_y += text_height
+
+        # Save the image to a file
+        image.save("output_image.png")
+        
+        cloudinary.config(
+        cloud_name = 'dqflv49oz', 
+        api_key = '958546157725331', 
+        api_secret = 'ML519Ik_1kbfPo9tpkSvSifrUoc' 
+        )
+
+        response = cloudinary.uploader.upload("output_image.png")
+        image_url = response['secure_url']
+
+        return image_url
+
+
     def give_logo_url(self):
         
         cloudinary.config(
@@ -118,7 +188,7 @@ class tts(base):
         api_secret = 'ML519Ik_1kbfPo9tpkSvSifrUoc' 
         )
 
-        response = cloudinary.uploader.upload("logo.jpg")
+        response = cloudinary.uploader.upload("logo.png")
         image_url = response['secure_url']
 
         return image_url
@@ -160,6 +230,14 @@ class tts(base):
 
     def sayText_no_url(self, text):
         url = self.give_url( text)
+        self.atts.say(text)
+    
+    def sayText_with_image(self, image_path, text):
+        url = self.give_url_with_image(image_path, text)
+        self.url = str(url)
+        #self.show_web()
+        self.displayURL_nothread()
+        #time.sleep(4)
         self.atts.say(text)
         
     def setVolume(self, volume = 70):

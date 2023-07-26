@@ -20,6 +20,10 @@ file_path = os.getcwd()
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'google_secret_key.json'
 API_KEY = 'AIzaSyCkPcrm28UTgbei5RZ0hXREM1dKKtVOci0'
 
+import requests
+
+API_URL = 'http://128.205.43.182:5000/transcribe'
+
 path = "../content.txt"
 def read_text_file(file_path):
     with open(file_path, 'r') as file:
@@ -185,8 +189,75 @@ functions = [
                 },
                 "required": ["end_location"],
             },
-        }
+        }, 
+
+        {
+            "name": "president_ub",
+            "description": "who is president of University of Buffalo",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": [],
+            },
+        }, 
+        
+        {
+            "name": "chair_ub",
+            "description": "who is Chair of Computer Science department of University of Buffalo",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": [],
+            },
+        }, 
+
+        {
+            "name": "provost_ub",
+            "description": "who is Provost of University of Buffalo",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": [],
+            },
+        },
+
+        {
+            "name": "Dean_ub",
+            "description": "who is Dean of school of engineering and applied science of University of Buffalo",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": [],
+            },
+        },
+        
+        {
+            "name": "VPR_ub",
+            "description": "who is VPR, Vice President for Research, of University of Buffalo",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": [],
+            },
+        },
+
     ]
+
+
+def VPR_ub():
+    return " Dr. Venu Govindraju is Vice President of Research and Economic Developement at the University at Buffalo. "
+
+def Dean_ub():
+    return "Dr. Kemper Lewis is Dean of School of Engineering and Applied Sciences at the University at Buffalo."
+
+def provost_ub():
+    return " Dr. Scott Weber is Provost at the University at Buffalo."
+
+def chair_ub():
+    return " Dr. Jinhui Xu is a Chair of CSE department at the University at Buffalo."
+
+def president_ub():
+    return " Dr. Satish Tripathi is President of the University at Buffalo."
 
 def get_directions(start_location, end_location):
     api_key = API_KEY
@@ -290,7 +361,7 @@ def gptReq_withfunctions(question):
     response_message = response["choices"][0]["message"]
     if response_message.get("function_call"):
         
-        available_functions = { "get_directions": get_directions }  
+        available_functions = { "get_directions": get_directions , "president_ub" : president_ub, "chair_ub": chair_ub, "provost_ub": provost_ub , "Dean_ub": Dean_ub , "VPR_ub" : VPR_ub  }  
         function_name = response_message["function_call"]["name"]
 
         if function_name == "get_directions":
@@ -312,6 +383,31 @@ def gptReq_withfunctions(question):
             print(f'Destination is {e_location}')
         
             return "map", function_response
+        
+        elif function_name == "president_ub":
+            fuction_to_call = available_functions[function_name]  
+            function_response = fuction_to_call()
+            return "president", function_response
+        
+        elif function_name == "chair_ub":
+            fuction_to_call = available_functions[function_name]
+            function_response = fuction_to_call()        
+            return "chair", function_response
+        
+        elif function_name == "provost_ub":
+            fuction_to_call = available_functions[function_name]
+            function_response = fuction_to_call()        
+            return "provost", function_response
+        
+        elif function_name == "Dean_ub":
+            fuction_to_call = available_functions[function_name]
+            function_response = fuction_to_call()        
+            return "dean", function_response
+        
+        elif function_name == "VPR_ub":
+            fuction_to_call = available_functions[function_name]
+            function_response = fuction_to_call()        
+            return "vpr", function_response
 
     else:
 
@@ -322,13 +418,23 @@ def gptReq_withfunctions(question):
 
 def process_audio(model):
     global proc_audio_bool
-    record_audio(file_path, audio_clip_path, 7)
-    if model != None:
-        out = transcribe_whisper(audio_clip_path,model)
+    # record_audio(file_path, audio_clip_path, 7)
+    if model == "Server":
+
+        response = requests.post(API_URL, files={'audio': open(audio_clip_path, 'rb')})
+
+        if response.status_code == 200:
+            transcription = response.json()
+            out = transcription['results'][0]
+            print(out)
+        else:
+            out = " Error in transcription "
+            print("Error In transcription")
+            
     else:
-        out = transcribe_google_api()
+        out = transcribe_whisper(audio_clip_path,model)
     
-    prompt = ". Give answer in two sentence"
+    prompt = ". Answer this in two or less sentences "
     out += prompt
     if "dance" in out.lower():
         func = "Dance"
@@ -345,8 +451,9 @@ def process_audio(model):
         except:
             func = None
             arg = None
-        print("Done")
-    
+        
+        print(f'{func} \n {arg}')
+        
     proc_audio_bool = True
     return func, arg
 
