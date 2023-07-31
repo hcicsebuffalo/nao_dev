@@ -90,7 +90,7 @@ def video_feed():
 
         #cv2.imshow(out)
         if frame != None:
-            try:
+            try: 
                 out = emotion.faceDetection(img_recv)
             except:
                 out = img_recv

@@ -35,8 +35,6 @@ prompt = read_text_file(path)
 
 conversation=[{"role":"system","content":prompt}]
 
-# Load the whisper model 
-# model = whisper.load_model("medium.en")
 # # Audio clip name 
 audio_clip_path = os.getcwd() + "/recording.wav"
 
@@ -125,9 +123,10 @@ def transcribe_google_api():
     return out
 
 def transcribe_whisper(recording_path):
+    print(" Whisper Transcribing ")
     result = model.transcribe(recording_path) ## exception handling
     print("Transcription Done")
-    #question = result['text']
+    question = result['text']
     question = str(question).lower()
     if "How can I help you".lower() in question:
         question = question.replace("How can I help you".lower(), " ")

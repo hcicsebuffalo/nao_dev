@@ -127,7 +127,7 @@ def wake_word():
             
             record_audio(file_path, audio_clip_path, 5)
             
-            ret = {"func" : "chat_no_url" , "arg" : "On it!"}
+            ret = {"func" : "chat_no_url" , "arg" : "Give me some time, I am working on it"}
 
             #start_time = time.time()
             conn.sendall(pickle.dumps([ret] , protocol = 2))

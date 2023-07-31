@@ -5,4 +5,4 @@ port = 9559
 
 tts = ALProxy("ALTextToSpeech" , ip, port)
 tts.setVoice("naoenu")
-tts.say(" Hello")
+tts.say(" Give me some time, I am working on it")
