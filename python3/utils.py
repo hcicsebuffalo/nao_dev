@@ -13,6 +13,7 @@ import os
 from docx import Document
 import re
 import googlemaps
+import requests
 
 openai_key = os.environ["OPENAI_API_KEY"]
 proc_audio_bool = False
@@ -123,11 +124,10 @@ def transcribe_google_api():
         
     return out
 
-def transcribe_whisper(recording_path,model):
-    print(" Whisper Transcribing ")
+def transcribe_whisper(recording_path):
     result = model.transcribe(recording_path) ## exception handling
     print("Transcription Done")
-    question = result['text']
+    #question = result['text']
     question = str(question).lower()
     if "How can I help you".lower() in question:
         question = question.replace("How can I help you".lower(), " ")
@@ -418,6 +418,7 @@ def gptReq_withfunctions(question):
 
 def process_audio(model):
     global proc_audio_bool
+
     # record_audio(file_path, audio_clip_path, 7)
     if model == "Server":
 
