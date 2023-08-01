@@ -37,6 +37,10 @@ with open(yml_path, 'r') as ymlfile:
     
 HOST = '127.0.0.1'
 PORT = param["py_port"]
+TRANSCRIBE_API = param["transcribe_api"]
+AUDIO_RECOG = param["audio_recog"]
+AUDIO_RECOG_API = param["audio_authen_api"]
+AUDIO_AUTH_USER = param["audio_authe_user"]
 
 if param["model"] == "Whisper":
     # Load the whisper model 
@@ -89,7 +93,7 @@ def gpt_socket():
             #print( request)
             #print('\n')
             record_audio(file_path, audio_clip_path, 7)
-            func, arg = process_audio(model)
+            func, arg = process_audio(model, None)
             print("Response : \n")
             print(out)
             #ret = out
@@ -100,7 +104,7 @@ def gpt_socket():
 out = None
 # def get_response_gpt():
 #     global out, model
-#     out = process_audio(model)
+#     out = process_audio(model, None)
 #     return
 
 #get_res_thread = threading.Thread(target= get_response_gpt)
@@ -122,41 +126,35 @@ def wake_word():
             ret = {"func" : "chat_no_url" , "arg" : "Hello"}
             #start_time = time.time()
             conn.sendall(pickle.dumps([ret] , protocol = 2))
-            #print( request)
-            #print('\n')
-            
+
             record_audio(file_path, audio_clip_path, 5)
+
+            auth = True
+            if AUDIO_RECOG:
+                auth = False
+                response = requests.post(AUDIO_RECOG_API, files={'audio': open(audio_clip_path, 'rb')})
+                if response.status_code == 200:
+                    transcription = response.json()
+                    if str(transcription['Detected']).lower() == str(AUDIO_AUTH_USER).lower():
+                        if transcription['Sim'] < 0.7:
+                            auth = True
+                else:
+                    print('Error in Audio recog:', response.status_code)
+                    
             
-            ret = {"func" : "chat_no_url" , "arg" : "Give me some time, I am working on it"}
-
-            #start_time = time.time()
-            conn.sendall(pickle.dumps([ret] , protocol = 2))
-            
-            func, arg = process_audio(model)
-            # get_res_thread.start()
-            # first = True
-            # wait = 8
-            # while get_res_thread.is_alive():
-            #     delay = time.time() - start_time
-            #     if delay > wait:
-            #         if first:
-            #             first = False
-            #             start_time = time.time()
-            #             ret = "Working on it"
-            #             wait = 15
-            #             conn.sendall(pickle.dumps([ret] , protocol = 2))
-            #         else:
-            #             start_time = time.time()
-            #             ret = "Still Working on it"
-            #             conn.sendall(pickle.dumps([ret] , protocol = 2))
-
-
-            # get_res_thread = threading.Thread(target= get_response_gpt)
-            # print("Response : \n \n ")
-            # print(out , "\n \n" )
-            ret = {"func" : func , "arg" : arg}
-            conn.sendall(pickle.dumps([ret] , protocol = 2))
-            # break
+            if auth :
+                ret = {"func" : "chat_no_url" , "arg" : "Give me some time, I am working on it"}
+                #start_time = time.time()
+                conn.sendall(pickle.dumps([ret] , protocol = 2))
+                
+                func, arg = process_audio(model, TRANSCRIBE_API)
+                
+                ret = {"func" : func , "arg" : arg}
+                conn.sendall(pickle.dumps([ret] , protocol = 2))
+            else:
+                ret = {"func" : "chat_no_url" , "arg" : "You are not authorized user"}
+                conn.sendall(pickle.dumps([ret] , protocol = 2))
+        
 
 gpt_thread = threading.Thread(target= gpt_socket )
 wake_wrd_thread = threading.Thread(target= wake_word)
@@ -164,3 +162,26 @@ wake_wrd_thread = threading.Thread(target= wake_word)
 gpt_thread.start()
 wake_wrd_thread.start()
 
+
+
+# get_res_thread.start()
+# first = True
+# wait = 8
+# while get_res_thread.is_alive():
+#     delay = time.time() - start_time
+#     if delay > wait:
+#         if first:
+#             first = False
+#             start_time = time.time()
+#             ret = "Working on it"
+#             wait = 15
+#             conn.sendall(pickle.dumps([ret] , protocol = 2))
+#         else:
+#             start_time = time.time()
+#             ret = "Still Working on it"
+#             conn.sendall(pickle.dumps([ret] , protocol = 2))
+
+
+# get_res_thread = threading.Thread(target= get_response_gpt)
+# print("Response : \n \n ")
+# print(out , "\n \n" )

@@ -23,7 +23,6 @@ API_KEY = 'AIzaSyCkPcrm28UTgbei5RZ0hXREM1dKKtVOci0'
 
 import requests
 
-API_URL = 'http://128.205.43.182:5000/transcribe'
 
 path = "../content.txt"
 def read_text_file(file_path):
@@ -122,7 +121,7 @@ def transcribe_google_api():
         
     return out
 
-def transcribe_whisper(recording_path):
+def transcribe_whisper(recording_path, model):
     print(" Whisper Transcribing ")
     result = model.transcribe(recording_path) ## exception handling
     print("Transcription Done")
@@ -415,7 +414,7 @@ def gptReq_withfunctions(question):
         return "chat" , answer
 
 
-def process_audio(model):
+def process_audio(model, API_URL):
     global proc_audio_bool
 
     # record_audio(file_path, audio_clip_path, 7)

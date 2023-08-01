@@ -90,10 +90,11 @@ def video_feed():
 
         #cv2.imshow(out)
         if frame != None:
-            try: 
-                out = emotion.faceDetection(img_recv)
-            except:
-                out = img_recv
+            # try: 
+            #     out = emotion.faceDetection(img_recv)
+            # except:
+            #     out = img_recv
+            out = img_recv
             retval, out_buffer = cv2.imencode('.jpg', out)
             #image_str = base64.b64encode(buffer)#.decode('utf-8')
             img_buf_out = out_buffer.tobytes()
