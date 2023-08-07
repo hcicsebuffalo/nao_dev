@@ -55,7 +55,7 @@ resolution = 3
 colourspace = 11
 FPS = 5
 subscriberID = tts.subscribeCamera("subscriberID", camera_index, resolution,colourspace, FPS)
-
+#subscriberID = "subscribeid_1"
 tts.openCamera(camera_index)
 tts.startCamera(camera_index)
 
