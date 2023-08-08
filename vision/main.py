@@ -37,7 +37,7 @@ with open(yml_path, 'r') as ymlfile:
 FACE_RECOG = param["face_recog"]
 API_URL = param["face_recog_api"]  
 
-NAO_IP = "10.0.255.8"
+NAO_IP = "10.0.255.22"
 NAO_PORT = 9559
 PEPPER_IP = "10.0.52.247"
 PEPPER_PORT = 9503

@@ -194,7 +194,6 @@ class tts(base):
         return image_url
 
     
-
     def displayURL(self ):
         self.tablet.showWebview( str(self.url))
         time.sleep(25)

@@ -16,7 +16,7 @@ class chat_dance_class(object):
         app.start()
 
         self.my_memory = my_session.service("ALMemory")
-        self.beh = ALProxy("ALBehaviorManager" , "10.0.255.8", 9559)
+        self.beh = ALProxy("ALBehaviorManager" , "10.0.255.22", 9559)
         nao.behave = self.beh
         # Face Interrupts
 
@@ -151,6 +151,8 @@ class chat_dance_class(object):
             self.touch_id=self.touch.signal.connect(self.onMiddleTouch)
         except:
             print("error ---")
+        
+        self.nao.posture.goToPosture("Stand" , 0.4)
    
     def process_res(self, res):
         out = ''
@@ -178,6 +180,7 @@ class chat_dance_class(object):
             self.face_id=self.face_detect.signal.connect(self.onTouch)  
         except RuntimeError:
             print("Error in Face api" )
+        self.nao.posture.goToPosture("Stand" , 0.4)
 
     def onArrived(self,qwe):
         bool_okay=self.just_arrived.signal.disconnect(self.just_arrived_id)
@@ -229,6 +232,7 @@ class chat_dance_class(object):
             self.Fronttouch_id=self.Fronttouch.signal.connect(self.onFrontTouch)
         except:
             print("error ---")
+        self.nao.posture.goToPosture("Stand" , 0.4)
 
     def onRearTouch(self,qwe):
         bool_okay=self.Reartouch.signal.disconnect(self.Reartouch_id)
@@ -239,6 +243,7 @@ class chat_dance_class(object):
             self.Reartouch_id=self.Reartouch.signal.connect(self.onRearTouch)
         except:
             print("error ---")
+        self.nao.posture.goToPosture("Stand" , 0.4)
     
     def onHandRightBackTouch(self,qwe):
         bool_okay=self.HandRBtouch.signal.disconnect(self.HandRBtouch_id)
@@ -249,6 +254,7 @@ class chat_dance_class(object):
             self.HandRBtouch_id=self.HandRBtouch.signal.connect(self.onHandRightBackTouch)
         except:
             print("error ---")
+        self.nao.posture.goToPosture("Stand" , 0.4)
 
     def onHandRightLeftTouch(self,qwe):
         bool_okay=self.HandRLtouch.signal.disconnect(self.HandRLtouch_id)
@@ -259,6 +265,7 @@ class chat_dance_class(object):
             self.HandRLtouch_id=self.HandRLtouch.signal.connect(self.onHandRightLeftTouch)
         except:
             print("error ---")
+        self.nao.posture.goToPosture("Stand" , 0.4)
 
     def onHandRightRightTouch(self,qwe):
         bool_okay=self.HandRRtouch.signal.disconnect(self.HandRRtouch_id)
@@ -269,6 +276,7 @@ class chat_dance_class(object):
             self.HandRRtouch_id=self.HandRRtouch.signal.connect(self.onHandRightRightTouch)
         except:
             print("error ---")
+        self.nao.posture.goToPosture("Stand" , 0.4)
     
     def onHandLeftBackTouch(self,qwe):
         bool_okay=self.HandLBtouch.signal.disconnect(self.HandLBtouch_id)
@@ -279,6 +287,7 @@ class chat_dance_class(object):
             self.HandLBtouch_id=self.HandLBtouch.signal.connect(self.onHandLeftBackTouch)
         except:
             print("error ---")
+        self.nao.posture.goToPosture("Stand" , 0.4)
     
     def onHandLeftLeftTouch(self,qwe):
         bool_okay=self.HandLLtouch.signal.disconnect(self.HandLLtouch_id)
@@ -289,6 +298,7 @@ class chat_dance_class(object):
             self.HandLLtouch_id=self.HandLLtouch.signal.connect(self.onHandLeftLeftTouch)
         except:
             print("error ---")
+        self.nao.posture.goToPosture("Stand" , 0.4)
 
     def onHandLeftRightTouch(self,qwe):
         bool_okay=self.HandLRtouch.signal.disconnect(self.HandLRtouch_id)
@@ -299,3 +309,4 @@ class chat_dance_class(object):
             self.HandLRtouch_id=self.HandLRtouch.signal.connect(self.onHandLeftRightTouch)
         except:
             print("error ---")
+        self.nao.posture.goToPosture("Stand" , 0.4)
