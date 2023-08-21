@@ -14,5 +14,8 @@ import subprocess
 #   config.write(configfile)
 
 
-subprocess.Popen(['python main2.py'], shell= True)
-subprocess.Popen(['python gui.py'] , shell= True)
+# subprocess.Popen(['python main2.py'], shell= True)
+# subprocess.Popen(['python gui.py'] , shell= True)
+
+command = "echo 'Hello'"
+subprocess.run(command, shell=True)

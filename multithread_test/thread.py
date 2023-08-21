@@ -1,74 +1,51 @@
 import threading
 import configparser
-
-def run_file(file_name):
-  exec(open(file_name).read())
-
-
-def null_thread():
-  pass
+import subprocess
 
 def read_config(config):
-  # config = configparser.ConfigParser()
-  # config.read('config.ini')
-
-  # Assigning null threads
-  thread1 = threading.Thread(target=null_thread)
-  thread2 = threading.Thread(target=null_thread)
-  thread3 = threading.Thread(target=null_thread)
-  thread4 = threading.Thread(target=null_thread)
+  # Define the commands to run each script
+  script1_cmd = 'bash; conda activate hri; python vision.py'
+  script2_cmd = 'bash; conda activate hri; python main3.py'
+  script3_cmd = 'bash; conda activate hri; python gui.py'
 
   if (config['vision']['execute_flag'] == 'True'):
-    thread1 = threading.Thread(target = run_file, args=("vision.py",))
+    subprocess.Popen(script1_cmd, shell=True)
+    # subprocess.run(['conda', 'run', '-n', 'hri', 'python', 'vision.py'])
 
   if (config['main3']['execute_flag'] == 'True'):
-    thread3 = threading.Thread(target = run_file, args=("main3.py",))
+    subprocess.Popen(script2_cmd, shell=True)
+    # subprocess.run(['conda', 'run', '-n', 'hri', 'python', 'main3.py'])
 
   if (config['gui']['execute_flag'] == 'True'):
-    thread2 = threading.Thread(target = run_file, args=("gui.py",))
-
-  thread1.start()
-  thread2.start()
-  thread3.start()
-
-  thread1.join()
-  thread2.join()
-  thread3.join()
+    subprocess.Popen(script3_cmd, shell=True)
+    # subprocess.run(['conda', 'run', '-n', 'hri', 'python', 'gui.py'])
 
 def rewrite_config():
-  #create configparser object
+  #create configparser object0
   config = configparser.ConfigParser()
   config.read('config.ini')
 
   config.set('vision', 'wait_flag', 'False')
   config.set('gui', 'wait_flag', 'False')
-  config.set('main3', 'wait_flag', 'False')
+
+
+
+
+
+
+
+
+
+
+
+
+
+  0
+0 0 config.set('main3', 'wait_flag', 'False')
   config.set('main2', 'wait_flag', 'False')
 
   with open('config.ini', 'w') as configfile:
     config.write(configfile)
-  # #define sections and their key and value pairs
-  # config["vision"]={
-  #         "execute_flag": "True",
-  #         "wait_flag": "False",
-  #         }
-  # config["gui"]={
-  #         "execute_flag":"True",
-  #         "wait_flag" : "False"
-  #         }
-  # config["main3"]={
-  #         "execute_flag": "True",
-  #         "wait_flag": "False"
-  #         }
-  # config["main2"]={
-  #         "execute_flag": "True",
-  #         "wait_flag": "False"
-  #         }
-  
-  # #SAVE/REWRITE CONFIG FILE
-  # with open("config.ini","w") as file_object:
-  #     config.write(file_object)
-  # print("Config file 'config.ini' created")
 
 def main():
   
@@ -81,69 +58,18 @@ def main():
   # wait for the wait_flag these 3 modules
   while(1):
     # Will read the config file again as the contents might change
-    # print("Inside the while condition")
     config.read('config.ini')
-    # if (config['vision']['wait_flag'] == 'True' and 
-    #     config['gui']['wait_flag'] == 'True' and
-    #     config['main3']['wait_flag'] == 'True') :
     if (config['vision']['wait_flag'] == 'True' and 
         config['main3']['wait_flag'] == 'True' and
         config['gui']['wait_flag'] == 'True') :
-      thread4 = threading.Thread(target = run_file, args=("main2.py",))
-      thread5 = threading.Thread(target = rewrite_config)
-      
-      thread4.start()
-      thread5.start()
-
-      thread4.join()
-      thread5.join()
-
+      # Define the commands to run each script
+      script_cmd = 'conda activate hri; python main2.py'      
+      subprocess.Popen(script_cmd, shell=True)
+      # subprocess.run(['conda', 'run', '-n', 'hri', 'python', 'main2.py'])
+      rewrite_config()
       # exit from the loop 
       break 
 
 
 if __name__ == "__main__":
     main()
-
-
-
-
-# thread1 = threading.Thread(target=run_file, args=("first.py",))
-# thread2 = threading.Thread(target=run_file, args=("second.py",))
-
-# thread1.start()
-# thread2.start()
-
-# thread1.join()
-# thread2.join()
-
- 
-# #create configparser object
-# config_file = configparser.ConfigParser()
- 
-# #define sections and their key and value pairs
-# config_file["Address"]={
-#         "Name": "Aditya Raj",
-#         "Village": "Bhojpur",
-#         "District": "Samastipur",
-#         "State": "Bihar"
-#         }
-# config_file["Education"]={
-#         "College":"IIITA",
-#         "Branch" : "IT"
-#         }
-# config_file["Favorites"]={
-#         "Sports": "VolleyBall",
-#         "Books": "Historical Books"
-#         }
- 
-# #SAVE CONFIG FILE
-# with open("config.ini","w") as file_object:
-#     config_file.write(file_object)
-# print("Config file 'config.ini' created")
- 
-# #print file content
-# read_file=open("config.ini","r")
-# content=read_file.read()
-# print("content of the config file is:")
-# print(content)
