@@ -443,8 +443,8 @@ def process_audio(model, API_URL):
     else:
         out = transcribe_whisper(audio_clip_path,model)
     
-    prompt = ". Answer this in two or less sentences "
-    out += prompt
+    #prompt = ". Answer this in two or less sentences "
+    #out += prompt
     if "dance" in out.lower():
         func = "Dance"
         arg = None
@@ -454,7 +454,7 @@ def process_audio(model, API_URL):
         arg = None
 
     else:
-        print("Getting Response from GPT")
+        print("Getting Response from LLM")
         try:
             func, arg = gptReq_withfunctions(out)
         except:
