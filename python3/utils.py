@@ -344,74 +344,84 @@ def get_directions_old(start_location, end_location):
 
 def gptReq_withfunctions(question):
     # using the openai api key
-    openai.api_key=openai_key
-
-    conversation.append({"role":"user","content": question})
-    response=openai.ChatCompletion.create(
-        model="gpt-3.5-turbo-16k",
-        messages=conversation,
-        temperature=0.2,
-        max_tokens=1000,
-        top_p=0.2,
-        functions=functions,
-        function_call="auto",
-    )
-    response_message = response["choices"][0]["message"]
-    if response_message.get("function_call"):
-        
-        available_functions = { "get_directions": get_directions , "president_ub" : president_ub, "chair_ub": chair_ub, "provost_ub": provost_ub , "Dean_ub": Dean_ub , "VPR_ub" : VPR_ub  }  
-        function_name = response_message["function_call"]["name"]
-
-        if function_name == "get_directions":
-            fuction_to_call = available_functions[function_name]
-            function_args = json.loads(response_message["function_call"]["arguments"])
-
-            
-            if function_args.get("start_location") == None:
-                s_location = "Davis Hall, University at Buffalo"
-            
-            e_location = function_args.get("end_location")
-
-            function_response = fuction_to_call(
-            start_location=s_location,
-            end_location= e_location,
-            )
-            print(f'Start location is {s_location}')
-            print(f"---")
-            print(f'Destination is {e_location}')
-        
-            return "map", function_response
-        
-        elif function_name == "president_ub":
-            fuction_to_call = available_functions[function_name]  
-            function_response = fuction_to_call()
-            return "president", function_response
-        
-        elif function_name == "chair_ub":
-            fuction_to_call = available_functions[function_name]
-            function_response = fuction_to_call()        
-            return "chair", function_response
-        
-        elif function_name == "provost_ub":
-            fuction_to_call = available_functions[function_name]
-            function_response = fuction_to_call()        
-            return "provost", function_response
-        
-        elif function_name == "Dean_ub":
-            fuction_to_call = available_functions[function_name]
-            function_response = fuction_to_call()        
-            return "dean", function_response
-        
-        elif function_name == "VPR_ub":
-            fuction_to_call = available_functions[function_name]
-            function_response = fuction_to_call()        
-            return "vpr", function_response
-
+    # openai.api_key=openai_key
+    data = {
+    'question':question,}
+    api_url = 'http://128.205.43.183:5104/chat' 
+    response = requests.post(api_url, json=data)
+    elapsed_time = response.elapsed.total_seconds()
+    print(elapsed_time)
+    if response.status_code == 200:
+        result = response.json()
+        answer = result.get('answer', 'No answer provided')
     else:
+        print("Error:", response.text)
+    # conversation.append({"role":"user","content": question})
+    # response=openai.ChatCompletion.create(
+    #     model="gpt-3.5-turbo-16k",
+    #     messages=conversation,
+    #     temperature=0.2,
+    #     max_tokens=1000,
+    #     top_p=0.2,
+    #     functions=functions,
+    #     function_call="auto",
+    # )
+    # response_message = response["choices"][0]["message"]
+    # if response_message.get("function_call"):
+        
+    #     available_functions = { "get_directions": get_directions , "president_ub" : president_ub, "chair_ub": chair_ub, "provost_ub": provost_ub , "Dean_ub": Dean_ub , "VPR_ub" : VPR_ub  }  
+    #     function_name = response_message["function_call"]["name"]
 
-        conversation.append({"role":"assistant","content":response['choices'][0]['message']['content']})
-        answer = response['choices'][0]['message']['content']
-        return "chat" , answer
+    #     if function_name == "get_directions":
+    #         fuction_to_call = available_functions[function_name]
+    #         function_args = json.loads(response_message["function_call"]["arguments"])
+
+            
+    #         if function_args.get("start_location") == None:
+    #             s_location = "Davis Hall, University at Buffalo"
+            
+    #         e_location = function_args.get("end_location")
+
+    #         function_response = fuction_to_call(
+    #         start_location=s_location,
+    #         end_location= e_location,
+    #         )
+    #         print(f'Start location is {s_location}')
+    #         print(f"---")
+    #         print(f'Destination is {e_location}')
+        
+    #         return "map", function_response
+        
+    #     elif function_name == "president_ub":
+    #         fuction_to_call = available_functions[function_name]  
+    #         function_response = fuction_to_call()
+    #         return "president", function_response
+        
+    #     elif function_name == "chair_ub":
+    #         fuction_to_call = available_functions[function_name]
+    #         function_response = fuction_to_call()        
+    #         return "chair", function_response
+        
+    #     elif function_name == "provost_ub":
+    #         fuction_to_call = available_functions[function_name]
+    #         function_response = fuction_to_call()        
+    #         return "provost", function_response
+        
+    #     elif function_name == "Dean_ub":
+    #         fuction_to_call = available_functions[function_name]
+    #         function_response = fuction_to_call()        
+    #         return "dean", function_response
+        
+    #     elif function_name == "VPR_ub":
+    #         fuction_to_call = available_functions[function_name]
+    #         function_response = fuction_to_call()        
+    #         return "vpr", function_response
+
+    # else:
+
+    #     #conversation.append({"role":"assistant","content":response['choices'][0]['message']['content']})
+    #     #answer = response['choices'][0]['message']['content']
+    return "chat", answer
 
 
 def process_audio(model, API_URL):
