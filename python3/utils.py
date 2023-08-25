@@ -445,13 +445,13 @@ def process_audio(model, API_URL):
 
     else:
         print("Getting Response from GPT")
-        try:
-            func, arg = gptReq_withfunctions(out)
-        except:
-            func = None
-            arg = None
+        # try:
+        func, arg = gptReq_withfunctions(out)
+        # except:
+        #     func = None
+        #     arg = None
         
-        print(f'{func} \n {arg}')
+        print(f'{func} : {arg}')
         
     proc_audio_bool = True
     return func, arg

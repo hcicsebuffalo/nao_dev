@@ -136,6 +136,7 @@ def wake_word():
                 if response.status_code == 200:
                     transcription = response.json()
                     if str(transcription['Detected']).lower() == str(AUDIO_AUTH_USER).lower():
+                        print(transcription['Sim'] , " <- simiarity")
                         if transcription['Sim'] < 0.7:
                             auth = True
                 else:
@@ -143,9 +144,9 @@ def wake_word():
                     
             
             if auth :
-                ret = {"func" : "chat_no_url" , "arg" : "Give me some time, I am working on it"}
+                #ret = {"func" : "chat_no_url" , "arg" : "Give me some time, I am working on it"}
                 #start_time = time.time()
-                conn.sendall(pickle.dumps([ret] , protocol = 2))
+                #conn.sendall(pickle.dumps([ret] , protocol = 2))
                 
                 func, arg = process_audio(model, TRANSCRIBE_API)
                 

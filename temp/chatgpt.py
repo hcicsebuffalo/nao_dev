@@ -2,11 +2,10 @@ import openai
 import json
 import os
 
-openai_key = os.environ["OPENAI_API_KEY"]
-
+openai_key = "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"
+#"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"
 question= "Hello, How are you"
 
-#this is the api key
 openai.api_key=openai_key
 # question=input("Enter your question: ")
 completion=openai.Completion.create(engine="text-davinci-003",prompt=question,max_tokens=1000)
