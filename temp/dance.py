@@ -3,21 +3,25 @@ import time
 
 #from python2.animations import *
 
-ip = "10.0.255.22"
+ip = "10.0.255.8"
 port = 9559
 
 tts = ALProxy("ALBehaviorManager" , ip, port)
+tts1 = ALProxy("ALRobotPosture" , ip, port)
 
 # path = "/home/nao/behavior.xar"
 
 # x = tts.getInstalledBehaviors()
 
 # #print(x)
-# #tts.preloadBehavior("System/animations/Stand/Waiting/AirGuitar_1")
+#tts.preloadBehavior("System/animations/Stand/Waiting/AirGuitar_1")
+
+tts1.goToPosture("Stand", 0.2)
+
+tts.startBehavior("animations/Stand/Gestures/BowShort_3")  
 
 
-
-tts.startBehavior("animations/Stand/Gestures/Kisses_1")  
+#animations/Stand/Gestures/BowShort_3
 
 #------------------
 # animations/Stand/Waiting/FunnyDancer_1 :
@@ -26,7 +30,7 @@ tts.startBehavior("animations/Stand/Gestures/Kisses_1")
 # animations/Sit/Waiting/DriveCar_1
 # animations/Stand/Waiting/HappyBirthday_1 :
 
-# with open("animations.txt", "w") as f:
+# with open("animations_pepper.txt", "w") as f:
 
 #     for i , elem in enumerate(x):
 #         out = str(i) + " : \"" + str(elem) + "\"  , "

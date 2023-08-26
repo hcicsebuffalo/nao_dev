@@ -2,6 +2,8 @@ import socket
 import pickle
 import threading
 import ast
+import time
+from naoqi import ALProxy
 
 class chatGPT(object):
 
@@ -112,6 +114,7 @@ class chatGPT(object):
                 self.play_song_sckt = threading.Thread( target= nao.play_song )
 
                 nao.posture.goToPosture("Stand" , 0.4)
+                nao.tab_reset()
                 nao.ledStopListening()
 
             elif result["func"] == "chat":
@@ -177,6 +180,34 @@ class chatGPT(object):
             elif result["func"] == "vpr":
                 image_path = "/home/hri/nao_dev/python2/drivers/vpr.png"
                 nao.sayText_with_image(image_path, str(result["arg"]) )
+                nao.posture.goToPosture("StandInit" , 0.4)
+                nao.ledStopListening()
+            
+            elif result["func"] == "intro":
+                nao.sayText("Hello, My name is Kai. I am a humanoid robot working under Professor Nalini Ratha in Davis Hall at University at Buffalo. I can answer any questions, give directions and perform dance moves ")
+                nao.posture.goToPosture("StandInit" , 0.4)
+                # nao.tab_reset()
+                nao.ledStopListening()
+            
+            elif result["func"] == "coffee":
+                nao.sayText("You can get good coffee at Tim Hortons and Starbucks at the University at Buffalo. Please find directions to coffee place on my display")
+                nao.display_givenURL(result["arg"])
+                nao.posture.goToPosture("StandInit" , 0.4)
+                nao.ledStopListening()
+            
+            elif result["func"] == "enable":
+                nao.sayText("Audio Authentication is enabled now")
+                nao.posture.goToPosture("StandInit" , 0.4)
+                nao.ledStopListening()
+            
+            elif result["func"] == "disable":
+                nao.sayText("Audio Authentication is disabled now")
+                nao.posture.goToPosture("StandInit" , 0.4)
+                nao.ledStopListening()
+            
+            elif result["func"] == "thanks":
+                nao.sayText("Thank you !!")
+
                 nao.posture.goToPosture("StandInit" , 0.4)
                 nao.ledStopListening()
 

@@ -48,10 +48,10 @@ led = None
 nao.load_function(nao, dance, play_song)
 
 gui_thread = threading.Thread(target= nao.socket_loop, args=(nao , True))
-chat_dance = threading.Thread(target= nao.initTG , args=(chat_dance_class, nao, dance, play_song, led))
+# chat_dance = threading.Thread(target= nao.initTG , args=(chat_dance_class, nao, dance, play_song, led))
 wake_thread = threading.Thread(target= nao.wake_wrd_loop, args=(nao , True))
 
-chat_dance.start()
+# chat_dance.start()
 gui_thread.start()
 wake_thread.start()
 

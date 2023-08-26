@@ -239,6 +239,46 @@ functions = [
             },
         },
 
+        {
+            "name": "Intro",
+            "description": "When someone ask to introduce yourself with questions like introduce yourself or Tell me something about yourself. Dont trigger when someask anything else ",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": [],
+            },
+        },
+
+        {
+            "name": "Coffee",
+            "description": "Where Can I find best coffee shop at University at Buffalo",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": [],
+            },
+        },
+
+        {
+            "name": "Disable",
+            "description": "When someone ask to disable authentication i.e to stop audio authentication",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": [],
+            },
+        },
+
+        {
+            "name": "Enable",
+            "description": "When someone ask to enable authentication i.e to start audio authentication",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": [],
+            },
+        },
+
     ]
 
 
@@ -256,6 +296,18 @@ def chair_ub():
 
 def president_ub():
     return " Dr. Satish Tripathi is President of the University at Buffalo."
+
+def intro():
+    return ""
+
+def enable():
+    return ""
+
+def disable():
+    return ""
+
+def Coffee():
+    return get_directions("Davis Hall, University at Buffalo", "Student Union, University at Buffalo")
 
 def get_directions(start_location, end_location):
     api_key = API_KEY
@@ -359,7 +411,7 @@ def gptReq_withfunctions(question):
     response_message = response["choices"][0]["message"]
     if response_message.get("function_call"):
         
-        available_functions = { "get_directions": get_directions , "president_ub" : president_ub, "chair_ub": chair_ub, "provost_ub": provost_ub , "Dean_ub": Dean_ub , "VPR_ub" : VPR_ub  }  
+        available_functions = { "get_directions": get_directions , "president_ub" : president_ub, "chair_ub": chair_ub, "provost_ub": provost_ub , "Dean_ub": Dean_ub , "VPR_ub" : VPR_ub , "Intro" : intro, "Coffee": Coffee, "Enable" : enable , "Disable" : disable }  
         function_name = response_message["function_call"]["name"]
 
         if function_name == "get_directions":
@@ -406,13 +458,33 @@ def gptReq_withfunctions(question):
             fuction_to_call = available_functions[function_name]
             function_response = fuction_to_call()        
             return "vpr", function_response
+        
+        elif function_name == "Intro":
+            fuction_to_call = available_functions[function_name]
+            function_response = fuction_to_call()        
+            return "intro", function_response
+        
+        elif function_name == "Coffee":
+            fuction_to_call = available_functions[function_name]
+            function_response = fuction_to_call()        
+            return "coffee", function_response
+        
+        elif function_name == "Enable":
+            fuction_to_call = available_functions[function_name]
+            function_response = fuction_to_call()        
+            return "enable", function_response
+        
+        elif function_name == "Disable":
+            fuction_to_call = available_functions[function_name]
+            function_response = fuction_to_call()        
+            return "disable", function_response
+        
 
     else:
 
         conversation.append({"role":"assistant","content":response['choices'][0]['message']['content']})
         answer = response['choices'][0]['message']['content']
         return "chat" , answer
-
 
 def process_audio(model, API_URL):
     global proc_audio_bool
