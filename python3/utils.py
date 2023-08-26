@@ -347,7 +347,7 @@ def gptReq_withfunctions(question):
     # openai.api_key=openai_key
     data = {
     'question':question,}
-    api_url = 'http://128.205.43.183:5106/chat' 
+    api_url = 'http://128.205.43.182:5106/chat' 
     response = requests.post(api_url, json=data)
     elapsed_time = response.elapsed.total_seconds()
     print(elapsed_time)
