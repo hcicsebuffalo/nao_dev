@@ -396,18 +396,19 @@ def get_directions_old(start_location, end_location):
 
 def gptReq_withfunctions(question):
     # using the openai api key
-    openai.api_key=openai_key
-
-    conversation.append({"role":"user","content": question})
-    response=openai.ChatCompletion.create(
-        model="gpt-3.5-turbo-16k",
-        messages=conversation,
-        temperature=0.2,
-        max_tokens=1000,
-        top_p=0.2,
-        functions=functions,
-        function_call="auto",
-    )
+    # openai.api_key=openai_key
+    data = {
+    'question':question,}
+    api_url = 'http://128.205.43.182:5106/chat' 
+    response = requests.post(api_url, json=data)
+    elapsed_time = response.elapsed.total_seconds()
+    print(elapsed_time)
+    if response.status_code == 200:
+        result = response.json()
+        answer = result.get('answer', 'No answer provided')
+    else:
+        print("Error:", response.text)
+    flag
     response_message = response["choices"][0]["message"]
     if response_message.get("function_call"):
         
@@ -481,9 +482,6 @@ def gptReq_withfunctions(question):
         
 
     else:
-
-        conversation.append({"role":"assistant","content":response['choices'][0]['message']['content']})
-        answer = response['choices'][0]['message']['content']
         return "chat" , answer
 
 def process_audio(model, API_URL):
