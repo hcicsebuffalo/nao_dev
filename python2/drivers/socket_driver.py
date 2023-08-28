@@ -64,6 +64,16 @@ class chatGPT(object):
                     nao.behave.startBehavior("animations/Stand/Emotions/Positive/Laugh_1")
                 elif "sing" in result.lower():
                     nao.behave.startBehavior("animations/Stand/Waiting/HappyBirthday_1")
+                elif "scratchehead" in result.lower():
+                    nao.behave.startBehavior("animations/Stand/Waiting/ScratchHead_1")
+                elif "zombie" in result.lower():
+                    nao.behave.startBehavior("animations/Stand/Waiting/Zombie_1")
+                elif "hungry" in result.lower():
+                    nao.behave.startBehavior("animations/Stand/Emotions/Positive/Hungry_1")
+                elif "embarassed" in result.lower():
+                    nao.behave.startBehavior("animations/Stand/Emotions/Neutral/Embarrassed_1")
+                elif "attention" in result.lower():
+                    nao.behave.startBehavior("animations/Stand/Emotions/Neutral/AskForAttention_1")
             except:
                 #print("Error in getting response")
                 pass

@@ -15,11 +15,11 @@ import socket
 import pickle
 import os
 import yaml
-from . import emotion
+# from . import emotion
 
 # Emotion code
 
-emotion.emotion_init()
+# emotion.emotion_init()
 
 
 # Load config parameters

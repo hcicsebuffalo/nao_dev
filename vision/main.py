@@ -100,9 +100,9 @@ while True:
   rabbit_channel.basic_publish(exchange='', routing_key='image_queue', body=image_str)
   #print( len(image_str) , " :  " , i)
 
-  k = cv2.waitKey(33)
-  if k==27:    # Esc key to stop
-    break
+  # k = cv2.waitKey(33)
+  # if k==27:    # Esc key to stop
+  #   break
   
 connection.close()
 tts.releaseImage(subscriberID)

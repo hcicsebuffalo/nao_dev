@@ -1,11 +1,11 @@
-model: Server #Server #Whisper 
-py_port: 9371
+model: Whisper #Server #Whisper 
+py_port: 9392
 use_wake_flag: 1
-gui_port: 9151
-face_recog: True
-audio_auth: True
+gui_port: 9159
+face_recog: False
+audio_auth: False
 face_recog_api: http://128.205.43.183:5001/face_recog
 transcribe_api: http://128.205.43.183:5001/transcribe
-audio_recog: True
+audio_recog: False
 audio_authen_api: http://128.205.43.183:5001/audio_recog
 audio_authe_user: ninad
