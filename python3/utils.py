@@ -525,8 +525,8 @@ def process_audio(model, API_URL):
     else:
         out = transcribe_whisper(audio_clip_path,model)
     
-    prompt = ". Answer this in two or less sentences "
-    out += prompt
+    #prompt = ". Answer this in two or less sentences "
+    #out += prompt
     if "dance" in out.lower():
         func = "Dance"
         arg = None
