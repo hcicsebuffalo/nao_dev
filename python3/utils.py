@@ -396,6 +396,7 @@ def get_directions_old(start_location, end_location):
 
 def check_functions_question(question):
     flag = 0
+    name = None
     function_mapping = {"Intro" : "intro", "Coffee": "Coffee", "Enable": "enable","Disable": "disable"}  
     key_list = list(function_mapping.keys())
     val_list = list(function_mapping.values())
@@ -407,6 +408,7 @@ def check_functions_question(question):
 
 def check_functions_answer(answer):
     flag = 0
+    name = None
     function_mapping = {"VPR_ub" : "Govindaraju", "president_ub" : "Satish", "chair_ub": "Jinhui", "provost_ub": "Scott" , "Dean_ub": "Kemper"}  
     key_list = list(function_mapping.keys())
     val_list = list(function_mapping.values())
