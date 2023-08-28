@@ -241,7 +241,7 @@ functions = [
 
         {
             "name": "Intro",
-            "description": "When someone ask to introduce yourself with questions like introduce yourself or Tell me something about yourself. Dont trigger when someask anything else ",
+            "description": "Tell me something about yourself ",
             "parameters": {
                 "type": "object",
                 "properties": {},
@@ -517,13 +517,13 @@ def process_audio(model, API_URL):
 
     else:
         print("Getting Response from GPT")
-        # try:
-        func, arg = gptReq_withfunctions(out)
-        # except:
-        #     func = None
-        #     arg = None
+        try:
+            func, arg = gptReq_withfunctions(out)
+        except:
+            func = None
+            arg = None
         
-        print(f'{func} : {arg}')
+        print(f'{func} \n {arg}')
         
     proc_audio_bool = True
     return func, arg

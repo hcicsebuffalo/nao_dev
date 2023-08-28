@@ -1,7 +1,7 @@
 model: Server #Server #Whisper 
-py_port: 9376
+py_port: 9373
 use_wake_flag: 1
-gui_port: 9156
+gui_port: 9153
 face_recog: True
 audio_auth: False
 face_recog_api: http://128.205.43.183:5001/face_recog
