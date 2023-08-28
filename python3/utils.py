@@ -393,13 +393,25 @@ def get_directions_old(start_location, end_location):
 
     return map_image_url
 
-def check_functions(question):
+
+def check_functions_question(question):
     flag = 0
-    function_mapping = { "get_directions": "directions" ,"VPR_ub" : "vice president", "president_ub" : "president", "chair_ub": "chair", "provost_ub": "provost" , "Dean_ub": "dean" , "Intro" : "intro", "Coffee": "Coffee", "Enable" : "enable" , "Disable" : "disable" }  
+    function_mapping = {"Intro" : "intro", "Coffee": "Coffee", "Enable": "enable","Disable": "disable"}  
     key_list = list(function_mapping.keys())
     val_list = list(function_mapping.values())
     for item in val_list:
         if item.lower() in question.lower():
+            function_name = key_list[val_list.index(item)]
+            flag = 1            
+     return function_name,flag   
+
+def check_functions_answer(answer):
+    flag = 0
+    function_mapping = {"VPR_ub" : "Govindaraju", "president_ub" : "Satish", "chair_ub": "Jinhui", "provost_ub": "Scott" , "Dean_ub": "Kemper"}  
+    key_list = list(function_mapping.keys())
+    val_list = list(function_mapping.values())
+    for item in val_list:
+        if item.lower() in answer.lower():
             function_name = key_list[val_list.index(item)]
             flag = 1            
      return function_name,flag       
@@ -408,9 +420,21 @@ def gptReq_withfunctions(question):
     # using the openai api key
     # openai.api_key=openai_key
     #response_message = response["choices"][0]["message"]
-    function_name,flag = check_functions(question)
+    function_name,flag = check_functions_question(question)
+    if flag !=1:
+        data = {'question':question,}
+        api_url = 'http://128.205.43.182:5106/chat' 
+        response = requests.post(api_url, json=data)
+        elapsed_time = response.elapsed.total_seconds()
+        print(elapsed_time)
+        if response.status_code == 200:
+            result = response.json()
+            answer = result.get('answer', 'No answer provided')
+        else:
+            print("Error:", response.text)
+        function_name,flag = check_functions_answer(answer)
     if flag == 1:        
-        available_functions = { "get_directions": get_directions , "president_ub" : president_ub, "chair_ub": chair_ub, "provost_ub": provost_ub , "Dean_ub": Dean_ub , "VPR_ub" : VPR_ub , "Intro" : intro, "Coffee": Coffee, "Enable" : enable , "Disable" : disable }  
+        available_functions = { "president_ub" : president_ub, "chair_ub": chair_ub, "provost_ub": provost_ub , "Dean_ub": Dean_ub , "VPR_ub" : VPR_ub , "Intro" : intro, "Coffee": Coffee, "Enable" : enable , "Disable" : disable }  
         #function_name = response_message["function_call"]["name"]
 
         if function_name == "get_directions":
@@ -480,16 +504,6 @@ def gptReq_withfunctions(question):
         
 
     else:
-        data = {'question':question,}
-        api_url = 'http://128.205.43.182:5106/chat' 
-        response = requests.post(api_url, json=data)
-        elapsed_time = response.elapsed.total_seconds()
-        print(elapsed_time)
-        if response.status_code == 200:
-            result = response.json()
-            answer = result.get('answer', 'No answer provided')
-        else:
-            print("Error:", response.text)
         return "chat" , answer
 
 def process_audio(model, API_URL):
