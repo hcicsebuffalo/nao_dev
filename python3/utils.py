@@ -403,7 +403,7 @@ def check_functions_question(question):
         if item.lower() in question.lower():
             function_name = key_list[val_list.index(item)]
             flag = 1            
-     return function_name,flag   
+    return function_name,flag   
 
 def check_functions_answer(answer):
     flag = 0
@@ -414,7 +414,7 @@ def check_functions_answer(answer):
         if item.lower() in answer.lower():
             function_name = key_list[val_list.index(item)]
             flag = 1            
-     return function_name,flag       
+    return function_name,flag       
 
 def gptReq_withfunctions(question):
     # using the openai api key
@@ -501,8 +501,6 @@ def gptReq_withfunctions(question):
             fuction_to_call = available_functions[function_name]
             function_response = fuction_to_call()        
             return "disable", function_response
-        
-
     else:
         return "chat" , answer
 
