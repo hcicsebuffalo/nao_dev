@@ -64,7 +64,7 @@ class chatGPT(object):
                     nao.behave.startBehavior("animations/Stand/Emotions/Positive/Laugh_1")
                 elif "sing" in result.lower():
                     nao.behave.startBehavior("animations/Stand/Waiting/HappyBirthday_1")
-                elif "scratchehead" in result.lower():
+                elif "scratchhead" in result.lower():
                     nao.behave.startBehavior("animations/Stand/Waiting/ScratchHead_1")
                 elif "zombie" in result.lower():
                     nao.behave.startBehavior("animations/Stand/Waiting/Zombie_1")
@@ -74,6 +74,44 @@ class chatGPT(object):
                     nao.behave.startBehavior("animations/Stand/Emotions/Neutral/Embarrassed_1")
                 elif "attention" in result.lower():
                     nao.behave.startBehavior("animations/Stand/Emotions/Neutral/AskForAttention_1")
+                elif "fear" in result.lower():
+                    nao.behave.startBehavior("animations/Stand/Emotions/Negative/Fear_1")
+                elif "hurt" in result.lower():
+                    nao.behave.startBehavior("animations/Stand/Emotions/Negative/Hurt_1")
+                elif "relieved" in result.lower():
+                    nao.behave.startBehavior("animations/Stand/Emotions/Positive/Relieved_1")
+                elif "hideeyes" in result.lower():
+                    nao.behave.startBehavior("animations/Stand/Waiting/HideEyes_1")
+                elif "kungfu" in result.lower():
+                    nao.behave.startBehavior("animations/Stand/Waiting/KungFu_1")
+                elif "loveyou" in result.lower():
+                    nao.behave.startBehavior("nimations/Stand/Waiting/LoveYou_1")
+                elif "relaxed" in result.lower():
+                    nao.behave.startBehavior("animations/Stand/Waiting/Relaxation_2")
+                elif "scratchbottom" in result.lower():
+                    nao.behave.startBehavior("animations/Stand/Waiting/ScratchBottom_1")
+                elif "space" in result.lower():
+                    nao.behave.startBehavior("animations/Stand/Waiting/SpaceShuttle_1")
+                elif "taxi" in result.lower():
+                    nao.behave.startBehavior("animations/Stand/Waiting/Taxi_1")
+                elif "mischievous" in result.lower():
+                    nao.behave.startBehavior("animations/Stand/Emotions/Neutral/Mischievous_1")
+                elif "sneeze" in result.lower():
+                    nao.behave.startBehavior("animations/Stand/Emotions/Neutral/Sneeze")
+                elif "surprise" in result.lower():
+                    nao.behave.startBehavior("animations/Stand/Emotions/Negative/Surprise_1")
+                elif "suspicious" in result.lower():
+                    nao.behave.startBehavior("animations/Stand/Emotions/Neutral/Suspicious_1")
+                elif "ecstatic" in result.lower():
+                    nao.behave.startBehavior("animations/Stand/Emotions/Positive/Ecstatic_1")
+                elif "hysterical" in result.lower():
+                    nao.behave.startBehavior("animations/Stand/Emotions/Positive/Hysterical_1")
+                elif "vacuum" in result.lower():
+                    nao.behave.startBehavior("animations/Stand/Waiting/Vacuum_1")
+                # elif "talk" in result.lower():
+                #     nao.behave.startBehavior("animations/SitOnPod/BodyTalk/Speaking/BodyTalk_9")
+                # elif "talk2" in result.lower():
+                #     nao.behave.startBehavior("animations/Stand/Emotions/Negative/Sorry_1")
             except:
                 #print("Error in getting response")
                 pass
@@ -190,7 +228,7 @@ class chatGPT(object):
                 nao.ledStopListening()
 
             else:
-                nao.sayText_no_url( " Unknown command recived, Please try again  " )
+                nao.sayText_no_url( " Unknown command received, Please try again  " )
                 print("------\n")
                 print("Error encountered ")
                 nao.posture.goToPosture("Stand" , 0.4)
