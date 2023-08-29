@@ -31,26 +31,26 @@ class chat_dance_class(object):
 
         # Touch Interrupts 
 
-        # self.touch = self.my_memory.subscriber("MiddleTactilTouched")
-        # self.touch_id=self.touch.signal.connect(self.onMiddleTouch)
+        self.touch = self.my_memory.subscriber("MiddleTactilTouched")
+        self.touch_id=self.touch.signal.connect(self.onMiddleTouch)
 
         self.Fronttouch = self.my_memory.subscriber("FrontTactilTouched")
         self.Fronttouch_id=self.Fronttouch.signal.connect(self.onFrontTouch)
 
-        # self.Reartouch = self.my_memory.subscriber("RearTactilTouched")
-        # self.Reartouch_id=self.Reartouch.signal.connect(self.onRearTouch)
+        self.Reartouch = self.my_memory.subscriber("RearTactilTouched")
+        self.Reartouch_id=self.Reartouch.signal.connect(self.onRearTouch)
 
-        # self.HandRLtouch = self.my_memory.subscriber("HandRightLeftTouched")
-        # self.HandRLtouch_id=self.HandRLtouch.signal.connect(self.onHandRightLeftTouch)
+        self.HandRLtouch = self.my_memory.subscriber("HandRightLeftTouched")
+        self.HandRLtouch_id=self.HandRLtouch.signal.connect(self.onHandRightLeftTouch)
 
-        # self.HandRRtouch = self.my_memory.subscriber("HandRightRightTouched")
-        # self.HandRRtouch_id=self.HandRRtouch.signal.connect(self.onHandRightRightTouch)
+        self.HandRRtouch = self.my_memory.subscriber("HandRightRightTouched")
+        self.HandRRtouch_id=self.HandRRtouch.signal.connect(self.onHandRightRightTouch)
 
-        # self.HandLLtouch = self.my_memory.subscriber("HandLeftLeftTouched")
-        # self.HandLLtouch_id=self.HandLLtouch.signal.connect(self.onHandLeftLeftTouch)
+        self.HandLLtouch = self.my_memory.subscriber("HandLeftLeftTouched")
+        self.HandLLtouch_id=self.HandLLtouch.signal.connect(self.onHandLeftLeftTouch)
 
-        # self.HandLRtouch = self.my_memory.subscriber("HandLeftRightTouched")
-        # self.HandLRtouch_id=self.HandLRtouch.signal.connect(self.onHandLeftRightTouch)
+        self.HandLRtouch = self.my_memory.subscriber("HandLeftRightTouched")
+        self.HandLRtouch_id=self.HandLRtouch.signal.connect(self.onHandLeftRightTouch)
 
         #self.HandRBtouch = self.my_memory.subscriber("HandRightBackTouched")
         #self.HandRBtouch_id=self.HandRBtouch.signal.connect(self.onHandRightBackTouch)
@@ -228,7 +228,7 @@ class chat_dance_class(object):
         try: 
             self.Fronttouch_id=self.Fronttouch.signal.connect(self.onFrontTouch)
         except:
-            print("error touch ")
+            print("error ---")
 
     def onRearTouch(self,qwe):
         bool_okay=self.Reartouch.signal.disconnect(self.Reartouch_id)

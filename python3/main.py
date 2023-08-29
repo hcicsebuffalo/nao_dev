@@ -31,7 +31,7 @@ with open(yml_path, 'r') as ymlfile:
     #param = yaml.load(ymlfile)
     try:
         param = yaml.safe_load(ymlfile)
-        #print(param , "-----------")
+        print(param , "-----------")
     except yaml.YAMLError as e:
         print(e, "-------")
     
@@ -49,10 +49,10 @@ if param["model"] == "Whisper":
 
 elif param["model"] == "Server":
     model = "Server"
-    #print("Server will be used for ml models")
+    print("Server will be used for ml models")
 else:
     model = None
-    #print("Google APIs in use .. ")
+    print("Google APIs in use .. ")
 
 #model = whisper.load_model("large")
 
@@ -110,7 +110,7 @@ out = None
 #get_res_thread = threading.Thread(target= get_response_gpt)
 
 def wake_word():
-    global conn , out, get_res_thread , AUDIO_RECOG
+    global conn , out, get_res_thread
     print("Listening for wake word...")
     while True:
         # Read a frame of audio
@@ -148,13 +148,7 @@ def wake_word():
                 # conn.sendall(pickle.dumps([ret] , protocol = 2))
                 
                 func, arg = process_audio(model, TRANSCRIBE_API)
-
-                if func == "enable":
-                    AUDIO_RECOG = True
                 
-                if func == "disable":
-                    AUDIO_RECOG = False
-
                 ret = {"func" : func , "arg" : arg}
                 conn.sendall(pickle.dumps([ret] , protocol = 2))
             else:
@@ -162,10 +156,10 @@ def wake_word():
                 conn.sendall(pickle.dumps([ret] , protocol = 2))
         
 
-# gpt_thread = threading.Thread(target= gpt_socket )
+gpt_thread = threading.Thread(target= gpt_socket )
 wake_wrd_thread = threading.Thread(target= wake_word)
 
-# gpt_thread.start()
+gpt_thread.start()
 wake_wrd_thread.start()
 
 

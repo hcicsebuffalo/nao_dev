@@ -19,7 +19,7 @@ from . import emotion
 
 # Emotion code
 
-# emotion.emotion_init()
+emotion.emotion_init()
 
 
 # Load config parameters
@@ -30,7 +30,7 @@ with open(yml_path, 'r') as ymlfile:
     #param = yaml.load(ymlfile)
     try:
         param = yaml.safe_load(ymlfile)
-        #print(param)
+        print(param)
     except yaml.YAMLError as e:
         print(e)
 
