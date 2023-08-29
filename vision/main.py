@@ -76,7 +76,7 @@ try:
 
     img = (np.reshape(np.frombuffer(nao_image[6], dtype = '%iuint8' % nao_image[2]), (nao_image[1], nao_image[0], nao_image[2])))
     img = np.array(img)
-    img = np.flipud(img)  
+    #img = np.flipud(img)  
 
     img = cv2.cvtColor(img,cv2.COLOR_RGB2BGR) 
     if FACE_RECOG:
