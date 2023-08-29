@@ -145,6 +145,7 @@ class chat_dance_class(object):
     def onMiddleTouch(self,qwe):
         bool_okay=self.touch.signal.disconnect(self.touch_id)
         self.beh.startBehavior("animations/Stand/Waiting/WakeUp_1")
+        
         print(" Middle Touch detected ") 
         time.sleep(4)
         try: 
@@ -152,6 +153,9 @@ class chat_dance_class(object):
         except:
             print("error ---")
         
+        self.nao.posture.goToPosture("Stand" , 0.4)
+        self.nao.sayText_no_url("Hello, I am Aiko. Nice to meet you")
+        time.sleep(1)
         self.nao.posture.goToPosture("Stand" , 0.4)
    
     def process_res(self, res):

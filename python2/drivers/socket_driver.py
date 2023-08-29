@@ -226,6 +226,11 @@ class chatGPT(object):
                 nao.sayText_no_url( str(result["arg"]) )
                 nao.posture.goToPosture("StandInit" , 0.4)
                 nao.ledStopListening()
+            
+            elif result["func"] == "sing":
+                nao.behave.startBehavior("animations/Stand/Waiting/HappyBirthday_1")        
+                nao.posture.goToPosture("StandInit" , 0.4)
+                nao.ledStopListening()
 
             else:
                 nao.sayText_no_url( " Unknown command received, Please try again  " )

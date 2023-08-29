@@ -67,43 +67,47 @@ present_time = datetime.now()
 diff_in_time = 0
 
 
+try:
+  while True:
+  #while diff_in_time != 5:
+    i += 1 # ninad
+    nao_image = tts.getImageRemote(str(subscriberID))
 
-while True:
-#while diff_in_time != 5:
-  i += 1 # ninad
-  nao_image = tts.getImageRemote(str(subscriberID))
+    img = (np.reshape(np.frombuffer(nao_image[6], dtype = '%iuint8' % nao_image[2]), (nao_image[1], nao_image[0], nao_image[2])))
+    img = np.array(img)
+    #img = np.flipud(img)
 
-  img = (np.reshape(np.frombuffer(nao_image[6], dtype = '%iuint8' % nao_image[2]), (nao_image[1], nao_image[0], nao_image[2])))
-  img = np.array(img)
-  #img = np.flipud(img)
+    img = cv2.cvtColor(img,cv2.COLOR_RGB2BGR) 
+    if FACE_RECOG:
+      _, image_encoded = cv2.imencode('.jpg', img)
+      image_bytes = image_encoded.tobytes()
 
-  img = cv2.cvtColor(img,cv2.COLOR_RGB2BGR) 
-  if FACE_RECOG:
-    _, image_encoded = cv2.imencode('.jpg', img)
-    image_bytes = image_encoded.tobytes()
+      # Send the image data to the server
+      response = requests.post(API_URL, files={'image': ('image.jpg', image_bytes)})
 
-    # Send the image data to the server
-    response = requests.post(API_URL, files={'image': ('image.jpg', image_bytes)})
+      if response.status_code == 200:
+          processed_image_data = np.frombuffer(response.content, np.uint8)
+          img = cv2.imdecode(processed_image_data, cv2.IMREAD_UNCHANGED)
 
-    if response.status_code == 200:
-        processed_image_data = np.frombuffer(response.content, np.uint8)
-        img = cv2.imdecode(processed_image_data, cv2.IMREAD_UNCHANGED)
+    print( (nao_image[1], nao_image[0], nao_image[2]) , time.time())
+    
+    #cv2.imshow("Input", img)
 
-  print( (nao_image[1], nao_image[0], nao_image[2]) , time.time())
-  
-  #cv2.imshow("Input", img)
+    # Encode image to base64 string
+    retval, buffer = cv2.imencode('.jpg', img)
+    #image_str = base64.b64encode(buffer)#.decode('utf-8')
+    image_str = buffer.tobytes()
+    rabbit_channel.basic_publish(exchange='', routing_key='image_queue', body=image_str)
+    #print( len(image_str) , " :  " , i)
 
-  # Encode image to base64 string
-  retval, buffer = cv2.imencode('.jpg', img)
-  #image_str = base64.b64encode(buffer)#.decode('utf-8')
-  image_str = buffer.tobytes()
-  rabbit_channel.basic_publish(exchange='', routing_key='image_queue', body=image_str)
-  #print( len(image_str) , " :  " , i)
+    # k = cv2.waitKey(33)
+    # if k==27:    # Esc key to stop
+    #   break
 
-  # k = cv2.waitKey(33)
-  # if k==27:    # Esc key to stop
-  #   break
-  
+except KeyboardInterrupt:
+  tts.releaseImage(subscriberID)
+  tts.unsubscribe(subscriberID)    
+  print("--- Vision code interrupted -- ") 
 connection.close()
 tts.releaseImage(subscriberID)
 tts.unsubscribe(subscriberID)

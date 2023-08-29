@@ -239,6 +239,16 @@ functions = [
             },
         },
 
+        {
+            "name": "sing",
+            "description": "When someone ask to sing any song",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": [],
+            },
+        },
+
     ]
 
 
@@ -253,6 +263,9 @@ def provost_ub():
 
 def chair_ub():
     return " Dr. Jinhui Xu is a Chair of CSE department at the University at Buffalo."
+
+def sing():
+    return ""
 
 def president_ub():
     return " Dr. Satish Tripathi is President of the University at Buffalo."
@@ -359,7 +372,7 @@ def gptReq_withfunctions(question):
     response_message = response["choices"][0]["message"]
     if response_message.get("function_call"):
         
-        available_functions = { "get_directions": get_directions , "president_ub" : president_ub, "chair_ub": chair_ub, "provost_ub": provost_ub , "Dean_ub": Dean_ub , "VPR_ub" : VPR_ub  }  
+        available_functions = { "get_directions": get_directions , "president_ub" : president_ub, "chair_ub": chair_ub, "provost_ub": provost_ub , "Dean_ub": Dean_ub , "VPR_ub" : VPR_ub, "sing" : sing  }  
         function_name = response_message["function_call"]["name"]
 
         if function_name == "get_directions":
@@ -407,6 +420,11 @@ def gptReq_withfunctions(question):
             function_response = fuction_to_call()        
             return "vpr", function_response
 
+        elif function_name == "sing":
+            fuction_to_call = available_functions[function_name]
+            function_response = fuction_to_call()        
+            return "sing", function_response
+
     else:
 
         conversation.append({"role":"assistant","content":response['choices'][0]['message']['content']})
@@ -451,7 +469,7 @@ def process_audio(model, API_URL):
             func = None
             arg = None
         
-        print(f'{func} \n {arg}')
+        print(f'{func} : {arg}')
         
     proc_audio_bool = True
     return func, arg
