@@ -18,7 +18,7 @@ tts1 = ALProxy("ALRobotPosture" , ip, port)
 
 tts1.goToPosture("Stand", 0.2)
 
-tts.startBehavior("animations/Stand/Gestures/BowShort_3")  
+tts.startBehavior("animations/Stand/Gestures/BowShort_1")  
 
 
 #animations/Stand/Gestures/BowShort_3

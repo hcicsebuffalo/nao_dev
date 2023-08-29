@@ -49,7 +49,7 @@ class chatGPT(object):
         except:
             print("Error in getting response")
             return None
-        
+
     def socket_loop(self, nao, gui):
         while gui:
             t = self.gui_socket.recv(1024)
@@ -59,13 +59,31 @@ class chatGPT(object):
                 print('Gui Out ------- :', result)
                 #return result
                 if "dance" in result.lower():
+                    print("dancing")
                     nao.behave.startBehavior("animations/Stand/Waiting/FunnyDancer_1")
+                    print("dancing")
                 elif "take" in result.lower():
+                    print("take")
                     nao.behave.startBehavior("animations/Stand/Waiting/TakePicture_1")
+                    print("take")
                 elif "laugh" in result.lower():
                     nao.behave.startBehavior("animations/Stand/Emotions/Positive/Laugh_1")
+                    print("laugh")
                 elif "sing" in result.lower():
                     nao.behave.startBehavior("animations/Stand/Waiting/HappyBirthday_1")
+                    print("sing")
+                elif "scratchhead" in result.lower():
+                    nao.behave.startBehavior("animations/Stand/Waiting/ScratchHead_1")
+                    print("scratchhead")
+                elif "hungry" in result.lower():
+                    nao.behave.startBehavior("animations/Stand/Emotions/Positive/Hungry_1")
+                    print("hungry")
+                elif "embarassed" in result.lower():
+                    nao.behave.startBehavior("animations/Stand/Emotions/Neutral/Embarrassed_1")
+                    print("embarassed")
+                elif "attention" in result.lower():
+                    nao.behave.startBehavior("animations/Stand/Emotions/Neutral/AskForAttention_1")
+                    print("attention")
             except:
                 #print("Error in getting response")
                 pass
@@ -136,7 +154,7 @@ class chatGPT(object):
                 print("Map will be displayed")
                 print("------\n")
                 print(result["arg"])
-                nao.sayText_no_url( "Please find map shown on my display. " )
+                nao.sayText_no_url( "We are currently in Davis 106 room. Please find direction to destination shown on my display. " )
                 nao.display_givenURL(result["arg"])
                 
                 nao.posture.goToPosture("Stand" , 0.4)
@@ -186,6 +204,7 @@ class chatGPT(object):
             elif result["func"] == "intro":
                 nao.sayText("Hello, My name is Kai. I am a humanoid robot working under Professor Nalini Ratha in Davis Hall at University at Buffalo. I can answer any questions, give directions and perform dance moves ")
                 nao.posture.goToPosture("StandInit" , 0.4)
+                nao.behave.startBehavior("animations/Stand/Gestures/BowShort_1")
                 # nao.tab_reset()
                 nao.ledStopListening()
             
@@ -196,17 +215,23 @@ class chatGPT(object):
                 nao.ledStopListening()
             
             elif result["func"] == "enable":
-                nao.sayText("Audio Authentication is enabled now")
+                nao.sayText("Audio Visual Authentication is enabled now")
                 nao.posture.goToPosture("StandInit" , 0.4)
                 nao.ledStopListening()
             
             elif result["func"] == "disable":
-                nao.sayText("Audio Authentication is disabled now")
+                nao.sayText("Audio Visual Authentication is disabled now")
                 nao.posture.goToPosture("StandInit" , 0.4)
                 nao.ledStopListening()
             
             elif result["func"] == "thanks":
                 nao.sayText("Thank you !!")
+                nao.behave.startBehavior("animations/Stand/Gestures/BowShort_3")
+                nao.posture.goToPosture("StandInit" , 0.4)
+                nao.ledStopListening()
+
+            elif result["func"] == "wakeup":
+                nao.sayText("Hi, I am Kai. I ready to assit you now.")
 
                 nao.posture.goToPosture("StandInit" , 0.4)
                 nao.ledStopListening()

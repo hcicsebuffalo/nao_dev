@@ -240,16 +240,6 @@ functions = [
         },
 
         {
-            "name": "Intro",
-            "description": "Tell me something about yourself ",
-            "parameters": {
-                "type": "object",
-                "properties": {},
-                "required": [],
-            },
-        },
-
-        {
             "name": "Coffee",
             "description": "Where Can I find best coffee shop at University at Buffalo",
             "parameters": {
@@ -279,7 +269,29 @@ functions = [
             },
         },
 
+        
+        {
+            "name": "Wakeup",
+            "description": "When someone ask to wakeup",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": [],
+            },
+        },
+
+        {
+            "name": "Thanks",
+            "description": "When someone ask to say Thank you",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": [],
+            },
+        },
+
     ]
+
 
 
 def VPR_ub():
@@ -297,7 +309,10 @@ def chair_ub():
 def president_ub():
     return " Dr. Satish Tripathi is President of the University at Buffalo."
 
-def intro():
+def wakeup():
+    return ""
+
+def thanks():
     return ""
 
 def enable():
@@ -318,7 +333,7 @@ def get_directions(start_location, end_location):
     end_geocode = gmaps.geocode(end_location)
 
     if not start_geocode or not end_geocode:
-        return "Error: Invalid start or end location."
+        return None
 
     start_latlng = start_geocode[0]['geometry']['location']
     end_latlng = end_geocode[0]['geometry']['location']
@@ -411,7 +426,7 @@ def gptReq_withfunctions(question):
     response_message = response["choices"][0]["message"]
     if response_message.get("function_call"):
         
-        available_functions = { "get_directions": get_directions , "president_ub" : president_ub, "chair_ub": chair_ub, "provost_ub": provost_ub , "Dean_ub": Dean_ub , "VPR_ub" : VPR_ub , "Intro" : intro, "Coffee": Coffee, "Enable" : enable , "Disable" : disable }  
+        available_functions = { "get_directions": get_directions , "president_ub" : president_ub, "chair_ub": chair_ub, "provost_ub": provost_ub , "Dean_ub": Dean_ub , "VPR_ub" : VPR_ub , "Coffee": Coffee, "Enable" : enable , "Disable" : disable, "Wakeup" : wakeup, "Thanks" : thanks }   #"Intro" : intro,
         function_name = response_message["function_call"]["name"]
 
         if function_name == "get_directions":
@@ -428,6 +443,10 @@ def gptReq_withfunctions(question):
             start_location=s_location,
             end_location= e_location,
             )
+
+            if function_response == None:
+                return "chat", "Could you please repeat that?"
+            
             print(f'Start location is {s_location}')
             print(f"---")
             print(f'Destination is {e_location}')
@@ -459,11 +478,6 @@ def gptReq_withfunctions(question):
             function_response = fuction_to_call()        
             return "vpr", function_response
         
-        elif function_name == "Intro":
-            fuction_to_call = available_functions[function_name]
-            function_response = fuction_to_call()        
-            return "intro", function_response
-        
         elif function_name == "Coffee":
             fuction_to_call = available_functions[function_name]
             function_response = fuction_to_call()        
@@ -479,7 +493,16 @@ def gptReq_withfunctions(question):
             function_response = fuction_to_call()        
             return "disable", function_response
         
+        elif function_name == "Wakeup":
+            fuction_to_call = available_functions[function_name]
+            function_response = fuction_to_call()        
+            return "wakeup", function_response
 
+        elif function_name == "Thanks":
+            fuction_to_call = available_functions[function_name]
+            function_response = fuction_to_call()        
+            return "thanks", function_response
+        
     else:
 
         conversation.append({"role":"assistant","content":response['choices'][0]['message']['content']})
