@@ -231,7 +231,7 @@ class chatGPT(object):
                 nao.ledStopListening()
 
             elif result["func"] == "wakeup":
-                nao.sayText("Hi, I am Kai. I ready to assit you now.")
+                nao.sayText("Hi, I am Kai. I ready to assist you now.")
 
                 nao.posture.goToPosture("StandInit" , 0.4)
                 nao.ledStopListening()
