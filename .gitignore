@@ -1,2 +1,4 @@
 face_detection/__pycache__/
 face_detection/datasets/
+experimentation/train_yolos_huggingface_object_detection_on_custom_data.ipynb
+yolov5/
