@@ -193,7 +193,7 @@ class chatGPT(object):
             
             elif result["func"] == "Reset":
                 # nao.tab_reset()
-                nao.sayText_no_url( "Code has been reset " )
+                # nao.sayText_no_url( "Code has been reset " )
                 nao.posture.goToPosture("StandInit" , 0.4)
                 nao.ledStopListening()
             
