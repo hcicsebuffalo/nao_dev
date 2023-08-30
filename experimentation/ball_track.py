@@ -19,7 +19,8 @@ import matplotlib.pyplot as plt
 
 
 
-NAO_IP = "10.0.255.8"
+# using pepper ip and port though. :)
+NAO_IP = "10.0.255.8" 
 NAO_PORT = 9559
 
 width = 1280
@@ -29,7 +30,7 @@ channel = 3
 fps = 30
 sec = 5
 
-def detect(frame):
+def detect_traditional(frame):
   
   img = frame.copy()
   lower_red = np.array([0, 0, 90])
@@ -67,7 +68,48 @@ def detect(frame):
       
   return img , x,y,radius
 
+# we have to use the detect_YOLO fn on python3, this will not work here
+def detect_YOLO(img):
+    # load custom model
+    model = yolov5.load('best.pt')    
 
+    # set model parameters
+    model.conf = 0.40  # NMS confidence threshold
+    model.iou = 0.45  # NMS IoU threshold
+    model.agnostic = False  # NMS class-agnostic 
+    model.max_det = 1000  # maximum number of detections per image
+
+    # Perform object detection
+    results = model(img)
+
+    # Get detected objects
+    detected_objects = results.pred[0]
+    no_of_detected_objects = len(detected_objects)
+
+    boxes = detected_objects[:, :4] # x1, y1, x2, y2
+    scores = detected_objects[:, 4]
+    categories = detected_objects[:, 5]
+
+    # Get the center coordinates
+    boxes = boxes.squeeze(0)
+    center_x = (boxes[0] + boxes[2]) / 2
+    center_y = (boxes[1] + boxes[3]) / 2
+    if (center_x.is_cuda):
+        center_x = center_x.cpu()
+        center_x = center_x.numpy()
+        center_y = center_y.cpu()
+        center_y = center_y.numpy()        
+    else:
+        center_x = center_x.numpy()
+        center_y = center_y.numpy()
+
+    # Save the image with bounding boxes
+    img_with_boxes = results.render()[0]
+    img_with_boxes_pil = Image.fromarray(img_with_boxes)
+
+    return img_with_boxes_pil, center_x, center_y, no_of_detected_objects
+
+# Define the video proxy
 tts = ALProxy("ALVideoDevice", NAO_IP, NAO_PORT)
 camera_index = 0
 resolution = 3
@@ -82,7 +124,7 @@ tts.startCamera(camera_index)
 motion_service = ALProxy("ALMotion" , NAO_IP, NAO_PORT)
 motion_service.setStiffnesses("Head", 1.0)
 
-names            = ["HeadYaw", "HeadPitch"]
+names = ["HeadYaw", "HeadPitch"]
 fractionMaxSpeed = 0.1
 kp_x = 0.0005
 kd_x = 0.0
@@ -125,6 +167,9 @@ reset()
 time.sleep(5)
 print("********** Started Tracking ********** ")
 
+
+flag = 0 # 0-traditional, 1-YOLO
+
 while True:
 
     try:
@@ -139,10 +184,17 @@ while True:
 
         # print( (nao_image[1], nao_image[0], nao_image[2]) , time.time())
 
-        img , x,y, radius = detect(img)
-        
-        if radius != None and radius > 50:
-            track(x,y)
+        if flag == 0:
+            img , x,y, radius = detect_traditional(img)
+            
+            if radius != None and radius > 50:
+                track(x,y)
+
+        elif flag == 1:
+            img, x, y, no_of_detected_objects = detect_YOLO(img)
+            
+            if (no_of_detected_objects > 0):
+                track(x,y)
 
         cv2.imshow("Output", img)
 
