@@ -55,6 +55,7 @@ def callback(ch, method, properties, body):
 connection = pika.BlockingConnection(pika.ConnectionParameters(host='127.0.0.1'))
 rabbit_channel = connection.channel()
 rabbit_channel.queue_declare(queue='image_queue')
+rabbit_channel.queue_declare(queue='gui_queue')
 rabbit_channel.basic_consume(queue='image_queue', on_message_callback=callback, auto_ack=True)
 
 img_recv = None
@@ -70,9 +71,6 @@ def get_img():
 
     # Close the connection to PC1
     #connection.close()
-
-img_recv_thread = threading.Thread( target = get_img )
-img_recv_thread.start()
 
 def video_feed():
     print("*****************")
@@ -121,18 +119,18 @@ def getfeed(request):
     resp = HttpResponse("hi")
     return response
     # return StreamingHttpResponse(responser(0, url),  )
-conn = None
-def establish_connection():
-    global conn
-    PORT = param["gui_port"]
-    gui_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    gui_socket.bind(("127.0.0.1", PORT))
-    gui_socket.listen()
-    print(" Establishing connection with python2")
-    conn, addr = gui_socket.accept()
-    print('Connection Established ......')
 
-establish_connection()
+# def establish_connection():
+#     global conn
+#     PORT = param["gui_port"]
+#     gui_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+#     gui_socket.bind(("127.0.0.1", PORT))
+#     gui_socket.listen()
+#     print(" Establishing connection with python2")
+#     conn, addr = gui_socket.accept()
+#     print('Connection Established ......')
+
+# establish_connection()
 
 @csrf_exempt
 def action(request):
@@ -141,7 +139,9 @@ def action(request):
         received_string = request.body
         decoded_data = json.loads(received_string.decode('utf-8'))
         body = decoded_data['body']
-        conn.sendall(pickle.dumps([body] , protocol = 2))
+
+        message_body = json.dumps("Dance")
+        rabbit_channel.basic_publish(exchange='', routing_key='gui_queue', body=message_body)
         print("ACTION -> ", body)
         
     response_data = {'message': body+' completed successfully.'}
@@ -155,3 +155,6 @@ def getlog(request):
 
 def getchat(request):
     pass
+
+img_recv_thread = threading.Thread( target = get_img )
+img_recv_thread.start()

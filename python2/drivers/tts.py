@@ -96,7 +96,7 @@ class tts(base):
             text_y += text_height
 
         # Save the image to a file
-        image.save("text_image.png")
+        image.save("images/text_image.png")
 
         cloudinary.config(
         cloud_name = 'dqflv49oz', 
@@ -104,7 +104,7 @@ class tts(base):
         api_secret = 'ML519Ik_1kbfPo9tpkSvSifrUoc' 
         )
 
-        response = cloudinary.uploader.upload("text_image.png")
+        response = cloudinary.uploader.upload("images/text_image.png")
         image_url = response['secure_url']
 
         return image_url
@@ -166,7 +166,7 @@ class tts(base):
             text_y += text_height
 
         # Save the image to a file
-        image.save("output_image.png")
+        image.save("images/output_image.png")
         
         cloudinary.config(
         cloud_name = 'dqflv49oz', 
@@ -174,7 +174,7 @@ class tts(base):
         api_secret = 'ML519Ik_1kbfPo9tpkSvSifrUoc' 
         )
 
-        response = cloudinary.uploader.upload("output_image.png")
+        response = cloudinary.uploader.upload("images/output_image.png")
         image_url = response['secure_url']
 
         return image_url
@@ -188,7 +188,7 @@ class tts(base):
         api_secret = 'ML519Ik_1kbfPo9tpkSvSifrUoc' 
         )
 
-        response = cloudinary.uploader.upload("logo.png")
+        response = cloudinary.uploader.upload("images/logo.png")
         image_url = response['secure_url']
 
         return image_url

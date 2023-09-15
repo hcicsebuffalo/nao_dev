@@ -1,8 +1,0 @@
-after touch -> voice tts is not working 
-need a way to stop listening to wake word
-I am still working on it -> implementation
-more emotions
-imporve emotion model 
-remove touch and put everything on gui 
-
-have full or basic gui 

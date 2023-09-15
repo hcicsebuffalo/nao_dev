@@ -35,7 +35,7 @@ class nao_driver(tts, leds, touch, gesture, chatGPT, audio):
         self.initLEDS()
         self.initmotion()
         self.initAudio()
-        self.initSocket(self.PORT)
-        self.initGui(self.GUI_PORT)
+        #self.initSocket(self.PORT)
+        #self.initGui(self.GUI_PORT)
         
         

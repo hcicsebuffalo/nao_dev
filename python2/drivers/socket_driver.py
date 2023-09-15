@@ -164,31 +164,31 @@ class chatGPT(object):
                 nao.ledStopListening()
             
             elif result["func"] == "president":
-                image_path = "/home/hri/nao_dev/python2/drivers/president.png"
+                image_path = "/home/hri/nao_dev/python2/images/president.png"
                 nao.sayText_with_image(image_path, str(result["arg"]) )
                 nao.posture.goToPosture("StandInit" , 0.4)
                 nao.ledStopListening()
 
             elif result["func"] == "chair":
-                image_path = "/home/hri/nao_dev/python2/drivers/chair.png"
+                image_path = "/home/hri/nao_dev/python2/images/chair.png"
                 nao.sayText_with_image(image_path, str(result["arg"]) )
                 nao.posture.goToPosture("StandInit" , 0.4)
                 nao.ledStopListening()
 
             elif result["func"] == "provost":
-                image_path = "/home/hri/nao_dev/python2/drivers/provost.png"
+                image_path = "/home/hri/nao_dev/python2/images/provost.png"
                 nao.sayText_with_image(image_path, str(result["arg"]) )
                 nao.posture.goToPosture("StandInit" , 0.4)
                 nao.ledStopListening()
 
             elif result["func"] == "dean":
-                image_path = "/home/hri/nao_dev/python2/drivers/dean.png"
+                image_path = "/home/hri/nao_dev/python2/images/dean.png"
                 nao.sayText_with_image(image_path, str(result["arg"]) )
                 nao.posture.goToPosture("StandInit" , 0.4)
                 nao.ledStopListening()
 
             elif result["func"] == "vpr":
-                image_path = "/home/hri/nao_dev/python2/drivers/vpr.png"
+                image_path = "/home/hri/nao_dev/python2/images/vpr.png"
                 nao.sayText_with_image(image_path, str(result["arg"]) )
                 nao.posture.goToPosture("StandInit" , 0.4)
                 nao.ledStopListening()

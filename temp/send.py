@@ -34,7 +34,7 @@ print(" cp 3")
 
 i = 0
 
-while i < 10:
+while i < 100:
     channel.basic_publish(exchange='', routing_key='image_queue', body=image_str)
     i += 1
     channel.start_consuming()
