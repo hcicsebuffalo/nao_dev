@@ -9,3 +9,5 @@ transcribe_api: http://128.205.43.183:5001/transcribe
 audio_recog: False
 audio_authen_api: http://128.205.43.183:5001/audio_recog
 audio_authe_user: ninad
+ip: 10.0.255.8
+port: 9559

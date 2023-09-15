@@ -88,14 +88,6 @@ class chatGPT(object):
                 #print("Error in getting response")
                 pass
                 #return None
-    def process_res_(self, res):
-        out = ''
-        res = res[2:-2]
-        for elem in res:
-            if elem.isalnum() or elem == ' ' or elem == ".":
-                out += elem 
-        return out
-    
     
     def parse_input(self, input_str):
         # Remove the leading and trailing square brackets

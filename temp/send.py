@@ -1,6 +1,8 @@
 import pika
 import base64
 import time 
+
+
 # Open a connection to RabbitMQ server
 connection = pika.BlockingConnection(pika.ConnectionParameters(host='127.0.0.1'))
 channel = connection.channel()
