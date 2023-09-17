@@ -42,8 +42,6 @@ pico_key = os.environ["PICOVOICE_API_KEY"]
 #porcupine = pvporcupine.create(access_key=pico_key, keyword_paths=[porc_model_path_ppn], model_path= porc_model_path_pv)
 porcupine = pvporcupine.create(access_key=pico_key, keyword_paths=[porc_model_path_ppn])
 
-print(porcupine.frame_length, " Sample rate")
-
 # Initialize PyAudio and open a stream
 pa = pyaudio.PyAudio()
 audio_stream = pa.open(
