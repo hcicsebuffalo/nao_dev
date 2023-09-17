@@ -31,4 +31,3 @@ Touch_ISR.start()
 #GUI_Thread.start()
 #Wake_Word_Thread.start()
 rabbit_channel.start_consuming()
-
