@@ -8,6 +8,7 @@ port = 9559
 
 tts = ALProxy("ALBehaviorManager" , ip, port)
 tts1 = ALProxy("ALRobotPosture" , ip, port)
+tts2 = ALProxy("ALTextToSpeech" , ip, port)
 
 # path = "/home/nao/behavior.xar"
 
@@ -17,6 +18,7 @@ tts1 = ALProxy("ALRobotPosture" , ip, port)
 #tts.preloadBehavior("System/animations/Stand/Waiting/AirGuitar_1")
 
 tts1.goToPosture("Stand", 0.2)
+tts2.say("Hello, How are you")
 
 tts.startBehavior("animations/Stand/Gestures/BowShort_1")  
 

@@ -1,7 +1,7 @@
 from naoqi import ALProxy
 import time
 
-ip = "10.0.255.22"
+ip = "10.0.255.8"
 port = 9559
 
 motion_service = ALProxy("ALMotion" , ip, port)
