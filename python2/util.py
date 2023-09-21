@@ -6,6 +6,18 @@ import json
 import os
 import time
 
+
+# Audio clip name 
+audio_clip_path = os.getcwd() + "/audio/recording.wav"
+
+AUDIO_RECOG =         True
+AUDIO_RECOG_API =     "http://128.205.43.183:5006/audio_recog"
+MAIN_API =     "http://128.205.43.183:5006/complete"
+AUDIO_AUTH_USER =     "ninad"
+TRANSCRIBE_API =     "http://128.205.43.183:5006/transcribe"
+
+model = None
+
 pa = pyaudio.PyAudio()
 audio_stream = pa.open(
     rate= 16000,
@@ -19,7 +31,7 @@ audio_stream = pa.open(
 # Function to record audio
 def record_audio(path, filename, duration):
     # Set the parameters for the audio stream
-    print(" Recording audio ")
+    print("Recording audio ")
     chunk = 1024
     sample_format = pyaudio.paInt16
     channels = 1
@@ -61,16 +73,7 @@ def record_audio(path, filename, duration):
     wf.close()
     print('done recording')
 
-# Audio clip name 
-audio_clip_path = os.getcwd() + "/recording.wav"
 
-AUDIO_RECOG =         True
-AUDIO_RECOG_API =     "http://128.205.43.183:5006/audio_recog"
-MAIN_API =     "http://128.205.43.183:5006/complete"
-AUDIO_AUTH_USER =     "ninad"
-TRANSCRIBE_API =     "http://128.205.43.183:5006/transcribe"
-
-model = None
 
 def process_audio( API_URL):
 
@@ -105,34 +108,4 @@ def process_audio( API_URL):
         print(func, arg)
         
     return func, arg
-
-
-while True:
-    pcm = audio_stream.read(512)
-    pcm = struct.unpack_from("h" * 512, pcm)
-
-    serialized_data = json.dumps(pcm)
-    response = requests.post("http://128.205.43.183:5006/wake_word", files={'audio': serialized_data } )
-    if response.status_code == 200:
-        transcription = response.json()
-
-    if transcription >= 0:
-        print("Wake Word detected")
-        print( transcription)
-
-        record_audio("recording.wav", audio_clip_path, 5)
-
-        start_time = time.time()
-
-        response = requests.post(MAIN_API, data= {'user': AUDIO_AUTH_USER}  ,  files={'audio': open(audio_clip_path, 'rb') })
-        if response.status_code == 200:
-                out = response.json()
-                for key, value in out.items():
-                    print ( '{}\t : \t {}'.format(key, value) )
-        end_time = time.time()
-        elapsed_time = end_time - start_time
-
-        print('Time taken: {:.4f} seconds'.format(elapsed_time))
-
-        
 

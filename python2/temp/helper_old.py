@@ -204,8 +204,10 @@ class Touch_interrupts(object):
 # RabbitMQ 
 import json
 
-def nao_do(result):
+def callback_wake_Wrd(ch, method, properties, body):
     
+    result =  json.loads(body)
+
     if result["func"] == "Dance":
         print("------\n")
         print("Dance actions will be executed")
@@ -229,16 +231,27 @@ def nao_do(result):
         nao.ledStopListening()
 
     elif result["func"] == "chat":
+        print("------\n")
+        print("Kai will respond to question asked ")
+        print(str(result["arg"]))
         try:
-            nao.sayText( str(result["arg"]) )    
+            nao.sayText( str(result["arg"]) )
+            
         except:
             nao.sayText( "Sorry I am not able to process your request for a moment" )
+            #nao_.sayText("Sorry I am not able to process your request for a moment")
+        
         nao.posture.goToPosture("Stand" , 0.4)
         nao.ledStopListening()
 
     elif result["func"] == "map":
+        print("------\n")
+        print("Map will be displayed")
+        print("------\n")
+        print(result["arg"])
         nao.sayText_no_url( "We are currently in Davis 106 room. Please find direction to destination shown on my display. " )
         nao.display_givenURL(result["arg"])
+        
         nao.posture.goToPosture("Stand" , 0.4)
         nao.ledStopListening()
     
@@ -314,11 +327,57 @@ def nao_do(result):
 
     elif result["func"] == "wakeup":
         nao.sayText("Hi, I am Kai. I ready to assist you now.")
+
         nao.posture.goToPosture("StandInit" , 0.4)
         nao.ledStopListening()
 
     else:
         nao.sayText( " Unknown command recived, Please try again  " )
-        print(" Request to nao_do function is not valid ")
+        print("------\n")
+        print("Error encountered ")
         nao.posture.goToPosture("Stand" , 0.4)
         nao.ledStopListening()
+
+    # except:
+    #     #print("Error in getting response")
+    #     #return None
+    #     nao.sayText( " I encountered some error, Please try again " )
+    #     print("------\n")
+    #     print(" Some error in try except loop of wake_word socket ")
+    #     nao.posture.goToPosture("Stand" , 0.4)
+    
+
+def callback_gui(ch, method, properties, body):
+    
+    
+    result = json.loads(body)
+
+    result = str(result)
+    print('Gui Out ------- :', result)
+    
+    if "dance" in result.lower():
+        print("dancing")
+        nao.behave.startBehavior("animations/Stand/Waiting/FunnyDancer_1")
+        print("dancing")
+    elif "take" in result.lower():
+        print("take")
+        nao.behave.startBehavior("animations/Stand/Waiting/TakePicture_1")
+        print("take")
+    elif "laugh" in result.lower():
+        nao.behave.startBehavior("animations/Stand/Emotions/Positive/Laugh_1")
+        print("laugh")
+    elif "sing" in result.lower():
+        nao.behave.startBehavior("animations/Stand/Waiting/HappyBirthday_1")
+        print("sing")
+    elif "scratchhead" in result.lower():
+        nao.behave.startBehavior("animations/Stand/Waiting/ScratchHead_1")
+        print("scratchhead")
+    elif "hungry" in result.lower():
+        nao.behave.startBehavior("animations/Stand/Emotions/Positive/Hungry_1")
+        print("hungry")
+    elif "embarassed" in result.lower():
+        nao.behave.startBehavior("animations/Stand/Emotions/Neutral/Embarrassed_1")
+        print("embarassed")
+    elif "attention" in result.lower():
+        nao.behave.startBehavior("animations/Stand/Emotions/Neutral/AskForAttention_1")
+        print("attention")
