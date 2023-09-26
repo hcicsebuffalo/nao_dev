@@ -230,7 +230,7 @@ def nao_do(result):
 
     elif result["func"] == "chat":
         try:
-            nao.sayText( str(result["arg"]) )    
+            nao.Response(  str(result["Request"]), str(result["arg"])   )    
         except:
             nao.sayText( "Sorry I am not able to process your request for a moment" )
         nao.posture.goToPosture("Stand" , 0.4)

@@ -13,14 +13,14 @@ nao_startup_routine()
 attach_thread_functions()
 
 # Robot body Touch thread
-# Touch_ISR = threading.Thread(target= nao.initTG, args=(Touch_interrupts, nao, dance, play_song, led)  )
+Touch_ISR = threading.Thread(target= nao.initTG, args=(Touch_interrupts, nao, dance, play_song, led)  )
 # Touch_ISR.start()
 
 # Vision Threas
 Vision_ISR = threading.Thread(target= nao_vision )
 Vision_ISR.start()
 
-
+end_time = time.time()
 while True:
     server = False
     pcm = audio_stream.read(512)
@@ -31,25 +31,22 @@ while True:
     if response.status_code == 200:
         transcription = response.json()
 
-    if transcription >= 0:
-        print("Wake Word detected")
-        # print( transcription)
-
+    if transcription >= 0 and (time.time() - end_time) > 4 :
+        nao.sayText_no_action("Hello")
         record_audio("audio/recording.wav", audio_clip_path, 5)
-
+        
         start_time = time.time()
-
         try:
             response = requests.post(MAIN_API, data= {'user': AUDIO_AUTH_USER}  ,  files={'audio': open(audio_clip_path, 'rb') })
             if response.status_code == 200:
                     out = response.json()
-                    # for key, value in out.items():
-                    #     print ( '{}\t : \t {}'.format(key, value) )
+                    for key, value in out.items():
+                        print ( '{}\t : \t {}'.format(key, value) )
         except:
             print("Server Down")
         end_time = time.time()
         elapsed_time = end_time - start_time        
-        # print('\n Total Server Time taken: {:.4f} seconds'.format(elapsed_time))
+        print('\n Total Server Time taken: {:.4f} seconds'.format(elapsed_time))
 
 
         if not out['Auth']:
@@ -60,5 +57,6 @@ while True:
             start_time = time.time()
             nao_do(out)
             elapsed_time = time.time() - start_time
-            # print('Total Time taken by robot : {:.4f} seconds'.format(elapsed_time))
+            print('Total Time taken by robot : {:.4f} seconds'.format(elapsed_time))
+        end_time = time.time()
 

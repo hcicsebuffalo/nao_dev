@@ -227,18 +227,54 @@ class tts(base):
         self.displayURL_nothread()
         #time.sleep(4)
         self.atts.say(text)
+    
+    def Response(self, inp , out):
+        text =  " Question: " + inp + "\n\n Response : " +  out
+        url = self.give_url( text)
+        self.url = str(url)
+
+        # print("Cloudinary time : " , time.time() - t)
+
+        # t = time.time()
+        # self.displayURL_nothread()
+        # print("Tablet display time : " , time.time() - t)
+        # self.atts.say(out)
+
+        display_thread = threading.Thread(target=self.displayURL_nothread)
+        say_thread = threading.Thread(target=self.sayText_no_url, args=(out,))
+        # Wait for both threads to finish
+        # Start both threads
+        display_thread.start()
+        say_thread.start()
+
+        display_thread.join()
+        say_thread.join()
+        
 
     def sayText_no_url(self, text):
-        url = self.give_url( text)
         self.atts.say(text)
+    
+    def sayText_no_action(self, text):
+        self.tts.say(text)
     
     def sayText_with_image(self, image_path, text):
         url = self.give_url_with_image(image_path, text)
         self.url = str(url)
-        #self.show_web()
-        self.displayURL_nothread()
-        #time.sleep(4)
-        self.atts.say(text)
+        # #self.show_web()
+        # self.displayURL_nothread()
+        # #time.sleep(4)
+        # self.atts.say(text)
+
+        display_thread = threading.Thread(target=self.displayURL_nothread)
+        say_thread = threading.Thread(target=self.sayText_no_url, args=(text,))
+        
+        # Start both threads
+        display_thread.start()
+        say_thread.start()
+        
+        # Wait for both threads to finish
+        display_thread.join()
+        say_thread.join()
         
     def setVolume(self, volume = 70):
         self.tts.setParameter("volume", volume)
