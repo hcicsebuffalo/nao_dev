@@ -6,7 +6,7 @@ if not cap.isOpened():
     print("Error: Could not open camera.")
     exit()
     
-user = "harsha"
+user = "manu"
 
 # Define filenames for keys 1 to 6
 file_names = {
